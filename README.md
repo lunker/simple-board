@@ -9,4 +9,4 @@
 
 문서
 ---
-[기능 명세](/wikis/home)
+[기능 명세](wikis/home)
