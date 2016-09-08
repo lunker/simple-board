@@ -5,9 +5,4 @@
 설명
 ---
 기본적인 게시판을 개발해 보는 프로젝트입니다.
-
-
-문서
----
-[기능 명세](http://pubgit.fttinc.kr/web-platform-lab/simple-board/wikis/home)  
-[DB Scheme](http://pubgit.fttinc.kr/web-platform-lab/simple-board/wikis/db-scheme)
+문서는 Wiki에서 확인
