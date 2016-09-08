@@ -9,4 +9,5 @@
 
 문서
 ---
-[기능 명세](http://pubgit.fttinc.kr/web-platform-lab/simple-board/wikis/home)
+[기능 명세](http://pubgit.fttinc.kr/web-platform-lab/simple-board/wikis/home)  
+[DB Scheme](http://pubgit.fttinc.kr/web-platform-lab/simple-board/wikis/db-scheme)
