@@ -31,8 +31,20 @@ public class MembershipService  implements IMembershipService {
 
 	@Override
 	public boolean login(LoginForm loginForm) {
-		// TODO Auto-generated method stub
-		return true;
+		System.out.println(loginForm.getUserId());
+		boolean result;
+		User registeredInfo = membershipDao.selectUser(loginForm.getUserId());
+		
+		System.out.println(registeredInfo.getUserId());
+		
+		if(registeredInfo.getUserPwd().equals( loginForm.getUserPwd())){
+			result = true;
+		}
+		else{
+			result = false;
+		}
+		
+		return result;
 	}
 
 	@Override

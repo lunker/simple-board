@@ -41,7 +41,6 @@ public class DataSourceBeanFactory {
 		return ds;
 	}
 	*/
-	
 
 	@Bean
 	public DataSource localDataSource() {

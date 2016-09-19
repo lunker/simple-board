@@ -6,6 +6,7 @@ public class Like {
 	private int articleId;
 	private String userId;
 	
+	public Like(){}
 	
 	public Like(int likeId, int articleId, String userId) {
 		super();

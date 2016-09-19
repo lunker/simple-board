@@ -10,8 +10,7 @@ import four33.simpleboard.types.User;
  *
  */
 public interface IMembershipDao{
-
-	/*
+	
 	public User selectUser(String userId);
 	
 	public int insertUser(User userInfo);
@@ -19,6 +18,5 @@ public interface IMembershipDao{
 	public int updateUser(User userInfo);
 	
 	public int deleteUser(String userId);
-	*/
 	
 }
