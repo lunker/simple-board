@@ -15,18 +15,13 @@
 </script>
 
 <div>
-	<%
-		Object isLogin = (Object) session.getAttribute("login");
-	
-		if(isLogin == null){
-			System.out.print("null!!!");
-		}
-		else{
-			System.out.print("not null!!!");
-		}
-	%>
-	
-	<button id="btnLoginPage" type="submit">로그인</button>
-	main page
+	<c:choose>
+		<c:when test="${logined == true }">
+			${userNickname}(${userId}) <button id="btnLoginPage" type="submit">  로그아웃</button>
+		</c:when>
+		<c:otherwise> 
+			<button id="btnLoginPage" type="submit">로그인</button>
+		</c:otherwise>
+	</c:choose>
 
 </div>

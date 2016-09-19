@@ -21,10 +21,9 @@
 <body class="skin-black">
 	<hr>
 	<center>
-		
+	
 		<jsp:include page="/WEB-INF/jsp/common/header.jsp" />
-		<%-- <jsp:invoke fragment="body_area"/> --%>
-		
+				
 		<jsp:doBody />
 		
 	</center>
