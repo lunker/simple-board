@@ -22,10 +22,11 @@
 	<select id="selectUser" parameterType="String" resultMap="userResultMap">
 		SELECT * 
 		FROM USER
-		WHERE user_id = #{userId}
+		WHERE user_id = #{value}
 	</select>
 	
-	<update id="updateUser">
+	<!-- 
+	<update id="updateUser" >
 		UPDATE USER
 		SET user_id = "1"
 		WHERE user_id = #{userId}
@@ -35,4 +36,6 @@
 		DELETE FROM USER 
 		WHERE user_id = #{userId}
 	</delete>
+	 -->
+	
 </mapper>

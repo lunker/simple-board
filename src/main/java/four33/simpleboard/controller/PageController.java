@@ -19,8 +19,12 @@ public class PageController {
 		return "membership/login";
 	}
 	@RequestMapping("/signup")
-	public String sginupPage(){
+	public String signupPage(){
 		return "membership/signup";
 	}
-	
+	@RequestMapping("/common/header")
+	public String commonHeader(){
+		System.out.println("haewsarf");
+		return "common/header";
+	}
 }

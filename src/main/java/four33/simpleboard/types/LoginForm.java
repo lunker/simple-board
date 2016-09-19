@@ -5,6 +5,8 @@ public class LoginForm {
 	private String userId;
 	private String userPwd;
 	
+	public LoginForm(){}
+	
 	public LoginForm(String userId, String userPwd) {
 		super();
 		this.userId = userId;

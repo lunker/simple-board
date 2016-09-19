@@ -5,9 +5,10 @@ public class Board {
 	private String boardName;
 	private int boardType;
 	
+	public Board(){}
 	
 	public Board(int boardId, String boardName, int boardType) {
-		super();
+	
 		this.boardId = boardId;
 		this.boardName = boardName;
 		this.boardType = boardType;

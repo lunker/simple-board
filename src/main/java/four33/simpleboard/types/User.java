@@ -9,12 +9,16 @@ public class User {
 	private String userPwd;
 	private Date userBirthDt;
 	private String userContactNum;
-	private int userNickname;
+	private String userNickname;
 	private Date userRegDt;
 	
-	public User(int userNumId, String userId, String userPwd, Date userBirthDt, String userContactNum, int userNickname,
-			Date userRegDt) {
-		super();
+	public User(){
+		
+	}
+	
+	public User(int userNumId, String userId, String userPwd, Date userBirthDt, String userContactNum,
+			String userNickname, Date userRegDt) {
+	
 		this.userNumId = userNumId;
 		this.userId = userId;
 		this.userPwd = userPwd;
@@ -23,6 +27,7 @@ public class User {
 		this.userNickname = userNickname;
 		this.userRegDt = userRegDt;
 	}
+	
 	
 	public int getUserNumId() {
 		return userNumId;
@@ -54,10 +59,10 @@ public class User {
 	public void setUserContactNum(String userContactNum) {
 		this.userContactNum = userContactNum;
 	}
-	public int getUserNickname() {
+	public String getUserNickname() {
 		return userNickname;
 	}
-	public void setUserNickname(int userNickname) {
+	public void setUserNickname(String userNickname) {
 		this.userNickname = userNickname;
 	}
 	public Date getUserRegDt() {
