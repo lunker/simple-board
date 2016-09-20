@@ -6,6 +6,10 @@
 
 <script type="text/javascript">
 	$(function(){
+		$("#userField").click(function(){
+			location.href="${pageContext.request.contextPath}/page/mypage";
+		});
+		
 		$("#btnLoginPage").click(function(){
 			//alert("로그인 페이지 call");
 			//alert("${pageContext.request.contextPath}");
@@ -31,7 +35,7 @@
 <div>
 	<c:choose>
 		<c:when test="${logined == true }">
-			${userNickname}(${userId}) <button id="btnLogout" type="submit">  로그아웃</button>
+			<p id=userField class="clickable"> ${userNickname}(${userId}) </p> <button id="btnLogout" type="submit">  로그아웃</button>
 		</c:when>
 		<c:otherwise> 
 			<button id="btnLoginPage" type="submit">로그인</button>

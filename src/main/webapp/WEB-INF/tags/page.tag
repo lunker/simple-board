@@ -22,12 +22,13 @@
 
 </head>
 <body class="skin-black">
+	<jsp:include page="/WEB-INF/jsp/common/header.jsp" />
+	
 	<hr>
 	<center>
-		<jsp:include page="/WEB-INF/jsp/common/header.jsp" />
 		<jsp:doBody />
-		
 	</center>
 	<hr>
+	
 </body>
 </html>

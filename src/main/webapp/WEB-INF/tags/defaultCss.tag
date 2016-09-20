@@ -4,3 +4,5 @@
 
 <link href="//${staticDomain}/external/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 <link href="//${staticDomain}/external/bootstrap/css/datatables/dataTables.bootstrap.css" rel="stylesheet" type="text/css" />
+
+<link href="${pageContext.request.contextPath}/static/style.css" rel="stylesheet" type="text/css" />

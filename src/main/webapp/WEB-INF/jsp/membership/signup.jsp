@@ -12,8 +12,6 @@
 
 	var idChecked = false;
 	var nicknameChecked = false;
-	
-	
 
 	function valId(){
 		var userId = $("#userId").val();
@@ -54,6 +52,25 @@
 	}
 	
 	function valContactNum(){
+		var userContactNum1 = $("#userContactNum1").val();
+		var userContactNum2 = $("#userContactNum2").val();
+		var userContactNum3 = $("#userContactNum3").val();
+		
+		if(userContactNum1.length != 3 || userContactNum2.length != 4 || userContactNum3.length != 4){
+			alert("올바른 번호를 입력하세요.");
+			return false;	
+		}
+		
+		if(userContactNum1 != "010" || userContactNum1 != "011" || userContactNum1 != "016" || userContactNum1 != ""){
+			alert("올바른 번호를 입력하세요.");
+			return false;	
+		}
+		
+		if(userContactNum2[0] == "0" || userContactNum3[0] == "0"){
+			alert("올바른 번호를 입력하세요.");
+			return false;
+		}
+		
 		return true;
 	}
 	
@@ -76,9 +93,33 @@
 		$.datepicker.setDefaults($.datepicker.regional['kr']);
 		$("#userBirthDt").datepicker();		
 		
+		
+		$("#userContactNum1").keyup(function(){
+			var userContactNum1 = $("#userContactNum1").val();
+			if(userContactNum1.length == 3){
+				$("#userContactNum2").focus();
+			}
+		});
+		
+		$("#userContactNum2").keyup(function(){
+			var userContactNum2 = $("#userContactNum2").val();
+			if(userContactNum2.length == 4){
+				$("#userContactNum3").focus();
+			}
+		});
+		
 		/* 회원가입 */
 		$("#btnSignup").click(function(){
 			
+			if(!idChecked){
+				alert("아이디 중복확인을 하세요.");
+				return ;
+			}
+			
+			if(!nicknameChecked){
+				alert("닉네임 중복확인을 하세요.");
+				return ;
+			}
 			
 			if( valId() && valPwd() && valContactNum() && valBirthDt() ){
 				// 모든 유효성 검사 통과 
@@ -88,10 +129,7 @@
 				var userContactNum = $("#userContactNum").val();
 				var userNickname = $("#userNickname").val();
 				var userBirthDt = $("#userBirthDt").val();
-				
-				//alert(userBirthDt);
-			
-				
+								
 				var userInfo = {
 						"userId":userId,
 						"userPwd":userPwd,
@@ -99,16 +137,6 @@
 						"userContactNum":userContactNum,
 						"userNickname":userNickname
 				};
-				
-				/*
-				var userInfo = {
-						userId:userId,
-						userPwd:userPwd,
-						userBirthDt:userBirthDt,
-						userContactNum:userContactNum,
-						userNickname:userNickname
-				};
-				*/
 				
 				$.ajax({
 					type: "POST",
@@ -120,6 +148,8 @@
 					data: JSON.stringify(userInfo),
 					success: function(res){
 						alert(res.message);
+						//location.href="${pageContext.request.contextPath}/user/login";
+						location.replace("${pageContext.request.contextPath}/page/login");
 					},
 					error: function(err){
 						alert("error");
@@ -129,20 +159,11 @@
 			else{
 				return ;
 			}
-			
-			
-			/* valId();
-			valPwd();
-			valContactNum();
-			valBirthDt();
-			 */
-			
 		});// 회원가입
 		
 		/* 회원가입취소 */
 		$("#btnSignupCancel").click(function(){
-			
-			
+			location.replace("${pageContext.request.contextPath}/");	
 		});
 		
 		/* 아이디 중복확인 */
@@ -159,10 +180,7 @@
 				type: "GET",
 				url: "${pageContext.request.contextPath}/user/checkid",
 				beforeSend: function(xhr){
-			
-					
 					xhr.setRequestHeader("userId", userId);
-					
 				},
 				success: function(res){
 					if(res.status == "100" ){
@@ -219,7 +237,7 @@
 	비밀번호 <input id="userPwd" type="password" /><br>
 	비밀번호 확인 <input id="userRePwd" type="password" /><br>
 	닉네임 <input id="userNickname" type="text" /> <button id="btnCheckNicknameDup">중복확인</button><br>
-	연락처 <input id="userContactNum" type="text" /><br>
+	연락처 <input id="userContactNum1" type="text" size="3" maxlength="3"/><input id="userContactNum2" type="text" size="4" maxlength="4"/><input id="userContactNum3" type="text" size="4" maxlength="4"/><br>
 	생년월일 <input id="userBirthDt" type="text" /><br>
 	
 	<button id="btnSignup">회원가입</button>

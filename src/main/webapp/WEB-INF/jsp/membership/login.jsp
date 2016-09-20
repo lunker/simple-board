@@ -30,13 +30,16 @@
 					xhr.setRequestHeader("userId", userId);
 					xhr.setRequestHeader("userPwd",userPwd);
 				},
-				success: function(data){
-					console.log("로그인성공");
+				success: function(res){
 					
-					location.href="${pageContext.request.contextPath}/";
+					alert(res.message);
+					if(res.status=="100"){
+						location.replace("${pageContext.request.contextPath}/");	
+					}
+					//location.href="${pageContext.request.contextPath}/";
 				},
 				error: function(data){
-					console.log("로그인실패");
+					alert("시스템 에러");
 				}
 			});
 		});

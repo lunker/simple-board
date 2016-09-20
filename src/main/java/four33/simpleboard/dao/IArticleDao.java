@@ -1,7 +1,5 @@
 package four33.simpleboard.dao;
 
-import org.apache.ibatis.annotations.Param;
-
 import four33.simpleboard.service.membership.IMembershipService;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
@@ -12,15 +10,14 @@ import four33.simpleboard.types.User;
  * @author dongqlee
  *
  */
-public interface IMembershipDao{
+public interface IArticleDao{
 	
-	public User selectUser(String userId);
+	public void selectArticle();
 	
-	public int selectUserByNickname(String nickname);
+	public void insertArticle();
 	
-	public int insertUser(SignupUser userInfo);
+	public void updateArticle();
 	
-	public int updateUser(SignupUser userInfo);
+	public void deleteArticle();
 	
-	public int deleteUser(@Param("userId") String userId);
 }

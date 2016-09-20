@@ -2,35 +2,25 @@ package four33.simpleboard.types;
 
 import java.sql.Date;
 
-public class SignupUser {
+public class ModifyUser {
 	
-	private String userId;
 	private String userPwd;
 	private Date userBirthDt;
 	private String userContactNum;
 	private String userNickname;
 	
-	public SignupUser(){
+	public ModifyUser(){
 		
 	}
 	
-	public SignupUser(String userId, String userPwd, Date userBirthDt, String userContactNum,
+	public ModifyUser(String userPwd, Date userBirthDt, String userContactNum,
 			String userNickname) {
-		
-		this.userId = userId;
 		this.userPwd = userPwd;
 		this.userBirthDt = userBirthDt;
 		this.userContactNum = userContactNum;
 		this.userNickname = userNickname;
-		
 	}
 	
-	public String getUserId() {
-		return userId;
-	}
-	public void setUserId(String userId) {
-		this.userId = userId;
-	}
 	public String getUserPwd() {
 		return userPwd;
 	}
@@ -62,7 +52,6 @@ public class SignupUser {
 	
 		StringBuilder sb = new StringBuilder();
 		
-		sb.append("user id : " + userId);
 		sb.append("\nuser pwd : " + userPwd);
 		sb.append("\nuser nickname : " + userNickname);
 		sb.append("\nser contact num : " + userContactNum);
@@ -70,4 +59,6 @@ public class SignupUser {
 		
 		return sb.toString();
 	}
+	
+	
 }

@@ -1,6 +1,7 @@
 package four33.simpleboard.controller;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationContext;
@@ -14,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import four33.simpleboard.service.membership.IMembershipService;
 import four33.simpleboard.types.LoginForm;
+import four33.simpleboard.types.ModifyUser;
 import four33.simpleboard.types.Response;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
@@ -26,6 +28,16 @@ public class MembershipController {
 	@Autowired
 	private IMembershipService membershipService;
 
+	public HttpSession getSession(HttpServletRequest request){
+		
+		HttpSession session = request.getSession(false);
+		
+		if(session == null){
+			session = request.getSession(true);
+		}
+		return session;
+	}
+	
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
 	public Response ActionSignup(@RequestBody SignupUser userInfo){
@@ -58,7 +70,6 @@ public class MembershipController {
 		if(!membershipService.checkIdDup(userId)){
 			System.out.println("사용가능한 아이디");
 			response = new Response("100", "사용 가능한 ID");
-			
 		}
 		else{
 			System.out.println("중복된 아이디");
@@ -81,7 +92,6 @@ public class MembershipController {
 		if(!membershipService.checkNicknameDup(nickname)){
 			System.out.println("사용가능한 닉네임");
 			response = new Response("100", "사용 가능한 닉네임입니다.");
-			
 		}
 		else{
 			System.out.println("중복된 닉네임");
@@ -94,6 +104,8 @@ public class MembershipController {
 	@RequestMapping(method=RequestMethod.GET)
 	@ResponseBody
 	public Response ActionLogin(Model model, HttpServletRequest request){
+		
+		HttpSession session = getSession(request);
 		Response response = null;
 		
 		String userId = request.getHeader("userId");
@@ -101,13 +113,18 @@ public class MembershipController {
 		
 		System.out.println("id : " + userId);
 		System.out.println("pwd : " + userPwd);
-
+		
+		User userInfo;
+		
 		if(membershipService.login(new LoginForm(userId, userPwd))){
 			System.out.println("로그인성공");
-			response = new Response("100", "로그인성공");
 			
-			request.getSession().setAttribute("logined", true);
-			request.getSession().setAttribute("userId", userId);
+			userInfo = membershipService.searchUserInfo(userId);
+			
+			response = new Response("100", "로그인성공");
+			session.setAttribute("logined", true);
+			session.setAttribute("userId", userId);
+			session.setAttribute("userNickname", userInfo.getUserNickname());
 		}
 		else{
 			System.out.println("로그인실패");
@@ -118,26 +135,65 @@ public class MembershipController {
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)
-	public void ActionUpdateUser(@RequestBody User userInfo){
+	@ResponseBody
+	public Response ActionUpdateUser(@RequestBody SignupUser userInfo, HttpServletRequest request){
+		System.out.println("회원정보수정 request");
+		HttpSession session = getSession(request);
+		Response response = null;
 		
+		if(membershipService.updateUserInfo(userInfo)){
+			User updatedUserInfo;
+			updatedUserInfo = membershipService.searchUserInfo(userInfo.getUserId());
+			
+			response = new Response("100", "정보수정 성공");
+			// update session info 
+			session.setAttribute("userNickname", updatedUserInfo.getUserNickname());
+		}
+		else{
+			response = new Response("200", "정보수정 실패");
+		}
+		
+		return response;
 	}
 	
 	@RequestMapping(method=RequestMethod.DELETE)
-	public void ActionWithdrawUser(String userId){
+	@ResponseBody
+	public Response ActionWithdrawUser(HttpServletRequest request){
+		System.out.println("회원탈퇴 request");
+		HttpSession session = getSession(request);
+		Response response = null;
 		
+		String userId = request.getHeader("userId");
+		
+		if(membershipService.withdraw(userId)){
+			// 탈퇴 성공
+			response = new Response("100", "회원탈퇴 성공");
+			session.setAttribute("logined", false);
+			session.setAttribute("userId", "");
+			session.setAttribute("userNickname", "");
+		}
+		else{
+			// 탈퇴 실패 
+			response = new Response("200", "회원탈퇴 실패");
+		}
+		
+		return response;
 	}
+	
 	
 	@RequestMapping(method=RequestMethod.GET, value="/logout")
 	@ResponseBody
 	public Response ActionLogout(HttpServletRequest request){
 		System.out.println("로그아웃 request");
+		
+		HttpSession session = getSession(request);
 		Response response = null;
 		
 		request.getHeader("userId");
 		
 		request.getSession().setAttribute("logined",false);
 		request.getSession().setAttribute("userId","");
-		response = new Response("100", "로그인성공");
+		response = new Response("100", "로그아웃 성공");
 		
 		return response;
 	}

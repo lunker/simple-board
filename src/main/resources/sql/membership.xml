@@ -15,8 +15,8 @@
 	</resultMap>
 	
 	<insert id="insertUser" parameterType="four33.simpleboard.types.SignupUser">
-		INSERT INTO USER(user_id, user_pwd, user_birth_dt, user_contact_num, user_nickname, user_reg_dt)
-		VALUES(#{userId}, #{userPwd}, #{userBirthDt}, #{userContactNum}, #{userNickname}, now())
+		INSERT INTO USER(user_id, user_pwd, user_birth_dt, user_contact_num, user_nickname, user_reg_dt, user_modify_dt)
+		VALUES(#{userId}, #{userPwd}, #{userBirthDt}, #{userContactNum}, #{userNickname}, now(), now())
 	</insert>
 	
 	<select id="selectUser" parameterType="String" resultMap="userResultMap">
@@ -31,18 +31,23 @@
 		WHERE user_nickname = #{value}
 	</select>
 	
-	
-	<!-- 
-	<update id="updateUser" >
+	<update id="updateUser" parameterType="four33.simpleboard.types.SignupUser">
 		UPDATE USER
-		SET user_id = "1"
+		SET 
+			<if test="userPwd != null and userPwd != ''">
+				user_pwd = #{userPwd},
+			</if>
+			
+			user_nickname = #{userNickname}, 
+			user_birth_dt = #{userBirthDt}, 
+			user_contact_num = #{userContactNum}, 
+			user_modify_dt = now()
 		WHERE user_id = #{userId}
-	</update>
+	</update> 
 	
-	<delete id="deleteUser">
+	<delete id="deleteUser" parameterType="String">
 		DELETE FROM USER 
 		WHERE user_id = #{userId}
 	</delete>
-	 -->
 	
 </mapper>
