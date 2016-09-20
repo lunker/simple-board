@@ -1,6 +1,7 @@
 package four33.simpleboard.dao;
 
 import four33.simpleboard.service.membership.IMembershipService;
+import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
 
 /**
@@ -13,10 +14,13 @@ public interface IMembershipDao{
 	
 	public User selectUser(String userId);
 	
-	public int insertUser(User userInfo);
+	public int selectUserByNickname(String nickname);
+	
+	public int insertUser(SignupUser userInfo);
 	
 	public int updateUser(User userInfo);
 	
 	public int deleteUser(String userId);
+	
 	
 }

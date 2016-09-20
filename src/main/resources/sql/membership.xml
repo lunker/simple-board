@@ -14,9 +14,9 @@
 		<result property="userRegDt" column="user_reg_dt" />
 	</resultMap>
 	
-	<insert id="insertUser" parameterType="four33.simpleboard.types.User">
-		INSERT INTO USER
-		VALUES(#{userId},#{userPwd},#{userBirthDt},#{userContactNum},#{userNickName},now())
+	<insert id="insertUser" parameterType="four33.simpleboard.types.SignupUser">
+		INSERT INTO USER(user_id, user_pwd, user_birth_dt, user_contact_num, user_nickname, user_reg_dt)
+		VALUES(#{userId}, #{userPwd}, #{userBirthDt}, #{userContactNum}, #{userNickname}, now())
 	</insert>
 	
 	<select id="selectUser" parameterType="String" resultMap="userResultMap">
@@ -24,6 +24,13 @@
 		FROM USER
 		WHERE user_id = #{value}
 	</select>
+	
+	<select id="selectUserByNickname" parameterType="String" resultType="Integer">
+		SELECT count(*)
+		FROM USER
+		WHERE user_nickname = #{value}
+	</select>
+	
 	
 	<!-- 
 	<update id="updateUser" >
