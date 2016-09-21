@@ -2,6 +2,7 @@ package four33.simpleboard.service.membership;
 
 import four33.simpleboard.types.LoginForm;
 import four33.simpleboard.types.ModifyUser;
+import four33.simpleboard.types.Response;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
 
@@ -27,7 +28,7 @@ public interface IMembershipService {
 	public boolean checkNicknameDup(String nickname);
 	
 	// 로그인
-	public boolean login(LoginForm loginForm);
+	public Response login(LoginForm loginForm);
 	
 	// 로그아웃
 	public void logout(String userId);

@@ -72,7 +72,21 @@ public class User {
 		this.userRegDt = userRegDt;
 	}
 	
+
+	@Override
+	public String toString() {
+		// TODO Auto-generated method stub
 	
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("user id : " + userId);
+		sb.append("\nuser pwd : " + userPwd);
+		sb.append("\nuser nickname : " + userNickname);
+		sb.append("\nser contact num : " + userContactNum);
+		sb.append("\nuser birth dt : " + userBirthDt);
+		
+		return sb.toString();
+	}
 	
 
 	

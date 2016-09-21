@@ -3,14 +3,13 @@ package four33.simpleboard.service.membership.impl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.sun.corba.se.impl.orbutil.closure.Constant;
-
 import four33.simpleboard.dao.IMembershipDao;
 import four33.simpleboard.service.membership.IMembershipService;
 import four33.simpleboard.types.LoginForm;
-import four33.simpleboard.types.ModifyUser;
+import four33.simpleboard.types.Response;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
+import four33.simpleboard.utils.AES;
 import four33.simpleboard.utils.Constants;
 
 @Service
@@ -19,12 +18,22 @@ public class MembershipService  implements IMembershipService {
 	@Autowired
 	private IMembershipDao membershipDao;
 	
+	private AES aes;
+	
+	public MembershipService() {
+		aes = AES.getInstance();
+	}
+	
 	@Override
 	public boolean signup(SignupUser userInfo) {
 		
 		System.out.println(userInfo.toString());
 
 		int result = -1;
+		
+		// encrypt password
+		userInfo.setUserPwd(aes.encrypt(userInfo.getUserPwd()));
+		
 		result = membershipDao.insertUser(userInfo);
 		
 		System.out.println("회원가입 결과: " + result);
@@ -77,11 +86,33 @@ public class MembershipService  implements IMembershipService {
 	}
 
 	@Override
-	public boolean login(LoginForm loginForm) {
+	public Response login(LoginForm loginForm) {
+		
 		System.out.println(loginForm.getUserId());
 		
-		Object result;
+		Response response;
 		
+		User selectedUserInfo =  membershipDao.selectUser(loginForm.getUserId());
+		
+		System.out.println("selected user info : " + selectedUserInfo.toString());		
+		
+		if(selectedUserInfo == null){
+			// 존재하지 않은 아이디.
+			response = new Response("200", "존재하지 않는 아이디 입니다.");
+		}
+		else{
+			if( aes.decrypt(selectedUserInfo.getUserPwd()).equals(loginForm.getUserPwd())){
+				// 로그인 성공
+				response = new Response("100", "로그인 성공");
+			}
+			else{
+				// 비밀번호가 틀린 경우 
+				response = new Response("200", "비밀번호가 틀렸습니다.");
+			}
+		}
+		return response;
+		
+		/*
 		result = membershipDao.selectUserByPassword(loginForm.getUserId(), loginForm.getUserPwd());
 		if(result!=null){
 			// nickname 이미 존재.
@@ -93,6 +124,8 @@ public class MembershipService  implements IMembershipService {
 		}
 		else
 			return false;
+		*/
+		
 		/*
 		User registeredInfo = membershipDao.selectUserByPassword(loginForm.getUserId(), loginForm.getUserPwd());
 		

@@ -113,8 +113,9 @@ public class MembershipController {
 		System.out.println("id : " + userId);
 		System.out.println("pwd : " + userPwd);
 		
-		User userInfo;
+//		User userInfo;
 		
+		/*
 		if(membershipService.login(new LoginForm(userId, userPwd))){
 			System.out.println("로그인성공");
 			
@@ -128,6 +129,19 @@ public class MembershipController {
 		else{
 			System.out.println("로그인실패");
 			response = new Response("200", "로그인실패");
+		}
+		*/
+		
+		response = membershipService.login(new LoginForm(userId, userPwd));
+		
+		
+		if(response.getStatus().equals("100")){
+			session.setAttribute("logined", true);
+			session.setAttribute("userId", userId);
+			
+			User userInfo = membershipService.searchUserInfo(userId);
+			
+			session.setAttribute("userNickname", userInfo.getUserNickname());
 		}
 		
 		return response;

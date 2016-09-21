@@ -61,6 +61,12 @@
 
 	$(function(){
 		
+		// set contact nu
+		var tmp = "${userInfo.userContactNum}";
+		
+		var result = tmp.slice(0,3) + "-" + tmp.slice(3,7) + "-" + tmp.slice(7,11);  
+		$("#userContactNum").val(result);
+		
 		$.datepicker.regional['kr'] = {
 			    closeText: '닫기', // 닫기 버튼 텍스트 변경
 			    currentText: '오늘', // 오늘 텍스트 변경
@@ -117,6 +123,14 @@
 				var userId = ${userId};
 				var userPwd = $("#userPwd").val();
 				var userContactNum = $("#userContactNum").val();
+				if(userContactNum.includes("-")){
+					var tmp="";
+					var arr = userContactNum.split("-");
+					for(idx=0; idx<arr.length; idx++){
+						tmp+= arr[idx];
+					}
+					userContactNum = tmp;
+				}
 				var userNickname = $("#userNickname").val();
 				var userBirthDt = $("#userBirthDt").val();
 				
@@ -238,7 +252,7 @@
 		   	  <div class="form-group">
 			    <label for="inputPassword3" class="col-sm-2 control-label">연락처</label>
 			    <div class="col-sm-5">
-			      <input id="userContactNum" class="form-control" type="text" value="${userInfo.userContactNum }"/>
+			      <input id="userContactNum" class="form-control" type="text"/>
 			    </div>
 			  </div>
 			  
