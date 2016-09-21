@@ -22,6 +22,11 @@
 				alert("비밀번호를 입력하세요.");
 				return ; 
 			}
+			
+			if(userPwd.includes(" ") || userPwd.includes("\t")){
+				alert("공백을 제외하고 입력하세요.");
+				return ;
+			}
 			console.log("${pageContext.request.contextPath}");
 			$.ajax({
 				type: "GET",
