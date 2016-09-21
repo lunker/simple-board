@@ -94,7 +94,7 @@ public class MembershipService  implements IMembershipService {
 		
 		User selectedUserInfo =  membershipDao.selectUser(loginForm.getUserId());
 		
-		System.out.println("selected user info : " + selectedUserInfo.toString());		
+//		System.out.println("selected user info : " + selectedUserInfo.toString());		
 		
 		if(selectedUserInfo == null){
 			// 존재하지 않은 아이디.
