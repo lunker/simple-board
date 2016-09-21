@@ -80,8 +80,21 @@ public class MembershipService  implements IMembershipService {
 	public boolean login(LoginForm loginForm) {
 		System.out.println(loginForm.getUserId());
 		
-		boolean result;
-		User registeredInfo = membershipDao.selectUser(loginForm.getUserId());
+		Object result;
+		
+		result = membershipDao.selectUserByPassword(loginForm.getUserId(), loginForm.getUserPwd());
+		if(result!=null){
+			// nickname 이미 존재.
+			if( (int) result>0){
+				return true;
+			}
+			else
+				return false;
+		}
+		else
+			return false;
+		/*
+		User registeredInfo = membershipDao.selectUserByPassword(loginForm.getUserId(), loginForm.getUserPwd());
 		
 		if(registeredInfo!=null &&  registeredInfo.getUserPwd().equals( loginForm.getUserPwd())){
 			
@@ -93,6 +106,7 @@ public class MembershipService  implements IMembershipService {
 		}
 		
 		return result;
+		*/
 	}
 
 	@Override

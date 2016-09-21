@@ -32,14 +32,17 @@
 	});
 </script>
 
-<div>
-	<c:choose>
-		<c:when test="${logined == true }">
-			<p id=userField class="clickable"> ${userNickname}(${userId}) </p> <button id="btnLogout" type="submit">  로그아웃</button>
-		</c:when>
-		<c:otherwise> 
-			<button id="btnLoginPage" type="submit">로그인</button>
-		</c:otherwise>
-	</c:choose>
-
+<div class="navbar">
+	<div class="container">
+		<div class="navbar-right">
+			<c:choose>
+				<c:when test="${logined == true }">
+					<p id=userField class="clickable"> ${userNickname}(${userId}) </p> <button id="btnLogout" type="submit">  로그아웃</button>
+				</c:when>
+				<c:otherwise> 
+					<button id="btnLoginPage" type="submit">로그인</button>
+				</c:otherwise>
+			</c:choose>
+		</div>
+	</div>
 </div>

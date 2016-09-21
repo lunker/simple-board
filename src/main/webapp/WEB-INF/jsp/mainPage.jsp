@@ -5,18 +5,16 @@
 
 <ftt:page>
 
-
-
+<div class="container">
 	<c:choose>
 		<c:when test="${logined == true }">
-			게시판 메인 페이지
 			<jsp:include page="/WEB-INF/jsp/board.jsp"></jsp:include>
-			
 		</c:when>
 		<c:otherwise>
-			게시판 메인 페이지 <br>
+			<h1>Simple Board</h1>
 			로그인 하세요 
 		</c:otherwise>
 	</c:choose>
+</div>
 </ftt:page>
 

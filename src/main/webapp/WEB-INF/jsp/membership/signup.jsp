@@ -57,19 +57,21 @@
 		var userContactNum3 = $("#userContactNum3").val();
 		
 		if(userContactNum1.length != 3 || userContactNum2.length != 4 || userContactNum3.length != 4){
+			alert("전화번호를 모두 입력하세요.");
+			return false;	
+		}
+		
+		if(userContactNum1 != "010" && userContactNum1 != "011" && userContactNum1 != "016" && userContactNum1 != ""){
 			alert("올바른 번호를 입력하세요.");
 			return false;	
 		}
 		
-		if(userContactNum1 != "010" || userContactNum1 != "011" || userContactNum1 != "016" || userContactNum1 != ""){
-			alert("올바른 번호를 입력하세요.");
-			return false;	
-		}
-		
+		/*
 		if(userContactNum2[0] == "0" || userContactNum3[0] == "0"){
 			alert("올바른 번호를 입력하세요.");
 			return false;
 		}
+		*/
 		
 		return true;
 	}
@@ -199,23 +201,27 @@
 		
 		/* 닉네임 중복확인 */
 		$("#btnCheckNicknameDup").click(function(){
-			
-			var nickname = $("#userNickname").val();
-			
-			if(nickname == ""){
+						
+			var userNickname = $("#userNickname").val();
+						
+			if(userNickname == ""){
 				alert("닉네임을 입력하세요");
 				return ;
 			}			
 			
+			var data = {userNickname : userNickname};
+			
 			$.ajax({
 				type: "GET",
 				url: "${pageContext.request.contextPath}/user/checknickname",
-				beforeSend: function(xhr){
-					xhr.setRequestHeader("nickname", nickname);
-				},
+				data: data,
+				headers: { 
+			        'Accept': 'application/json',
+			        'Content-Type': 'application/json' 
+			    },
 				success: function(res){
 					if(res.status == "100" ){
-						nicknameChecked = true;
+						nicknameChecked = true; // set flag
 						alert(res.message);
 					}
 					else{
@@ -223,24 +229,29 @@
 					}
 				},
 				error: function(err){
-					
+					alert("시스템 에러" + err);
 				}
-			});
+			});// end ajax
 		});
-		
 	});
 </script>
 
 <ftt:page>
-	<h1>회원가입</h1>
-	아이디 <input id="userId" type="text" /> <button id="btnCheckIdDup">중복확인</button><br>	
-	비밀번호 <input id="userPwd" type="password" /><br>
-	비밀번호 확인 <input id="userRePwd" type="password" /><br>
-	닉네임 <input id="userNickname" type="text" /> <button id="btnCheckNicknameDup">중복확인</button><br>
-	연락처 <input id="userContactNum1" type="text" size="3" maxlength="3"/><input id="userContactNum2" type="text" size="4" maxlength="4"/><input id="userContactNum3" type="text" size="4" maxlength="4"/><br>
-	생년월일 <input id="userBirthDt" type="text" /><br>
-	
-	<button id="btnSignup">회원가입</button>
-	<button id="btnSignupCancel">취소</button>
-	
+	<div class="container">
+		<h1>회원가입</h1>
+		
+		<div class="col-lg-10">
+			아이디 <input id="userId" type="text" /> <button id="btnCheckIdDup">중복확인</button><br>	
+			비밀번호 <input id="userPwd" type="password" /><br>
+			비밀번호 확인 <input id="userRePwd" type="password" /><br>
+			닉네임 <input id="userNickname" type="text" /> <button id="btnCheckNicknameDup">중복확인</button><br>
+			연락처 <input id="userContactNum1" type="text" size="3" maxlength="3"/><input id="userContactNum2" type="text" size="4" maxlength="4"/><input id="userContactNum3" type="text" size="4" maxlength="4"/><br>
+			생년월일 <input id="userBirthDt" type="text" /><br>
+			
+			<button type="button" id="btnSignup">회원가입</button>
+			<button type="button" id="btnSignupCancel">취소</button>
+			
+		</div>
+		
+	</div>
 </ftt:page>

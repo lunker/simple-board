@@ -74,73 +74,26 @@
 		$.datepicker.setDefaults($.datepicker.regional['kr']);
 		$("#userBirthDt").datepicker();		
 		
-		/* 회원가입 */
-		$("#btnSignup").click(function(){
-			
-			
-			if( valId() && valPwd() && valContactNum() && valBirthDt() ){
-				// 모든 유효성 검사 통과 
-				
-				var userId = $("#userId").val();
-				var userPwd = $("#userPwd").val();
-				var userContactNum = $("#userContactNum").val();
-				var userNickname = $("#userNickname").val();
-				var userBirthDt = $("#userBirthDt").val();
-								
-				var userInfo = {
-						"userId":userId,
-						"userPwd":userPwd,
-						"userBirthDt":userBirthDt,
-						"userContactNum":userContactNum,
-						"userNickname":userNickname
-				};
-				
-				$.ajax({
-					type: "POST",
-					url: "${pageContext.request.contextPath}/user",
-					headers: { 
-				        'Accept': 'application/json',
-				        'Content-Type': 'application/json' 
-				    },
-					data: JSON.stringify(userInfo),
-					success: function(res){
-						alert(res.message);
-						//location.href="${pageContext.request.contextPath}/user/login";
-						location.replace("${pageContext.request.contextPath}/page/login");
-					},
-					error: function(err){
-						alert("error");
-					}
-				});
-			}
-			else{
-				return ;
-			}
-			
-			/* valId();
-			valPwd();
-			valContactNum();
-			valBirthDt();
-			 */
-			
-		});// 회원가입
-		
 		/* 닉네임 중복확인 */
 		$("#btnCheckNicknameDup").click(function(){
 			
-			var nickname = $("#userNickname").val();
+			var userNickname = $("#userNickname").val();
 			
-			if(nickname == ""){
+			if(userNickname == ""){
 				alert("닉네임을 입력하세요");
 				return ;
 			}			
 			
+			var data = {userNickname : userNickname};
+			
 			$.ajax({
 				type: "GET",
 				url: "${pageContext.request.contextPath}/user/checknickname",
-				beforeSend: function(xhr){
-					xhr.setRequestHeader("nickname", nickname);
-				},
+				data: data,
+				headers: { 
+			        'Accept': 'application/json',
+			        'Content-Type': 'application/json' 
+			    },
 				success: function(res){
 					if(res.status == "100" ){
 						nicknameChecked = true; // set flag
@@ -151,10 +104,10 @@
 					}
 				},
 				error: function(err){
-					
+					alert("시스템 에러" + err);
 				}
 			});// end ajax
-		});
+		});// 닉네임 중복확인
 		
 		$("#btnModify").click(function(){
 			
@@ -164,17 +117,10 @@
 			var userNickname = $("#userNickname").val();
 			var userBirthDt = $("#userBirthDt").val();
 			
-			if( ${userNickname} != userNickname && !nicknameChecked){
+			if( "${userNickname}" != userNickname && !nicknameChecked){
 				alert("닉네임 중복검사를 하세요.");
 				return ;
 			}
-			
-			/*
-			if(!valPwd()){
-				alert("비밀번호 검사를 하세요.");
-				return ;
-			}
-			*/
 			
 			var userInfo = {
 					"userId":userId,
@@ -251,19 +197,47 @@
 </script>
 
 <ftt:page>
+
+<div class="container">
 	<c:choose>
 		<c:when test="${logined == true }">
 			<h1>마이페이지</h1>
-			아이디 <input id="userId" type="text" disabled="disabled" value="${userInfo.userId}" /> <br>
-			비밀번호 <input id="userPwd" type="password"/><br>
-			비밀번호 확인 <input id="userRePwd" type="password" /><br>
-			닉네임 <input id="userNickname" type="text" value="${userInfo.userNickname }" /> <button id="btnCheckNicknameDup">중복확인</button><br>
-			연락처 <input id="userContactNum" type="text" value="${userInfo.userContactNum }"/><br>
-			생년월일 <input id="userBirthDt" type="text" value="${userInfo.userBirthDt }"/><br>
 			
-			<button id="btnWithdraw">탈퇴</button><br>
-			<button id="btnModify">수정</button><br>
-			<button id="btnModifyCancel">취소</button><br>
+			<div class="col-lg-6">
+				<table>
+					<tr>
+						<th class="col-lg-2">아이디</th>
+						<th class="col-lg-4"><input id="userId" size="5" class="form-control" placeholder="아이디" type="text" disabled="disabled" value="${userInfo.userId}" /></th>
+					</tr>
+					<tr>
+						<th class="col-lg-2">비밀번호</th>
+						<th class="col-lg-5"><input id="userPwd" class="form-control" type="password"/></th>
+					</tr>
+					<tr>
+						<th class="col-lg-2">비밀번호 확인</th>
+						<th class="col-lg-5"><input id="userRePwd" type="password" /></th>
+					</tr>
+					<tr>
+						<th class="col-lg-2">닉네임</th>
+						<th class="col-lg-5"><input id="userNickname" type="text" value="${userInfo.userNickname }" /> <button id="btnCheckNicknameDup">중복확인</button></th>
+					</tr>
+					<tr>
+						<th class="col-lg-2">연락처</th>
+						<th class="col-lg-5"><input id="userContactNum" type="text" value="${userInfo.userContactNum }"/><br></th>
+					</tr>
+					<tr>
+						<th class="col-lg-2">생년월일</th>
+						<th class="col-lg-5"><input id="userBirthDt" type="text" value="${userInfo.userBirthDt }"/><br></th>
+					</tr>
+				</table>
+				
+				<button type="button" class="btn btn-default" id="btnWithdraw">탈퇴</button><br>
+				<button type="button" class="btn btn-default" id="btnModify">수정</button><br>
+				<button type="button" class="btn btn-default" id="btnModifyCancel">취소</button><br>
+			</div>
+			
+			
+			
 		</c:when>
 		<c:otherwise> 
 			<script>
@@ -272,5 +246,8 @@
 			</script> 
 		</c:otherwise>
 	</c:choose>
+	
+
+</div>
 	
 </ftt:page>

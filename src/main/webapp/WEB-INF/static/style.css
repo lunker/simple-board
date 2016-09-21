@@ -3,9 +3,13 @@
 
 .clickable{
 	cursor: pointer;
-	
 }
 
 .clickable:hover{
 	color: blue;
+}
+
+.header{
+/* 	margin-left:auto;
+	margin-right: 0; */
 }

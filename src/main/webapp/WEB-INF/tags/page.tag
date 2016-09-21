@@ -21,14 +21,9 @@
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
 
 </head>
-<body class="skin-black">
+<body>
 	<jsp:include page="/WEB-INF/jsp/common/header.jsp" />
-	
-	<hr>
-	<center>
-		<jsp:doBody />
-	</center>
-	<hr>
+	<jsp:doBody />
 	
 </body>
 </html>

@@ -10,6 +10,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -81,15 +82,13 @@ public class MembershipController {
 	
 	@RequestMapping(method=RequestMethod.GET, value="/checknickname")
 	@ResponseBody
-	public Response ActionCheckNicknameDup(Model model, HttpServletRequest request){
+	public Response ActionCheckNicknameDup(Model model, HttpServletRequest request, @RequestParam("userNickname") String userNickname){
 		System.out.println("[Request] 닉네임 중복 체크");
 		Response response = null;
 
-		String nickname = request.getHeader("nickname");
-		
-		System.out.println("id : " + nickname);
+//		String nickname = request.getParameter("userNickname");
 
-		if(!membershipService.checkNicknameDup(nickname)){
+		if(!membershipService.checkNicknameDup(userNickname)){
 			System.out.println("사용가능한 닉네임");
 			response = new Response("100", "사용 가능한 닉네임입니다.");
 		}

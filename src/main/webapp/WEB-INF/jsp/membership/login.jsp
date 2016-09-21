@@ -51,20 +51,17 @@
 	});
 </script>
 <ftt:page>
-
-
-<div>
-	<br>
-	login page
-	<br>
-	<br>
-	<br>
-	 
-	id : <input id="userId" type="text" name="id" /><br>
-	password : <input id="userPwd" type="password" name="password"/> <br>
-	
-	<button id="btnLogin">로그인</button>
-	<button id="btnSignup">회원가입</button>
-</div>
-
+	<div class="container">
+		<br>
+		<h1>로그인</h1>
+		<br>
+		<br>
+		<br>
+		 
+		id : <input id="userId" type="text" name="id" /><br>
+		password : <input id="userPwd" type="password" name="password"/> <br>
+		
+		<button type="button" class="btn btn-default" id="btnLogin">로그인</button>
+		<button type="button" class="btn btn-default" id="btnSignup">회원가입</button>
+	</div>
 </ftt:page>

@@ -16,13 +16,19 @@
 	
 	<insert id="insertUser" parameterType="four33.simpleboard.types.SignupUser">
 		INSERT INTO USER(user_id, user_pwd, user_birth_dt, user_contact_num, user_nickname, user_reg_dt, user_modify_dt)
-		VALUES(#{userId}, #{userPwd}, #{userBirthDt}, #{userContactNum}, #{userNickname}, now(), now())
+		VALUES(#{userId}, password(#{userPwd}), #{userBirthDt}, #{userContactNum}, #{userNickname}, now(), now())
 	</insert>
 	
 	<select id="selectUser" parameterType="String" resultMap="userResultMap">
 		SELECT * 
 		FROM USER
 		WHERE user_id = #{value}
+	</select>
+	
+	<select id="selectUserByPassword" resultType="Integer">
+		SELECT count(*)
+		FROM USER
+		WHERE user_id = #{userId} AND user_pwd = password(#{userPwd})
 	</select>
 	
 	<select id="selectUserByNickname" parameterType="String" resultType="Integer">
@@ -35,7 +41,7 @@
 		UPDATE USER
 		SET 
 			<if test="userPwd != null and userPwd != ''">
-				user_pwd = #{userPwd},
+				user_pwd = password(#{userPwd}),
 			</if>
 			
 			user_nickname = #{userNickname}, 
