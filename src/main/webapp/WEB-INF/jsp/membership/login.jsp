@@ -52,16 +52,29 @@
 </script>
 <ftt:page>
 	<div class="container">
-		<br>
 		<h1>로그인</h1>
-		<br>
-		<br>
-		<br>
-		 
-		id : <input id="userId" type="text" name="id" /><br>
-		password : <input id="userPwd" type="password" name="password"/> <br>
-		
-		<button type="button" class="btn btn-default" id="btnLogin">로그인</button>
-		<button type="button" class="btn btn-default" id="btnSignup">회원가입</button>
+		<hr>
+		<form class="form-horizontal">
+		  <div class="form-group">
+			<label for="inputEmail3" class="col-sm-2 control-label">아이디</label>
+			<div class="col-sm-5">
+				<input id="userId" type="text" class="form-control" placeholder="아이디" />
+			</div>
+		  </div>
+		  
+		  <div class="form-group">
+			<label for="inputEmail3" class="col-sm-2 control-label">비밀번호</label>
+			<div class="col-sm-5">
+			  <input id="userPwd" class="form-control" placeholder="비밀번호" type="password"/>
+			</div>
+		  </div>
+		  
+		  <div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10 horizontal" >
+				<button type="button" class="btn btn-default" id="btnLogin">로그인</button>
+				<button type="button" class="btn btn-default" id="btnSignup">회원가입</button>
+			</div>
+		  </div>
+		</form>
 	</div>
 </ftt:page>

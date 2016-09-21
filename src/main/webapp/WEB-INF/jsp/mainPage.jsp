@@ -12,6 +12,7 @@
 		</c:when>
 		<c:otherwise>
 			<h1>Simple Board</h1>
+			<hr>
 			로그인 하세요 
 		</c:otherwise>
 	</c:choose>

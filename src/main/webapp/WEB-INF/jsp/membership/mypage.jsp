@@ -109,49 +109,52 @@
 			});// end ajax
 		});// 닉네임 중복확인
 		
+		/* 회원정보수정 */
 		$("#btnModify").click(function(){
-			
-			var userId = ${userId};
-			var userPwd = $("#userPwd").val();
-			var userContactNum = $("#userContactNum").val();
-			var userNickname = $("#userNickname").val();
-			var userBirthDt = $("#userBirthDt").val();
-			
-			if( "${userNickname}" != userNickname && !nicknameChecked){
-				alert("닉네임 중복검사를 하세요.");
-				return ;
-			}
-			
-			var userInfo = {
-					"userId":userId,
-					"userPwd":userPwd,
-					"userBirthDt":userBirthDt,
-					"userContactNum":userContactNum,
-					"userNickname":userNickname
-			};
-			
-			$.ajax({
-				type: "PUT",
-				url: "${pageContext.request.contextPath}/user",
-				headers: { 
-			        'Accept': 'application/json',
-			        'Content-Type': 'application/json' 
-			    },
-				data: JSON.stringify(userInfo),
-				success: function(res){
-					if(res.status == "100" ){
-						nicknameChecked = true;
-						alert(res.message);
-					}
-					else{
-						alert(res.message);
-					}
-				},
-				error: function(err){
-					
+
+			if(confirm("수정하시겠습니까?") == true){
+				
+				var userId = ${userId};
+				var userPwd = $("#userPwd").val();
+				var userContactNum = $("#userContactNum").val();
+				var userNickname = $("#userNickname").val();
+				var userBirthDt = $("#userBirthDt").val();
+				
+				if( "${userNickname}" != userNickname && !nicknameChecked){
+					alert("닉네임 중복검사를 하세요.");
+					return ;
 				}
-			});// end ajax
-			
+				
+				var userInfo = {
+						"userId":userId,
+						"userPwd":userPwd,
+						"userBirthDt":userBirthDt,
+						"userContactNum":userContactNum,
+						"userNickname":userNickname
+				};
+				
+				$.ajax({
+					type: "PUT",
+					url: "${pageContext.request.contextPath}/user",
+					headers: { 
+				        'Accept': 'application/json',
+				        'Content-Type': 'application/json' 
+				    },
+					data: JSON.stringify(userInfo),
+					success: function(res){
+						if(res.status == "100" ){
+							nicknameChecked = true;
+							alert(res.message);
+						}
+						else{
+							alert(res.message);
+						}
+					},
+					error: function(err){
+						
+					}
+				});// end ajax
+			}// end if
 		});
 		
 		/* 취소 */
@@ -202,41 +205,58 @@
 	<c:choose>
 		<c:when test="${logined == true }">
 			<h1>마이페이지</h1>
+			<hr>
 			
-			<div class="col-lg-6">
-				<table>
-					<tr>
-						<th class="col-lg-2">아이디</th>
-						<th class="col-lg-4"><input id="userId" size="5" class="form-control" placeholder="아이디" type="text" disabled="disabled" value="${userInfo.userId}" /></th>
-					</tr>
-					<tr>
-						<th class="col-lg-2">비밀번호</th>
-						<th class="col-lg-5"><input id="userPwd" class="form-control" type="password"/></th>
-					</tr>
-					<tr>
-						<th class="col-lg-2">비밀번호 확인</th>
-						<th class="col-lg-5"><input id="userRePwd" type="password" /></th>
-					</tr>
-					<tr>
-						<th class="col-lg-2">닉네임</th>
-						<th class="col-lg-5"><input id="userNickname" type="text" value="${userInfo.userNickname }" /> <button id="btnCheckNicknameDup">중복확인</button></th>
-					</tr>
-					<tr>
-						<th class="col-lg-2">연락처</th>
-						<th class="col-lg-5"><input id="userContactNum" type="text" value="${userInfo.userContactNum }"/><br></th>
-					</tr>
-					<tr>
-						<th class="col-lg-2">생년월일</th>
-						<th class="col-lg-5"><input id="userBirthDt" type="text" value="${userInfo.userBirthDt }"/><br></th>
-					</tr>
-				</table>
-				
-				<button type="button" class="btn btn-default" id="btnWithdraw">탈퇴</button><br>
-				<button type="button" class="btn btn-default" id="btnModify">수정</button><br>
-				<button type="button" class="btn btn-default" id="btnModifyCancel">취소</button><br>
-			</div>
-			
-			
+			<form class="form-horizontal">
+			  <div class="form-group">
+			    <label for="inputEmail3" class="col-sm-2 control-label">아이디</label>
+			    <div class="col-sm-5">
+			      <input id="userId" size="5" class="form-control" placeholder="아이디" type="text" disabled="disabled" value="${userInfo.userId}" />
+			    </div>
+			  </div>
+			  <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label">비밀번호</label>
+			    <div class="col-sm-5">
+			      <input id="userPwd" class="form-control" type="password"/>
+			    </div>
+			  </div>
+			   <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label">비밀번호 확인</label>
+			    <div class="col-sm-5">
+			      <input id="userRePwd" class="form-control" type="password" />
+			    </div>
+			  </div>
+			   <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label">닉네임</label>
+			    <div class="col-sm-5">
+			      <input id="userNickname" class="form-control" type="text" value="${userInfo.userNickname }" /> 
+			    </div>
+			    <div class="col-sm-2">
+			    	<button type="button" class="btn btn-default" id="btnCheckNicknameDup">중복확인</button>
+			    </div>
+			  </div>
+		   	  <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label">연락처</label>
+			    <div class="col-sm-5">
+			      <input id="userContactNum" class="form-control" type="text" value="${userInfo.userContactNum }"/>
+			    </div>
+			  </div>
+			  
+			  <div class="form-group">
+			    <label for="inputPassword3" class="col-sm-2 control-label">생년월일</label>
+			    <div class="col-sm-5">
+			      <input id="userBirthDt" class="form-control" type="text" value="${userInfo.userBirthDt }"/>
+			    </div>
+			  </div>
+			  
+			  <div class="form-group">
+			    <div class="col-sm-offset-2 col-sm-10 horizontal" >
+			    	<button type="button" class="btn btn-default" id="btnWithdraw">탈퇴</button>
+					<button type="button" class="btn btn-default" id="btnModify">수정</button>
+					<button type="button" class="btn btn-default" id="btnModifyCancel">취소</button>
+			    </div>
+			  </div>
+			</form>
 			
 		</c:when>
 		<c:otherwise> 

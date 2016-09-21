@@ -16,16 +16,21 @@
 			location.href="${pageContext.request.contextPath}/page/login";
 		});
 		
+		$("#title").click(function(){
+			location.href="${pageContext.request.contextPath}/";
+		});
+		
 		$("#btnLogout").click(function(){
 			$.ajax({
 				type:"GET",
 				url: "${pageContext.request.contextPath}/user/logout",
 				success: function(data){
-					console.log("로그아웃 성공");
-					location.reload(true);
+					
+					//location.reload(true);
+					location.replace("${pageContext.request.contextPath}/");
 				},
 				error: function(err){
-					console.log("로그아웃 실패");
+					alert("시스템 에러. 관리자에게 문의하세요.");
 				}
 			});
 		});
@@ -34,15 +39,21 @@
 
 <div class="navbar">
 	<div class="container">
+		<div class="navbar-left">
+			<div class="clickable" id="title">
+				<h4>Home</h4>
+			</div>
+		</div>
 		<div class="navbar-right">
 			<c:choose>
 				<c:when test="${logined == true }">
-					<p id=userField class="clickable"> ${userNickname}(${userId}) </p> <button id="btnLogout" type="submit">  로그아웃</button>
+					<p id=userField class="clickable"> ${userNickname}(${userId}) </p> <button id="btnLogout" class="btn btn-default"type="submit">  로그아웃</button>
 				</c:when>
 				<c:otherwise> 
-					<button id="btnLoginPage" type="submit">로그인</button>
+					<button id="btnLoginPage" class="btn btn-default" type="submit">로그인</button>
 				</c:otherwise>
 			</c:choose>
 		</div>
+		
 	</div>
 </div>

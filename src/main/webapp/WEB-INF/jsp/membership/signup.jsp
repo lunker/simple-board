@@ -7,12 +7,47 @@
 <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.min.js" integrity="sha256-eGE6blurk5sHj+rmkfsGYeKyZx3M4bG+ZlFyA7Kns7E=" crossorigin="anonymous"></script>
 <link rel="stylesheet" href="https://code.jquery.com/ui/1.12.0/themes/smoothness/jquery-ui.css">
 
-
 <script type="text/javascript">
 
 	var idChecked = false;
 	var nicknameChecked = false;
 
+	
+	function isValidDate(str){
+		var str = $("#userBirthDt").val();
+		// STRING FORMAT yyyy-mm-dd
+		if(str=="" || str==null){
+			alert("잘못된 형식의 날짜입니다.");
+			return false;
+		}								
+		
+		// m[1] is year 'YYYY' * m[2] is month 'MM' * m[3] is day 'DD'					
+		var m = str.match(/(\d{4})-(\d{2})-(\d{2})/);
+		
+		// STR IS NOT FIT m IS NOT OBJECT
+		if( m === null || typeof m !== 'object'){return false;}				
+		
+		// CHECK m TYPE
+		if (typeof m !== 'object' && m !== null && m.size!==3){return false;}
+					
+		var ret = true; //RETURN VALUE						
+		var thisYear = new Date().getFullYear(); //YEAR NOW
+		var minYear = 1999; //MIN YEAR
+		
+		// YEAR CHECK
+		if( (m[1].length < 4) || m[1] < minYear || m[1] > thisYear){ret = false;}
+		// MONTH CHECK			
+		if( (m[2].length < 2) || m[2] < 1 || m[2] > 12){ret = false;}
+		// DAY CHECK
+		if( (m[3].length < 2) || m[3] < 1 || m[3] > 31){ret = false;}
+		
+		if(!ret){
+			alert("잘못된 형식의 날짜입니다.");
+		}
+		return ret;			
+	}
+	
+	
 	function valId(){
 		var userId = $("#userId").val();
 		
@@ -52,26 +87,27 @@
 	}
 	
 	function valContactNum(){
-		var userContactNum1 = $("#userContactNum1").val();
-		var userContactNum2 = $("#userContactNum2").val();
-		var userContactNum3 = $("#userContactNum3").val();
+	
+		var userContactNum = $("#userContactNum").val();
 		
-		if(userContactNum1.length != 3 || userContactNum2.length != 4 || userContactNum3.length != 4){
-			alert("전화번호를 모두 입력하세요.");
-			return false;	
+		if(userContactNum.includes("-")){
+			var tmp="";
+			var arr = userContactNum.split("-");
+			for(idx=0; idx<arr.length; idx++){
+				tmp+= arr[idx];
+			}
+			userContactNum = tmp;
 		}
 		
-		if(userContactNum1 != "010" && userContactNum1 != "011" && userContactNum1 != "016" && userContactNum1 != ""){
-			alert("올바른 번호를 입력하세요.");
-			return false;	
+		if(userContactNum.length != 11){
+			alert("올바른 전화번호를 입력하세요.");
+			return false;
 		}
-		
-		/*
-		if(userContactNum2[0] == "0" || userContactNum3[0] == "0"){
+		var contactPrefix = userContactNum.slice(0,3);
+		if( contactPrefix!= "010" && contactPrefix != "011" && contactPrefix != "016" && contactPrefix != "019" ){
 			alert("올바른 번호를 입력하세요.");
 			return false;
 		}
-		*/
 		
 		return true;
 	}
@@ -94,8 +130,32 @@
 			};
 		$.datepicker.setDefaults($.datepicker.regional['kr']);
 		$("#userBirthDt").datepicker();		
+
+		$("#userBirthDt").change(function(){
+			var birthDt = $("#userBirthDt").val();
+			
+			if(!isValidDate()){
+				$("#userBirthDt").val("");
+			}
+		});
 		
+		$("#userNickname").keyup(function(){
+			nicknameChecked = false;
+		});
 		
+		/*
+		$("#userBirthDt").focusout(function(){
+			var birthDt = $("#userBirthDt").val();
+			
+			if(!isValidDate(birthDt)){
+				alert("잘못된 형식입니다.");
+				$("#userBirthDt").val("");
+				
+			}
+		});
+		*/
+		
+		/*
 		$("#userContactNum1").keyup(function(){
 			var userContactNum1 = $("#userContactNum1").val();
 			if(userContactNum1.length == 3){
@@ -109,6 +169,8 @@
 				$("#userContactNum3").focus();
 			}
 		});
+		*/
+		
 		
 		/* 회원가입 */
 		$("#btnSignup").click(function(){
@@ -123,12 +185,21 @@
 				return ;
 			}
 			
-			if( valId() && valPwd() && valContactNum() && valBirthDt() ){
+			if( valId() && valPwd() && valContactNum() && isValidDate() ){
 				// 모든 유효성 검사 통과 
 				
 				var userId = $("#userId").val();
 				var userPwd = $("#userPwd").val();
 				var userContactNum = $("#userContactNum").val();
+				
+				if(userContactNum.includes("-")){
+					var tmp="";
+					var arr = userContactNum.split("-");
+					for(idx=0; idx<arr.length; idx++){
+						tmp+= arr[idx];
+					}
+					userContactNum = tmp;
+				}
 				var userNickname = $("#userNickname").val();
 				var userBirthDt = $("#userBirthDt").val();
 								
@@ -239,19 +310,58 @@
 <ftt:page>
 	<div class="container">
 		<h1>회원가입</h1>
-		
-		<div class="col-lg-10">
-			아이디 <input id="userId" type="text" /> <button id="btnCheckIdDup">중복확인</button><br>	
-			비밀번호 <input id="userPwd" type="password" /><br>
-			비밀번호 확인 <input id="userRePwd" type="password" /><br>
-			닉네임 <input id="userNickname" type="text" /> <button id="btnCheckNicknameDup">중복확인</button><br>
-			연락처 <input id="userContactNum1" type="text" size="3" maxlength="3"/><input id="userContactNum2" type="text" size="4" maxlength="4"/><input id="userContactNum3" type="text" size="4" maxlength="4"/><br>
-			생년월일 <input id="userBirthDt" type="text" /><br>
-			
-			<button type="button" id="btnSignup">회원가입</button>
-			<button type="button" id="btnSignupCancel">취소</button>
-			
-		</div>
-		
+		<hr>
+		<form class="form-horizontal">
+		  <div class="form-group">
+		    <label for="inputEmail3" class="col-sm-2 control-label">아이디</label>
+		    <div class="col-sm-5">
+		      <input id="userId" size="5" class="form-control" placeholder="아이디" type="text"/>
+		    </div>
+   		    <div class="col-sm-2">
+		    	<button type="button" class="btn btn-default" id="btnCheckIdDup">중복확인</button>
+		    </div>
+		  </div>
+		  <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label">비밀번호</label>
+		    <div class="col-sm-5">
+		      <input id="userPwd" class="form-control" type="password" placeholder="비밀번호"/>
+		    </div>
+		  </div>
+		   <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label">비밀번호 확인</label>
+		    <div class="col-sm-5">
+		      <input id="userRePwd" class="form-control" type="password" placeholder="비밀번호"/>
+		    </div>
+		  </div>
+		   <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label">닉네임</label>
+		    <div class="col-sm-5">
+		      <input id="userNickname" class="form-control" type="text" placeholder="닉네임을 입력하세요."/> 
+		    </div>
+		    <div class="col-sm-2">
+		    	<button type="button" class="btn btn-default" id="btnCheckNicknameDup">중복확인</button>
+		    </div>
+		  </div>
+	   	  <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label">연락처</label>
+		    <div class="col-sm-5">
+		      <input id="userContactNum" class="form-control" type="text" />
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <label for="inputPassword3" class="col-sm-2 control-label">생년월일</label>
+		    <div class="col-sm-5">
+		      <input id="userBirthDt" class="form-control" type="text"/>
+		    </div>
+		  </div>
+		  
+		  <div class="form-group">
+		    <div class="col-sm-offset-2 col-sm-10 horizontal" >
+				<button type="button" class="btn btn-default" id="btnSignup">회원가입</button>
+				<button type="button" class="btn btn-default" id="btnSignupCancel">취소</button>
+		    </div>
+		  </div>
+		</form>
 	</div>
 </ftt:page>

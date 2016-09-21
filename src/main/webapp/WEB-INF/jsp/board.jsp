@@ -5,6 +5,8 @@
 
 
 <div id="main">
+	<h1>게시판 이름</h1>
+	<hr>
 	<div class="col-lg-12">
 		<table class="table table-bordered">
 			<thead>
