@@ -1,13 +1,13 @@
 package four33.simpleboard.types;
 
-public class Response {
+public class AppResponse {
 	
 	private String status;
 	private String message;
 	
-	public Response(){}
+	public AppResponse(){}
 	
-	public Response(String status, String message) {
+	public AppResponse(String status, String message) {
 		super();
 		this.status = status;
 		this.message = message;

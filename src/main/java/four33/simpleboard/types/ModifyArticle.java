@@ -2,7 +2,7 @@ package four33.simpleboard.types;
 
 import java.sql.Date;
 
-public class Article {
+public class ModifyArticle {
 
 	private int articleId;
 	private int boardId;
@@ -16,9 +16,9 @@ public class Article {
 	private int articleHits;
 	private int articleLikes;
 	
-	public Article(){}
+	public ModifyArticle(){}
 	
-	public Article(int articleId, int boardId, int articleUserNumId, int articleNo, String articleTitle,
+	public ModifyArticle(int articleId, int boardId, int articleUserNumId, int articleNo, String articleTitle,
 			String articleContent, int articleComments, Date articleRegDt, Date articleModifyDt, int articleHits,
 			int articleLikes) {
 		this.articleId = articleId;

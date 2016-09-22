@@ -2,7 +2,7 @@ package four33.simpleboard.dao;
 
 import org.apache.ibatis.annotations.Param;
 
-import four33.simpleboard.service.membership.IMembershipService;
+import four33.simpleboard.service.IMembershipService;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
 

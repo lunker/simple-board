@@ -8,8 +8,9 @@
 <script type="text/javascript">
 
 	$(function(){
-		
-		
+		$("#btnWriteArticle").click(function(){
+			location.href="${pageContext.request.contextPath}/page/article/write";
+		});
 	});
 
 </script>
@@ -39,26 +40,34 @@
 				</tr>
 			</thead>
 		</table>
-		<!-- PAGING -->
-		<nav aria-label="Page navigation" class="center">
-		  <ul class="pagination">
-		    <li>
-		      <a href="#" aria-label="Previous">
-		        <span aria-hidden="true">&laquo;</span>
-		      </a>
-		    </li>
-		    <li><a href="#">1</a></li>
-		    <li><a href="#">2</a></li>
-		    <li><a href="#">3</a></li>
-		    <li><a href="#">4</a></li>
-		    <li><a href="#">5</a></li>
-		    <li>
-		      <a href="#" aria-label="Next">
-		        <span aria-hidden="true">&raquo;</span>
-		      </a>
-		    </li>
-		  </ul>
-		</nav>	
+		<!-- TABLE FOOTER -->
+		<div class="horizontal">
+				<!-- PAGING -->
+			<nav aria-label="Page navigation" class="center">
+			  <ul class="pagination">
+			    <li>
+			      <a href="#" aria-label="Previous">
+			        <span aria-hidden="true">&laquo;</span>
+			      </a>
+			    </li>
+			    <li><a href="#">1</a></li>
+			    <li><a href="#">2</a></li>
+			    <li><a href="#">3</a></li>
+			    <li><a href="#">4</a></li>
+			    <li><a href="#">5</a></li>
+			    <li>
+			      <a href="#" aria-label="Next">
+			        <span aria-hidden="true">&raquo;</span>
+			      </a>
+			    </li>
+			  </ul>
+			</nav>
+			
+			<div class="right">
+				<button type="button" class="btn btn-default" id="btnWriteArticle">글쓰기</button>
+			</div>	
+		</div><!-- END FOOTER -->
+	
 	</div>
 	
 </div>

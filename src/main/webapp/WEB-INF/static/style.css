@@ -15,10 +15,17 @@
 }
 
 .horizontal{
-	float: left;
+	/* float: left; */
+	margin: auto;
+	
 }
 
 .center{
 	width: 300px;
+	margin: 0 auto;
+}
+
+.right{
+	width:100px;
 	margin: 0 auto;
 }

@@ -2,7 +2,7 @@
 <!DOCTYPE mapper 
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="four33.simpleboard.dao.IArticleDao">
+<mapper namespace="four33.simpleboard.dao.ICommentDao">
 
 	<resultMap type="four33.simpleboard.types.Article" id="articleResultMap">
 		<id property="articleId" column="article_id" />
@@ -18,18 +18,15 @@
 		<result property="articleLikes" column="article_likes" />
 	</resultMap>
 	
-	<select id="selectArticle">
+	<select id="selectComment">
 	
 		SELECT * 
 		  FROM article 
 	
 	</select>
 
-	<insert id="insertArticle">
+	<insert id="insertComment">
 	
-		INSERT INTO ARTICLE(board_id, article_user_num_id, article_no, article_title, article_content)
-		VALUES()
-		
 	</insert>	
 	
 	

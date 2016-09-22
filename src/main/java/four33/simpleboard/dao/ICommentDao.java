@@ -14,14 +14,14 @@ import four33.simpleboard.types.User;
  * @author dongqlee
  *
  */
-public interface IArticleDao{
+public interface ICommentDao{
 	
-	public void selectArticle(@Param("articleId") int articleId);
+	public void selectComment(@Param("articleId") int articleId);
 	
-	public void insertArticle(Article article);
+	public void insertComment(Article article);
 	
-	public void updateArticle(ModifyArticle modifyArticle);
+	public void updateComment(ModifyArticle modifyArticle);
 	
-	public void deleteArticle(@Param("articleId") int articleId);
+	public void deleteComment(@Param("articleId") int articleId);
 	
 }

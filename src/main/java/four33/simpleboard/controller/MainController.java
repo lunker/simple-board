@@ -1,6 +1,8 @@
 package four33.simpleboard.controller;
 
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -27,6 +29,29 @@ public class MainController {
 			
 			// 게시판 조회
 			
+		}
+		*/
+		
+		HttpSession session = request.getSession(false);
+		Cookie[] cookies = request.getCookies();
+		
+		if(cookies!=null){
+			for(int i=0; i < cookies.length; i++)
+				System.out.println("client가 보내는 쿠키 : " + cookies[i].getValue());	
+		}
+		else{
+			System.out.println("쿠키가 없네.");
+		}
+		
+		/*
+		if(session == null){
+			session = request.getSession(true);
+			
+			System.out.println("생성된 session id: " + session.getId());
+			
+		}
+		else{
+			System.out.println("기존에 있던 session id: " + session.getId());
 		}
 		*/
 		

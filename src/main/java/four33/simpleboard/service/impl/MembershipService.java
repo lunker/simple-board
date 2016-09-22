@@ -1,12 +1,12 @@
-package four33.simpleboard.service.membership.impl;
+package four33.simpleboard.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import four33.simpleboard.dao.IMembershipDao;
-import four33.simpleboard.service.membership.IMembershipService;
+import four33.simpleboard.service.IMembershipService;
 import four33.simpleboard.types.LoginForm;
-import four33.simpleboard.types.Response;
+import four33.simpleboard.types.AppResponse;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
 import four33.simpleboard.utils.AES;
@@ -86,26 +86,26 @@ public class MembershipService  implements IMembershipService {
 	}
 
 	@Override
-	public Response login(LoginForm loginForm) {
+	public AppResponse login(LoginForm loginForm) {
 		
 		System.out.println(loginForm.getUserId());
 		
-		Response response;
+		AppResponse response;
 		
 		User selectedUserInfo =  membershipDao.selectUser(loginForm.getUserId());
 		
 		if(selectedUserInfo == null){
 			// 존재하지 않은 아이디.
-			response = new Response("200", "존재하지 않는 아이디 입니다.");
+			response = new AppResponse("200", "존재하지 않는 아이디 입니다.");
 		}
 		else{
 			if( aes.decrypt(selectedUserInfo.getUserPwd()).equals(loginForm.getUserPwd())){
 				// 로그인 성공
-				response = new Response("100", "로그인 성공");
+				response = new AppResponse("100", "로그인 성공");
 			}
 			else{
 				// 비밀번호가 틀린 경우 
-				response = new Response("200", "비밀번호가 틀렸습니다.");
+				response = new AppResponse("200", "비밀번호가 틀렸습니다.");
 			}
 		}
 		return response;

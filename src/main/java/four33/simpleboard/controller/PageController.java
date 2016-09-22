@@ -8,7 +8,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import four33.simpleboard.service.membership.IMembershipService;
+import four33.simpleboard.service.IMembershipService;
 import four33.simpleboard.types.User;
 
 
@@ -35,6 +35,12 @@ public class PageController {
 	public String signupPage(){
 		return "membership/signup";
 	}
+	
+	@RequestMapping("/article/write")
+	public String writearticlePage(){
+		return "article/write";
+	}
+	
 	
 	@RequestMapping("/mypage")
 	public ModelAndView mypagePage(Model model, HttpServletRequest request ){
@@ -72,7 +78,7 @@ public class PageController {
 		return "common/header";
 	}
 	
-	@RequestMapping("/page/board")
+	@RequestMapping("/board")
 	public String boardPage(Model model, HttpServletRequest request){
 		System.out.println("게시판 페이지 ");
  		

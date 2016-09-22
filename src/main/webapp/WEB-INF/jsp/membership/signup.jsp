@@ -143,35 +143,6 @@
 			nicknameChecked = false;
 		});
 		
-		/*
-		$("#userBirthDt").focusout(function(){
-			var birthDt = $("#userBirthDt").val();
-			
-			if(!isValidDate(birthDt)){
-				alert("잘못된 형식입니다.");
-				$("#userBirthDt").val("");
-				
-			}
-		});
-		*/
-		
-		/*
-		$("#userContactNum1").keyup(function(){
-			var userContactNum1 = $("#userContactNum1").val();
-			if(userContactNum1.length == 3){
-				$("#userContactNum2").focus();
-			}
-		});
-		
-		$("#userContactNum2").keyup(function(){
-			var userContactNum2 = $("#userContactNum2").val();
-			if(userContactNum2.length == 4){
-				$("#userContactNum3").focus();
-			}
-		});
-		*/
-		
-		
 		/* 회원가입 */
 		$("#btnSignup").click(function(){
 			
