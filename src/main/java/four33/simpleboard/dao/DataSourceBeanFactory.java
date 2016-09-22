@@ -17,31 +17,6 @@ public class DataSourceBeanFactory {
 	@Autowired
 	private AppConfig appConfig;
 
-	/*
-	@Bean
-	@Primary
-	public DataSource pubdbDataSource() {
-		BasicDataSource ds = new BasicDataSource();
-
-		DataSourceConfig dsConfig = appConfig.getDatasource().get("pubdb");
-
-		String driver = dsConfig.getDriverClassName();
-		String url = dsConfig.getUrl();
-		String username = dsConfig.getUsername();
-		String password = dsConfig.getPassword();
-
-		ds.setDriverClassName(driver);
-		ds.setUrl(url);
-		ds.setUsername(username);
-		ds.setPassword(password);
-		ds.setTestOnBorrow(true);
-		ds.setTestWhileIdle(true);
-		ds.setValidationQuery("SELECT 1");
-
-		return ds;
-	}
-	*/
-
 	@Bean
 	public DataSource localDataSource() {
 		BasicDataSource ds = new BasicDataSource();

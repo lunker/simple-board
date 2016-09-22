@@ -94,8 +94,6 @@ public class MembershipService  implements IMembershipService {
 		
 		User selectedUserInfo =  membershipDao.selectUser(loginForm.getUserId());
 		
-//		System.out.println("selected user info : " + selectedUserInfo.toString());		
-		
 		if(selectedUserInfo == null){
 			// 존재하지 않은 아이디.
 			response = new Response("200", "존재하지 않는 아이디 입니다.");
@@ -111,35 +109,6 @@ public class MembershipService  implements IMembershipService {
 			}
 		}
 		return response;
-		
-		/*
-		result = membershipDao.selectUserByPassword(loginForm.getUserId(), loginForm.getUserPwd());
-		if(result!=null){
-			// nickname 이미 존재.
-			if( (int) result>0){
-				return true;
-			}
-			else
-				return false;
-		}
-		else
-			return false;
-		*/
-		
-		/*
-		User registeredInfo = membershipDao.selectUserByPassword(loginForm.getUserId(), loginForm.getUserPwd());
-		
-		if(registeredInfo!=null &&  registeredInfo.getUserPwd().equals( loginForm.getUserPwd())){
-			
-			result = true;
-		}
-		else{
-			result = false;
-//			return null;
-		}
-		
-		return result;
-		*/
 	}
 
 	@Override

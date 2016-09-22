@@ -17,3 +17,8 @@
 .horizontal{
 	float: left;
 }
+
+.center{
+	width: 300px;
+	margin: 0 auto;
+}

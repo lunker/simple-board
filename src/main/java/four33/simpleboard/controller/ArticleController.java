@@ -20,11 +20,11 @@ import four33.simpleboard.types.User;
 
 
 @Controller
-@RequestMapping("/user")
-public class MembershipController {
+@RequestMapping("/article")
+public class ArticleController {
 	
 	@Autowired
-	private IMembershipService membershipService;
+	private IArticle membershipService;
 
 	public HttpSession getSession(HttpServletRequest request){
 		
