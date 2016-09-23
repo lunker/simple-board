@@ -11,6 +11,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import four33.simpleboard.dao.IArticleDao;
+import four33.simpleboard.dao.IBoardDao;
 import four33.simpleboard.dao.IMembershipDao;
 
 @Configuration
@@ -37,7 +39,7 @@ public class DaoBeanFactory {
 
 		return null;
 	}
-
+	
 
 	/**
 	 * Get dao implementation object from mybatis mapping
@@ -48,5 +50,61 @@ public class DaoBeanFactory {
 		SqlSessionTemplate sessionTemplate = membershipSessionTemplate();
 		return sessionTemplate.getMapper(IMembershipDao.class);
 	}
+	
+	
+	@Bean(destroyMethod = "clearCache")
+	public SqlSessionTemplate articleSessionTemplate() {
+		try {
+			Resource[] resources = new Resource[] { new ClassPathResource("sql/article.xml"), };
+
+			SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+			sqlSessionFactory.setDataSource(ds);
+			sqlSessionFactory.setMapperLocations(resources);
+
+			return new SqlSessionTemplate(sqlSessionFactory.getObject());
+		} catch (Exception e) {
+			System.out.println("error in article session template");
+			System.out.println(e.getMessage());
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get dao implementation object from mybatis mapping
+	 * @return
+	 */
+	@Bean
+	public IArticleDao articleDao() {
+		SqlSessionTemplate sessionTemplate = articleSessionTemplate();
+		return sessionTemplate.getMapper(IArticleDao.class);
+	}
+	
+	
+	// ======== board dao 
+	@Bean(destroyMethod = "clearCache")
+	public SqlSessionTemplate boardSessionTemplate() {
+		try {
+			Resource[] resources = new Resource[] { new ClassPathResource("sql/board.xml"), };
+
+			SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+			sqlSessionFactory.setDataSource(ds);
+			sqlSessionFactory.setMapperLocations(resources);
+
+			return new SqlSessionTemplate(sqlSessionFactory.getObject());
+		} catch (Exception e) {
+			System.out.println("error in board session template");
+			System.out.println(e.getMessage());
+		}
+
+		return null;
+	}
+	
+	@Bean
+	public IBoardDao boardDao() {
+		SqlSessionTemplate sessionTemplate = boardSessionTemplate();
+		return sessionTemplate.getMapper(IBoardDao.class);
+	}
+	
 	
 }

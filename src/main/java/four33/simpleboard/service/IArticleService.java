@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Service;
 
 import four33.simpleboard.types.AppResponse;
+import four33.simpleboard.types.Article;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
 import four33.simpleboard.types.WriteArticle;
@@ -38,7 +39,16 @@ public interface IArticleService {
 	 * 게시글 조회 
 	 * @return
 	 */
-	public AppResponse selectArticle();
+	public AppResponse selectArticle(
+			
+			
+			);
+	
+	/**
+	 * 게시글 리스트 조회
+	 * @return
+	 */
+	public AppResponse selectArticles(String condition, String order, int printNum, int pageNum); 
 	
 	
 }

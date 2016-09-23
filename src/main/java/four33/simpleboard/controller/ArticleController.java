@@ -4,6 +4,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Required;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,6 +17,7 @@ import four33.simpleboard.service.IArticleService;
 import four33.simpleboard.service.IMembershipService;
 import four33.simpleboard.types.LoginForm;
 import four33.simpleboard.types.AppResponse;
+import four33.simpleboard.types.Article;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
 import four33.simpleboard.types.WriteArticle;
@@ -38,23 +40,49 @@ public class ArticleController {
 		return session;
 	}
 	
+	/*
+	public String getUserId(HttpSession session){
+		String userId="";
+		if(session!=null){
+
+			userId = (String) session.getAttribute("userId");
+			if(userId==null){
+				return "";
+			}
+			else
+				return userId;
+		}
+		else
+			return "";
+	}
+	*/
+	
+	
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
 	public AppResponse ActionWriteArticle(HttpServletRequest request, @RequestBody WriteArticle writeArticle){
-		
+		System.out.println("[ARTICLE] 게시글 작성 request");
 		AppResponse response = null;
 		
-		
-//		articleService.writeArticle();
+		response = articleService.writeArticle(writeArticle);
 		
 		return response;
 	}
 	
-	@RequestMapping(method=RequestMethod.GET)
+	@RequestMapping(method=RequestMethod.GET, value="/list")
 	@ResponseBody
-	public AppResponse ActionSelectArticle(HttpServletRequest request){
-		
+	public AppResponse ActionSelectArticles(HttpServletRequest request,
+			
+			@RequestParam(value="condition", required=false) String condition,
+			@RequestParam(value="order", required=false) String order,
+			@RequestParam(value="pageNum", required=false) int pageNum,
+			@RequestParam(value="printNum", required=false) int printNum
+			
+			){
+		System.out.println("[ARTICLE] 게시글 리스트 조회 request");
 		AppResponse response = null;
+		
+		response = articleService.selectArticles(condition, order, printNum, pageNum);
 
 		return response;
 	}

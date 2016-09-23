@@ -114,12 +114,14 @@ public class MembershipController {
 		response = membershipService.login(new LoginForm(userId, userPwd));
 		
 		if(response.getStatus().equals(Constants.STR_STATUS_CODE_SUCCESS)){
-			// 세션에 정보 저장
-			session.setAttribute("logined", true);
-			session.setAttribute("userId", userId);
+
 			
 			User userInfo = membershipService.searchUserInfo(userId);
-			
+
+			// 세션에 정보 저장
+			session.setAttribute("logined", true);
+			session.setAttribute("userNumId", userInfo.getUserNumId());
+			session.setAttribute("userId", userId);
 			session.setAttribute("userNickname", userInfo.getUserNickname());
 		}
 		
