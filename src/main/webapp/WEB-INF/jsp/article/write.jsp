@@ -16,10 +16,10 @@
 			$.ajax({
 				type: "POST",
 				url: "${pageContext.request.contextPath}/article",
-				beforeSend: function(xhr){
-					xhr.setRequestHeader("userId", userId);
-					xhr.setRequestHeader("userPwd",userPwd);
-				},
+				headers: { 
+			        'Accept': 'application/json',
+			        'Content-Type': 'application/json' 
+			    },
 				success: function(res){
 					
 					alert(res.message);
@@ -64,7 +64,12 @@
 			  <input id="userPwd" class="form-control" placeholder="제목을 입력해주세요." type="password"/>
 			</div>
 		  </div>
-		  <textarea>Easy! You should check out MoxieManager!</textarea>
+		  <div class="form-group">
+			  <div style="margin: 0 auto; width: 900px;">
+				<textarea>Easy! You should check out MoxieManager!</textarea>  
+			  </div>
+		  </div>
+		  
 		  <div class="form-group">
 			<div class="col-sm-offset-2 col-sm-10 horizontal" >
 				<button type="button" class="btn btn-default" id="btnWriteArticle">글쓰기</button>

@@ -17,6 +17,7 @@ import four33.simpleboard.types.LoginForm;
 import four33.simpleboard.types.AppResponse;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
+import four33.simpleboard.utils.Constants;
 
 
 @Controller
@@ -47,11 +48,11 @@ public class MembershipController {
 		
 		if(membershipService.signup(userInfo)){
 			// 회원가입 성공 
-			response = new AppResponse("100", "회원가입 성공");
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "회원가입 성공");
 		}
 		else{
 			// 회원가입 실패 
-			response = new AppResponse("200", "회원가입 실패");
+			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "회원가입 실패");
 		}
 		
 		return response;
@@ -69,11 +70,11 @@ public class MembershipController {
 
 		if(!membershipService.checkIdDup(userId)){
 			System.out.println("사용가능한 아이디");
-			response = new AppResponse("100", "사용 가능한 ID");
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "사용 가능한 ID");
 		}
 		else{
 			System.out.println("중복된 아이디");
-			response = new AppResponse("200", "중복된 ID입니다.");
+			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "중복된 ID입니다.");
 		}
 		
 		return response;
@@ -87,11 +88,11 @@ public class MembershipController {
 
 		if(!membershipService.checkNicknameDup(userNickname)){
 			System.out.println("사용가능한 닉네임");
-			response = new AppResponse("100", "사용 가능한 닉네임입니다.");
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "사용 가능한 닉네임입니다.");
 		}
 		else{
 			System.out.println("중복된 닉네임");
-			response = new AppResponse("200", "중복된 닉네임입니다.");
+			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "중복된 닉네임입니다.");
 		}
 		
 		return response;
@@ -112,7 +113,7 @@ public class MembershipController {
 	
 		response = membershipService.login(new LoginForm(userId, userPwd));
 		
-		if(response.getStatus().equals("100")){
+		if(response.getStatus().equals(Constants.STR_STATUS_CODE_SUCCESS)){
 			// 세션에 정보 저장
 			session.setAttribute("logined", true);
 			session.setAttribute("userId", userId);
@@ -136,12 +137,12 @@ public class MembershipController {
 			User updatedUserInfo;
 			updatedUserInfo = membershipService.searchUserInfo(userInfo.getUserId());
 			
-			response = new AppResponse("100", "정보수정 성공");
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "정보수정 성공");
 			// update session info 
 			session.setAttribute("userNickname", updatedUserInfo.getUserNickname());
 		}
 		else{
-			response = new AppResponse("200", "정보수정 실패");
+			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "정보수정 실패");
 		}
 		
 		return response;
@@ -158,14 +159,14 @@ public class MembershipController {
 		
 		if(membershipService.withdraw(userId)){
 			// 탈퇴 성공
-			response = new AppResponse("100", "회원탈퇴 성공");
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "회원탈퇴 성공");
 			session.setAttribute("logined", false);
 			session.setAttribute("userId", "");
 			session.setAttribute("userNickname", "");
 		}
 		else{
 			// 탈퇴 실패 
-			response = new AppResponse("200", "회원탈퇴 실패");
+			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "회원탈퇴 실패");
 		}
 		
 		return response;
@@ -184,7 +185,7 @@ public class MembershipController {
 		
 		request.getSession().setAttribute("logined",false);
 		request.getSession().setAttribute("userId","");
-		response = new AppResponse("100", "로그아웃 성공");
+		response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "로그아웃 성공");
 		
 		return response;
 	}

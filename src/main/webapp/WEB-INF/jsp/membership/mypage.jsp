@@ -101,7 +101,7 @@
 			        'Content-Type': 'application/json' 
 			    },
 				success: function(res){
-					if(res.status == "100" ){
+					if(res.status == "200" ){
 						nicknameChecked = true; // set flag
 						alert(res.message);
 					}
@@ -156,7 +156,7 @@
 				    },
 					data: JSON.stringify(userInfo),
 					success: function(res){
-						if(res.status == "100" ){
+						if(res.status == "200" ){
 							nicknameChecked = true;
 							alert(res.message);
 						}
@@ -192,7 +192,7 @@
 					    xhr.setRequestHeader("userId",  ${userInfo.userId});
 				    },
 					success: function(res){
-						if(res.status== "100"){
+						if(res.status== "200"){
 							alert(res.message);
 							location.replace("${pageContext.request.contextPath}/");							
 						}

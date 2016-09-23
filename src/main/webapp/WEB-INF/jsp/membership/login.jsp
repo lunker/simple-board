@@ -38,7 +38,7 @@
 				success: function(res){
 					
 					alert(res.message);
-					if(res.status=="100"){
+					if(res.status=="200"){
 						location.replace("${pageContext.request.contextPath}/");	
 					}
 					//location.href="${pageContext.request.contextPath}/";

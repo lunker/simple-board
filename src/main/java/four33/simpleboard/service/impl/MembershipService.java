@@ -96,16 +96,16 @@ public class MembershipService  implements IMembershipService {
 		
 		if(selectedUserInfo == null){
 			// 존재하지 않은 아이디.
-			response = new AppResponse("200", "존재하지 않는 아이디 입니다.");
+			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "존재하지 않는 아이디 입니다.");
 		}
 		else{
 			if( aes.decrypt(selectedUserInfo.getUserPwd()).equals(loginForm.getUserPwd())){
 				// 로그인 성공
-				response = new AppResponse("100", "로그인 성공");
+				response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "로그인 성공");
 			}
 			else{
 				// 비밀번호가 틀린 경우 
-				response = new AppResponse("200", "비밀번호가 틀렸습니다.");
+				response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "비밀번호가 틀렸습니다.");
 			}
 		}
 		return response;

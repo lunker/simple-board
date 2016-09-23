@@ -227,7 +227,7 @@
 					xhr.setRequestHeader("userId", userId);
 				},
 				success: function(res){
-					if(res.status == "100" ){
+					if(res.status == "200" ){
 						idChecked = true;
 						alert(res.message);
 					}
@@ -262,7 +262,7 @@
 			        'Content-Type': 'application/json' 
 			    },
 				success: function(res){
-					if(res.status == "100" ){
+					if(res.status == "200" ){
 						nicknameChecked = true; // set flag
 						alert(res.message);
 					}
