@@ -11,6 +11,7 @@
 	var order = "desc"; // 1: desc, 2: asc;	
 
 	
+	/*	게시글 뷰 페이지 오픈 */
 	function openArticle(articleId){
 		alert(articleId);
 		
@@ -36,44 +37,65 @@
 				alert("시스템에러")	
 			}
 		});
-		
 	}
-	$(function(){
+	
+	function paging(val){
+		//alert("paigng " + val);
 		
-		/*
 		var data = {
 				"condition" : "article_reg_dt",
 				"order": "desc",
-				"printNum" : currentPrintNum,
-				"pageNum" : 1
-		}
+				"printNum" : 2,
+				"pageNum" : val
+		};
+		
 		$.ajax({
 			type:"GET",
 			url: "${pageContext.request.contextPath}/article/list",
 			headers: { 
-		        'Accept': 'application/json',
+				'Accept': 'application/json',
 		        'Content-Type': 'application/json' 
 		    },
 		    data: data,
 			success: function(res){
+				
 				alert(res.message);
 				if(res.status== "200"){
 					console.log(res);
-					$("#articleTable").html(res.data);
-				}
-				else{
-					
 				}
 			},
 			error: function(err){
 				alert("시스템에러")	
 			}
 		});
-		*/
+		
+	}
+	$(function(){
+		
+		$("#pagingS").click(function(){
+			
+		});
+		
+		$("#pagingP").click(function(){
+					
+		});
+				
+		$("#pagingS").click(function(){
+			
+		});
+		
+		$("#pagingN").click(function(){
+			
+		});
+		$("#pagingE").click(function(){
+			
+		});
+		
 		
 		$("#btnWriteArticle").click(function(){
 			location.href="${pageContext.request.contextPath}/page/article/write";
 		});
+		
 	});
 
 </script>
@@ -132,15 +154,25 @@
 			  <ul class="pagination">
 			    <li>
 			      <a href="#" aria-label="Previous">
-			        <span aria-hidden="true">&laquo;</span>
+			        <span aria-hidden="true" id="pagingS">S</span>
 			      </a>
 			    </li>
-			    <li><a href="#">1</a></li>
-			    <li><a href="#">2</a></li>
-			    <li><a href="#">3</a></li>
+			    <li>
+			      <a href="#" aria-label="Previous">
+			        <span aria-hidden="true" id="pagingP">P</span>
+			      </a>
+			    </li>
+			    <li><a id="1" onclick="paging(this.id)">1</a></li>
+			    <li><a id="2" onclick="paging(this.id)">2</a></li>
+			    <li><a id="3"onclick="paging(this.id)">3</a></li>
 			    <li>
 			      <a href="#" aria-label="Next">
-			        <span aria-hidden="true">&raquo;</span>
+			        <span aria-hidden="true" id="pagingN" >N</span>
+			      </a>
+			    </li>
+			    <li>
+			      <a href="#" aria-label="Next">
+			        <span aria-hidden="true" id="pagingE">E</span>
 			      </a>
 			    </li>
 			  </ul>

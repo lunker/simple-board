@@ -94,7 +94,7 @@ public class PageController {
 			@RequestParam(value="condition", required=false, defaultValue="article_reg_dt") String condition,
 			@RequestParam(value="order", required=false, defaultValue="desc") String order,
 			@RequestParam(value="pageNum", required=false, defaultValue="1") int pageNum,
-			@RequestParam(value="printNum", required=false, defaultValue="10") int printNum
+			@RequestParam(value="printNum", required=false, defaultValue="4") int printNum
 			
 			){
 		System.out.println("[PAGE] 게시판 페이지 request");
