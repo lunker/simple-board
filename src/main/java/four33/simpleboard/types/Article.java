@@ -7,6 +7,7 @@ public class Article {
 	private int articleId;
 	private int boardId;
 	private int articleUserNumId;
+	private String articleUserNickname;
 	
 	private String articleTitle;
 	private String articleContent;
@@ -18,13 +19,13 @@ public class Article {
 	
 	public Article(){}
 	
-	public Article(int articleId, int boardId, int articleUserNumId,String articleTitle,
+	public Article(int articleId, int boardId, int articleUserNumId, String articleUserNickname, String articleTitle,
 			String articleContent, int articleComments, Date articleRegDt, Date articleModifyDt, int articleHits,
 			int articleLikes) {
 		this.articleId = articleId;
 		this.boardId = boardId;
 		this.articleUserNumId = articleUserNumId;
-		
+		this.articleUserNickname =articleUserNickname;
 		this.articleTitle = articleTitle;
 		this.articleContent = articleContent;
 		this.articleComments = articleComments;
@@ -33,6 +34,16 @@ public class Article {
 		this.articleHits = articleHits;
 		this.articleLikes = articleLikes;
 	}
+	
+	
+	public String getArticleUserNickname() {
+		return articleUserNickname;
+	}
+
+	public void setArticleUserNickname(String articleUserNickname) {
+		this.articleUserNickname = articleUserNickname;
+	}
+
 	public int getArticleId() {
 		return articleId;
 	}

@@ -61,9 +61,16 @@
 		<form class="form-horizontal">
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">게시판</label>
-			<div class="col-sm-5">
+			
+		<!-- 	<div class="col-sm-5">
 				<input id="userId" type="text" class="form-control" placeholder="아이디" />
 			</div>
+		  -->
+		  <div class="col-sm-5">
+			자유게시판
+		  </div>
+		  
+		   
 		  </div>
 		  
 		  <div class="form-group">
@@ -74,7 +81,7 @@
 		  </div>
 		  <div class="form-group">
 			  <div style="margin: 0 auto; width: 900px;">
-				<textarea id="articleContent">Easy! You should check out MoxieManager!</textarea>  
+				<textarea id="articleContent">내용을 입력하세요.</textarea>  
 			  </div>
 		  </div>
 		  

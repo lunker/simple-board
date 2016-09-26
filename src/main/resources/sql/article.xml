@@ -8,6 +8,7 @@
 		<id property="articleId" column="article_id" />
 		<result property="boardId" column="board_id" />
 		<result property="articleUserNumId" column="article_user_num_id" />
+		<result property="articleUserNickname" column="article_user_nickname" />
 		<result property="articleTitle" column="article_title" />
 		<result property="articleContent" column="article_content" />
 		<result property="articleComments" column="article_comments" />
@@ -24,14 +25,16 @@
 	
 	<select id="selectArticles" parameterType="hashmap" resultMap="articleResultMap">
 	
-		SELECT * 
-		  FROM ARTICLE
+		SELECT *, user.user_nickname as article_user_nickname
+		  FROM ARTICLE article, USER user
 		 WHERE 
 		 
 		 <if test="condition == 'article_reg_dt'">
 		 	<![CDATA[
 		 	article_reg_dt < '9999-12-31'
 		 	]]>
+		 	
+		 	AND article.article_user_num_id = user.user_num_id
 		 	
 		 	<if test="order == 'desc'">
 			 ORDER BY article_reg_dt desc
@@ -43,6 +46,8 @@
 		 	article_comments >= 0 
 		 	]]>
 		 	
+		 	AND article.article_user_num_id = user.user_num_id
+		 	
 		 	<if test="order == 'desc'">
 			 ORDER BY article_comments desc
 			 </if>
@@ -53,6 +58,8 @@
 		 	<![CDATA[
 		 	article_likes >= 0
 		 	]]>
+		 	
+		 	AND article.article_user_num_id = user.user_num_id
 		 	
 		 	<if test="order == 'desc'">
 			 ORDER BY article_likes desc

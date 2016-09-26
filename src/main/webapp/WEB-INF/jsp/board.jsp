@@ -187,7 +187,7 @@
 						<tr class="clickable" onclick="openArticle(${row.articleId})">
 							<td>${row.articleId}</td>
 							<td>${row.articleTitle}</td>
-							<td>${row.articleUserNumId}</td>
+							<td>${row.articleUserNickname}</td>
 							<td>${row.articleRegDt}</td>
 							<td>${row.articleHits}</td>
 							<td>${row.articleLikes}</td>
