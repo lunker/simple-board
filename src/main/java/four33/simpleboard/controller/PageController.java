@@ -9,8 +9,11 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import four33.simpleboard.service.IArticleService;
@@ -55,6 +58,33 @@ public class PageController {
 	@RequestMapping("/article/write")
 	public String writearticlePage(){
 		return "article/write";
+	}
+	
+
+	@RequestMapping(method=RequestMethod.GET, value="/article/{articleId}")
+	public ModelAndView commonHeader(Model model,  @PathVariable("articleId") int articleId){
+		System.out.println("[ARTICLE] 게시글 조회  request");
+		ModelAndView mv = new ModelAndView();
+		AppResponse response = null;
+		
+		mv.setViewName("article/content");
+		response = articleService.selectArticle(articleId);
+		mv.addObject("response",response);
+
+		return mv;
+	}
+	
+	@RequestMapping(method=RequestMethod.GET)
+	@ResponseBody
+	public AppResponse ArticleSelectArticle(HttpServletRequest request, @RequestParam("articleId") int articleId){
+		
+		
+		System.out.println("[ARTICLE] 게시글 조회  request");
+		AppResponse response = null;
+		
+		response = articleService.selectArticle(articleId);
+		
+		return response;
 	}
 	
 	@RequestMapping("/mypage")
@@ -137,9 +167,6 @@ public class PageController {
  		
  		
  		System.out.println("게시글 조회 결과 : " + ((Article[])((Map<String, Object>)response.getData()).get("articles")).length + "개");
- 		
- 		
- 		
  		
  		Map<String, Object> pagingInfo = new HashMap<String, Object>();
  		pagingInfo.put("order", order);

@@ -17,6 +17,13 @@
 		<result property="articleHits" column="article_hits" />
 		<result property="articleLikes" column="article_likes" />
 	</resultMap>
+		
+		
+	<select id="selectArticle" resultMap="articleResultMap">
+		select * 
+		  from article  
+		  where article_id = #{articleId} 
+	</select>
 	
 	<select id="selectArticleCount" resultType="integer">
 		SELECT count(*)
@@ -41,7 +48,7 @@
 			 </if>
 		 </if>
 		 
-		 <if test="condition == 'article_comments'">
+		 <if test="condition == 'article_hits'">
 		 	<![CDATA[
 		 	article_comments >= 0 
 		 	]]>
@@ -49,8 +56,8 @@
 		 	AND article.article_user_num_id = user.user_num_id
 		 	
 		 	<if test="order == 'desc'">
-			 ORDER BY article_comments desc
-			 </if>
+			 ORDER BY article_hits desc
+		  </if>
 			 
 		 </if>
 		 
@@ -81,5 +88,12 @@
 			0, now(), now(), 0, 0);
 		
 	</insert>	
+	
+	<update id="updateArticleHits">
+		UPDATE ARTICLE
+		SET article_hits = article_hits + 1
+		WHERE article_id = #{articleId}
+	
+	</update>
 	
 </mapper>

@@ -40,24 +40,6 @@ public class ArticleController {
 		return session;
 	}
 	
-	/*
-	public String getUserId(HttpSession session){
-		String userId="";
-		if(session!=null){
-
-			userId = (String) session.getAttribute("userId");
-			if(userId==null){
-				return "";
-			}
-			else
-				return userId;
-		}
-		else
-			return "";
-	}
-	*/
-	
-	
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
 	public AppResponse ActionWriteArticle(HttpServletRequest request, @RequestBody WriteArticle writeArticle){
@@ -68,31 +50,21 @@ public class ArticleController {
 		
 		return response;
 	}
-	
-	@RequestMapping(method=RequestMethod.GET, value="/list")
-	public String ActionSelectArticles(HttpServletRequest request,
 
-			@RequestParam(value="condition", required=false, defaultValue="article_reg_dt") String condition,
-			@RequestParam(value="order", required=false, defaultValue="desc") String order,
-			@RequestParam(value="pageNum", required=false, defaultValue="1") int pageNum,
-			@RequestParam(value="printNum", required=false, defaultValue="4") int printNum
-			
-			){
-		System.out.println("pageunm: " + pageNum);
-		System.out.println("printNum: " + printNum);
-		/*
-		System.out.println("[ARTICLE] 게시글 리스트 조회 request");
+	@RequestMapping(method=RequestMethod.GET)
+	@ResponseBody
+	public AppResponse ArticleSelectArticle(HttpServletRequest request, @RequestParam("articleId") int articleId){
+		
+		
+		System.out.println("[ARTICLE] 게시글 조회  request");
 		AppResponse response = null;
 		
-		response = articleService.selectArticles(condition, order, printNum, pageNum);
-
+		response = articleService.selectArticle(articleId);
+		
 		return response;
-		*/
-		
-		return "forward:/page/board?pageNum="+pageNum+"&printNum="+printNum;
-		
-		
 	}
+	
+	
 	
 	@RequestMapping(method=RequestMethod.PUT)
 	@ResponseBody

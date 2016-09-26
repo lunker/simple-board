@@ -39,9 +39,7 @@ public interface IArticleService {
 	 * 게시글 조회 
 	 * @return
 	 */
-	public AppResponse selectArticle(
-			
-			);
+	public AppResponse selectArticle(int articleId);
 	
 	/**
 	 * 게시글 리스트 조회

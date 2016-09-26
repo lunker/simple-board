@@ -1,6 +1,6 @@
 package four33.simpleboard.types;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Article {
 
@@ -12,15 +12,15 @@ public class Article {
 	private String articleTitle;
 	private String articleContent;
 	private int articleComments;
-	private Date articleRegDt;
-	private Date articleModifyDt;
+	private Timestamp articleRegDt;
+	private Timestamp articleModifyDt;
 	private int articleHits;
 	private int articleLikes;
 	
 	public Article(){}
 	
 	public Article(int articleId, int boardId, int articleUserNumId, String articleUserNickname, String articleTitle,
-			String articleContent, int articleComments, Date articleRegDt, Date articleModifyDt, int articleHits,
+			String articleContent, int articleComments, Timestamp articleRegDt, Timestamp articleModifyDt, int articleHits,
 			int articleLikes) {
 		this.articleId = articleId;
 		this.boardId = boardId;
@@ -34,7 +34,6 @@ public class Article {
 		this.articleHits = articleHits;
 		this.articleLikes = articleLikes;
 	}
-	
 	
 	public String getArticleUserNickname() {
 		return articleUserNickname;
@@ -81,16 +80,16 @@ public class Article {
 	public void setArticleComments(int articleComments) {
 		this.articleComments = articleComments;
 	}
-	public Date getArticleRegDt() {
+	public Timestamp getArticleRegDt() {
 		return articleRegDt;
 	}
-	public void setArticleRegDt(Date articleRegDt) {
+	public void setArticleRegDt(Timestamp articleRegDt) {
 		this.articleRegDt = articleRegDt;
 	}
-	public Date getArticleModifyDt() {
+	public Timestamp getArticleModifyDt() {
 		return articleModifyDt;
 	}
-	public void setArticleModifyDt(Date articleModifyDt) {
+	public void setArticleModifyDt(Timestamp articleModifyDt) {
 		this.articleModifyDt = articleModifyDt;
 	}
 	public int getArticleHits() {

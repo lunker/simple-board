@@ -13,6 +13,7 @@ import four33.simpleboard.dao.IArticleDao;
 import four33.simpleboard.service.IArticleService;
 import four33.simpleboard.types.AppResponse;
 import four33.simpleboard.types.Article;
+import four33.simpleboard.types.ArticleView;
 import four33.simpleboard.types.WriteArticle;
 import four33.simpleboard.utils.Constants;
 
@@ -56,9 +57,27 @@ public class ArticleService implements IArticleService{
 	}
 
 	@Override
-	public AppResponse selectArticle() {
-		// TODO Auto-generated method stub
-		return null;
+	public AppResponse selectArticle(int articleId) {
+		
+		AppResponse response = null;
+		
+		Article article = articleDao.selectArticle(articleId);
+		
+		if(article == null){
+			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "게시글 조회 실패");
+		}
+		else{
+			int result = 0;
+			result = articleDao.updateArticleHits(articleId);
+			
+			if(result > 0){
+				response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 조회 성공", article);	
+			}
+			else
+				response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "게시글 조회 실패");
+		}
+		
+		return response;
 	}
 
 	@Override

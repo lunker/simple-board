@@ -27,7 +27,5 @@ public class Constants {
 	public static int NUM_PAGING_CONDITION_HITS = 2;
 	public static int NUM_PAGING_CONDITION_LIKES = 3;
 	
-	
-
 }
  

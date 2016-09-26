@@ -4,38 +4,14 @@
 <%@ taglib prefix="ftt" tagdir="/WEB-INF/tags/"%>
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+
 <script type="text/javascript">
-
-
 	
 	/*	게시글 뷰 페이지 오픈 */
 	function openArticle(articleId){
-		alert(articleId);
-		
-		/*
-		$.ajax({
-			type:"GET",
-			url: "${pageContext.request.contextPath}/article/list",
-			headers: { 
-		        'Accept': 'application/json',
-		        'Content-Type': 'application/json' 
-		    },
-		    data: data,
-			success: function(res){
-				alert(res.message);
-				if(res.status== "200"){
-					console.log(res);
-					$("#articleTable").html(res.data);
-				}
-				else{
-					
-				}
-			},
-			error: function(err){
-				alert("시스템에러")	
-			}
-		});
-		*/
+		location.href="${pageContext.request.contextPath}/page/article/" + articleId;
+		return ;
 	}
 	
 	/*	게시판 paging */
@@ -170,14 +146,13 @@
 					<th class="col-lg-1">No</th>
 					<th class="col-lg-5">제목</th>
 					<th class="col-lg-1">작성자</th>
-					<th class="col-lg-1">작성일</th>
-					<th class="col-lg-1">조회수</th>
-					<th class="col-lg-1">좋아요</th>
+					<th class="col-lg-1">작성일<i class="fa fa-arrow-down" aria-hidden="true" onclick="paging({condition:1})"/></th>
+					<th class="col-lg-1">조회수<i class="fa fa-arrow-down" aria-hidden="true" onclick="paging({condition:2})"/></th>
+					<th class="col-lg-1">좋아요<i class="fa fa-arrow-down" aria-hidden="true" onclick="paging({condition:3})"/></th>
 				</tr>
 			</thead>
 			
 			<tbody>
-
 			<c:choose>
 					<c:when test="${ response.data.articles != null}">
 						<script>
@@ -188,6 +163,10 @@
 							<td>${row.articleId}</td>
 							<td>${row.articleTitle}</td>
 							<td>${row.articleUserNickname}</td>
+							
+							<script>
+							
+							</script>
 							<td>${row.articleRegDt}</td>
 							<td>${row.articleHits}</td>
 							<td>${row.articleLikes}</td>
@@ -221,7 +200,6 @@
 			    
 			    <c:choose>
 			    	<c:when test="${pagingInfo!=null}">
-			    	
 			    	<!-- paging 가능 범위 계산  -->
 			    		<c:if test="${ (response.data.count - pagingInfo.pageNum*pagingInfo.printNum) > 0}">
 			    			<%-- <c:set value="(${response.data.count} - ${pagingInfo.pageNum}*${pagingInfo.printNum})/3" var="limit"/> --%>
@@ -235,34 +213,18 @@
 			    		<c:choose>
 			    			
 			    			<c:when test="${pagingInfo.pageNum ==1 || limit==0}">
-			    				
 						    	<c:forEach begin="${pagingInfo.pageNum}" end="${pagingInfo.pageNum+limit-1}" varStatus="loop">
-						    		
 							    		<li><a id="${loop.current}" onclick="paging({pageNum:this.id})">${loop.current}</a></li>
-									
 						    	</c:forEach>
 			    			</c:when>
 			    			
 			    			<c:otherwise>
-			    				
 			    				<li><a id="${pagingInfo.pageNum-1}" onclick="paging({pageNum:this.id})">${pagingInfo.pageNum-1}</a></li>
 			    				<li><a id="${pagingInfo.pageNum}" onclick="paging({pageNum:this.id})">${pagingInfo.pageNum}</a></li>
 			    				<li><a id="${pagingInfo.pageNum+1}" onclick="paging({pageNum:this.id})">${pagingInfo.pageNum+1}</a></li>
-			    				<%-- <c:forEach begin="${pagingInfo.pageNum}" end="${pagingInfo.pageNum+limit-1}" varStatus="loop">
-						    		
-							    		<li><a id="${loop.current}" onclick="paging({pageNum:this.id})">${loop.current}</a></li>
-									
-						    	</c:forEach> --%>
-			    			
 			    			</c:otherwise>
 			    		</c:choose>
-			    		
-			    		
 			    	</c:when>
-			    	
-			    	<c:otherwise>
-			    	
-			    	</c:otherwise>
 			    </c:choose>
 
 			    <li>

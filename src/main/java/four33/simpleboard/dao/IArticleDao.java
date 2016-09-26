@@ -4,6 +4,7 @@ import org.apache.ibatis.annotations.Param;
 
 import four33.simpleboard.service.IMembershipService;
 import four33.simpleboard.types.Article;
+import four33.simpleboard.types.ArticleView;
 import four33.simpleboard.types.ModifyArticle;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
@@ -27,6 +28,8 @@ public interface IArticleDao{
 	public int insertArticle(WriteArticle article);
 	
 	public int updateArticle(ModifyArticle modifyArticle);
+	
+	public int updateArticleHits(@Param("articleId") int articleId);
 	
 	public int deleteArticle(@Param("articleId") int articleId);
 	
