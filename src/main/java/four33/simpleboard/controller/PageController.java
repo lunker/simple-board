@@ -1,5 +1,9 @@
 package four33.simpleboard.controller;
 
+
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +20,7 @@ import four33.simpleboard.types.AppResponse;
 import four33.simpleboard.types.Article;
 import four33.simpleboard.types.Board;
 import four33.simpleboard.types.User;
+import four33.simpleboard.utils.Constants;
 
 
 /**
@@ -52,7 +57,6 @@ public class PageController {
 		return "article/write";
 	}
 	
-	
 	@RequestMapping("/mypage")
 	public ModelAndView mypagePage(Model model, HttpServletRequest request ){
 		
@@ -79,34 +83,49 @@ public class PageController {
 	@RequestMapping("/common/header")
 	public String commonHeader(Model model, HttpServletRequest request){
 		System.out.println("haewsarf");
- 		
-		/*
-		if( ((boolean) request.getAttribute("logined")) == true){
-			model.addAttribute("logined", true);
-		}
-		*/
+		
 		return "common/header";
 	}
 	
 	@RequestMapping("/board")
 	public ModelAndView boardPage(Model model, HttpServletRequest request,
 			
-			@RequestParam(value="condition", required=false, defaultValue="article_reg_dt") String condition,
-			@RequestParam(value="order", required=false, defaultValue="desc") String order,
+			@RequestParam(value="condition", required=false, defaultValue="1") int condition,
+			@RequestParam(value="order", required=false, defaultValue="1") int order,
 			@RequestParam(value="pageNum", required=false, defaultValue="1") int pageNum,
-			@RequestParam(value="printNum", required=false, defaultValue="4") int printNum
+			@RequestParam(value="printNum", required=false, defaultValue="10") int printNum
 			
 			){
 		System.out.println("[PAGE] 게시판 페이지 request");
-		
+
 		AppResponse response = null;
+		String strCondition="";
+		String strOrder="";
 		
-		response = articleService.selectArticles(condition, order, printNum, pageNum);
+		if(condition == Constants.NUM_PAGING_CONDITION_REG_DT){
+			strCondition = Constants.STR_PAGING_CONDITION_REG_DT;
+		}
+		else if(condition == Constants.NUM_PAGING_CONDITION_LIKES){
+			strCondition = Constants.STR_PAGING_CONDITION_LIKES;
+		}
+		else{
+			strCondition = Constants.STR_PAGING_CONDITION_LIKES;
+		}
 		
-		System.out.println("조회된 게시글 수 : " + ((Article[])response.getData()).length);
+		if(order == Constants.NUM_PAGING_ORDER_DESC){
+			strOrder = Constants.STR_PAGING_ORDER_DESC;
+		}
+		else{
+			strOrder = Constants.STR_PAGING_ORDER_ASC;
+		}
+		
+		response = articleService.selectArticles(strCondition, strOrder, printNum, pageNum);
+		
+		// send response
  		ModelAndView mv = new ModelAndView();
  		mv.setViewName("board");
  		
+ 		/*
 		Object data = boardService.selectBoard();
 		
 		if(data!=null){
@@ -114,8 +133,24 @@ public class PageController {
 			for(int i=0; i<tmp.length; i++)
 				System.out.println(tmp[i].toString());
 		}
+		*/
+ 		
+ 		
+ 		System.out.println("게시글 조회 결과 : " + ((Article[])((Map<String, Object>)response.getData()).get("articles")).length + "개");
+ 		
+ 		
+ 		
+ 		
+ 		Map<String, Object> pagingInfo = new HashMap<String, Object>();
+ 		pagingInfo.put("order", order);
+ 		pagingInfo.put("condition", condition);
+ 		pagingInfo.put("pageNum", pageNum);
+ 		pagingInfo.put("printNum", printNum);
+ 		
 		
 		mv.addObject("response", response);
+		mv.addObject("pagingInfo",pagingInfo);
+		
 		return mv;
 	}
 }

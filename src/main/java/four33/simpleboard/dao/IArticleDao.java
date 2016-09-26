@@ -41,4 +41,6 @@ public interface IArticleDao{
 			@Param("offset") int offset 
 			);
 	
+	public int selectArticleCount();
+	
 }

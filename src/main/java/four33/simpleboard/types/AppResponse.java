@@ -4,7 +4,7 @@ public class AppResponse {
 	
 	private String status;
 	private String message;
-	private Article[] data;
+	private Object data;
 	
 	public AppResponse(){}
 	
@@ -15,7 +15,7 @@ public class AppResponse {
 		data = null;
 	}
 	
-	public AppResponse(String status, String message, Article[] data) {
+	public AppResponse(String status, String message, Object data) {
 
 		this.status = status;
 		this.message = message;
@@ -35,11 +35,11 @@ public class AppResponse {
 		this.message = message;
 	}
 
-	public Article[] getData() {
+	public Object getData() {
 		return data;
 	}
 
-	public void setData(Article[] data) {
+	public void setData(Object data) {
 		this.data = data;
 	}
 	

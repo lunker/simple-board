@@ -17,10 +17,15 @@
 		<result property="articleLikes" column="article_likes" />
 	</resultMap>
 	
+	<select id="selectArticleCount" resultType="integer">
+		SELECT count(*)
+		  FROM ARTICLE
+	</select>
+	
 	<select id="selectArticles" parameterType="hashmap" resultMap="articleResultMap">
 	
 		SELECT * 
-		  FROM article
+		  FROM ARTICLE
 		 WHERE 
 		 
 		 <if test="condition == 'article_reg_dt'">
@@ -54,12 +59,8 @@
 			 </if>
 		 </if>
 		 
-		 
-		 
 		 LIMIT #{printNum}
 		 OFFSET #{offset}
-		 
-		 
 		
 	</select>
 

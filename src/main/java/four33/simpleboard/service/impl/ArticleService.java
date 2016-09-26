@@ -1,7 +1,13 @@
 package four33.simpleboard.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fasterxml.jackson.databind.util.JSONPObject;
+import com.fasterxml.jackson.databind.util.JSONWrappedObject;
 
 import four33.simpleboard.dao.IArticleDao;
 import four33.simpleboard.service.IArticleService;
@@ -58,30 +64,49 @@ public class ArticleService implements IArticleService{
 	@Override
 	public AppResponse selectArticles(String condition, String order, int printNum, int pageNum) {
 		
+		/*
+		 * 
+		 * 
+		 * {
+		 * 	response:
+		 * 		data : {
+		 * 		
+		 * 			articles: {},
+		 * 			count : ,
+		 * 	}
+		 * }
+		 */
 		AppResponse response = null;
 
 		System.out.println("게시글 리스트 조회 : " );
-		System.out.println("condition :"+condition);
-		System.out.println("order " + order);
-		System.out.println("printnum" + printNum);
-		System.out.println("pageNum" + pageNum);
+		System.out.println("condition:"+condition);
+		System.out.println("order: " + order);
+		System.out.println("printnum: " + printNum);
+		System.out.println("pageNum: " + pageNum);
 		
-		Object data = articleDao.selectArticles(condition, order, printNum, (pageNum-1)*printNum);
+		Object articles = articleDao.selectArticles(condition, order, printNum, (pageNum-1)*printNum);
+		int count = articleDao.selectArticleCount();
 		
-		if(data == null){
+		Map<String, Object> data = new HashMap<String, Object>();
+		
+		data.put("articles",articles);
+		data.put("count", count);
+		
+		if(articles==null){
 			System.out.println("게시글 리스트 조회 실패");
 			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "게시글 리스트 조회 실패", null);
 		}
 		else{
-			System.out.println( ((Article[])data).length );
+			System.out.println("게시글 리스트 조회 성공");
+			//System.out.println( ((Article[])articles).length );
 			
-			Article[] tmp = (Article[])data;
+			Article[] tmp = (Article[])articles;
 			
 			for(int i=0; i<tmp.length;i++){
 				System.out.println("article title : " + tmp[i].getArticleTitle());
 			}
 			
-			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 리스트 조회 성공", (Article[])data);
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 리스트 조회 성공", data);
 		}
 		
 		return response;

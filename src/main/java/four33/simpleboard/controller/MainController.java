@@ -8,6 +8,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import four33.simpleboard.utils.Dummy;
+
 @Controller
 @RequestMapping
 /**

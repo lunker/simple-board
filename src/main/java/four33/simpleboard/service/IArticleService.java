@@ -41,7 +41,6 @@ public interface IArticleService {
 	 */
 	public AppResponse selectArticle(
 			
-			
 			);
 	
 	/**
@@ -49,6 +48,5 @@ public interface IArticleService {
 	 * @return
 	 */
 	public AppResponse selectArticles(String condition, String order, int printNum, int pageNum); 
-	
 	
 }

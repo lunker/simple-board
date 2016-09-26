@@ -7,6 +7,8 @@ import org.springframework.boot.context.web.SpringBootServletInitializer;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
+import four33.simpleboard.utils.Dummy;
+
 
 @Configuration
 @ComponentScan(basePackages = {"four33.simpleboard"})
@@ -23,6 +25,9 @@ public class SimpleBoardApplication extends SpringBootServletInitializer{
 	}
 
 	public static void main(String[] args) throws Exception {
+		
+
+		
 		new SimpleBoardApplication().run(args);
 	}
 }

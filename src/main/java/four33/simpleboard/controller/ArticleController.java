@@ -70,21 +70,28 @@ public class ArticleController {
 	}
 	
 	@RequestMapping(method=RequestMethod.GET, value="/list")
-	@ResponseBody
-	public AppResponse ActionSelectArticles(HttpServletRequest request,
-			
-			@RequestParam(value="condition", required=false) String condition,
-			@RequestParam(value="order", required=false) String order,
-			@RequestParam(value="pageNum", required=false) int pageNum,
-			@RequestParam(value="printNum", required=false) int printNum
+	public String ActionSelectArticles(HttpServletRequest request,
+
+			@RequestParam(value="condition", required=false, defaultValue="article_reg_dt") String condition,
+			@RequestParam(value="order", required=false, defaultValue="desc") String order,
+			@RequestParam(value="pageNum", required=false, defaultValue="1") int pageNum,
+			@RequestParam(value="printNum", required=false, defaultValue="4") int printNum
 			
 			){
+		System.out.println("pageunm: " + pageNum);
+		System.out.println("printNum: " + printNum);
+		/*
 		System.out.println("[ARTICLE] 게시글 리스트 조회 request");
 		AppResponse response = null;
 		
 		response = articleService.selectArticles(condition, order, printNum, pageNum);
 
 		return response;
+		*/
+		
+		return "forward:/page/board?pageNum="+pageNum+"&printNum="+printNum;
+		
+		
 	}
 	
 	@RequestMapping(method=RequestMethod.PUT)
