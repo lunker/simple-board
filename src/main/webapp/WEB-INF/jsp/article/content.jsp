@@ -32,6 +32,11 @@
 		});		
 	}
 	
+	function modifyComment(commentId){
+		alert('adf');
+		console.log('<c:out value="${test}"/>');
+	}
+	
 	function deleteComment(articleId, commentId){
 		
 		var resource = "?articleId="+articleId + "&commentId="+commentId;
@@ -107,12 +112,9 @@
 				});
 		});
 		
-			
-		
 		$("#btnArticleList").click(function(){
 			location.href="${pageContext.request.contextPath}/page/board";
 		});
-
 	});
 </script>
 
@@ -136,10 +138,9 @@
 		<div class="content-footer col-lg-12">
 			댓글 ${response.data.articleComments}  조회수 ${response.data.articleHits}   좋아요 ${response.data.articleLikes}
 		</div>
+		
 		<div class="content-footer col-lg-12">
-
 			<div id="load_comments"></div>
-			
 			<input id="commentContent" class="form-control" type="text" placeholder="내용을 입력해주세요"/> <button type="button" class="btn btn-default" id="btnCommentWrite">등록</button>
 		</div>
 		<hr>
