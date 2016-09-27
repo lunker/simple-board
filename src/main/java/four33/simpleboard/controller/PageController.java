@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -24,6 +25,7 @@ import four33.simpleboard.types.Article;
 import four33.simpleboard.types.Board;
 import four33.simpleboard.types.User;
 import four33.simpleboard.utils.Constants;
+import four33.simpleboard.utils.Utils;
 
 
 /**
@@ -59,32 +61,31 @@ public class PageController {
 	public String writearticlePage(){
 		return "article/write";
 	}
-	
 
+	/**
+	 * 게시글 뷰 페이지
+	 * @param model
+	 * @param articleId
+	 * @return
+	 */
 	@RequestMapping(method=RequestMethod.GET, value="/article/{articleId}")
-	public ModelAndView commonHeader(Model model,  @PathVariable("articleId") int articleId){
+	public ModelAndView ArticleSelectArticle(Model model, HttpServletRequest request, @PathVariable("articleId") int articleId){
+		
 		System.out.println("[ARTICLE] 게시글 조회  request");
 		ModelAndView mv = new ModelAndView();
+		HttpSession session=null;
 		AppResponse response = null;
 		
 		mv.setViewName("article/content");
-		response = articleService.selectArticle(articleId);
+		session = Utils.getSession(request);
+//		String userNumId = (String) session.getAttribute("userNumId");
+		int userNumId = (Integer) session.getAttribute("userNumId");
+		
+		response = articleService.selectArticle(articleId, userNumId);
+		
 		mv.addObject("response",response);
 
 		return mv;
-	}
-	
-	@RequestMapping(method=RequestMethod.GET)
-	@ResponseBody
-	public AppResponse ArticleSelectArticle(HttpServletRequest request, @RequestParam("articleId") int articleId){
-		
-		
-		System.out.println("[ARTICLE] 게시글 조회  request");
-		AppResponse response = null;
-		
-		response = articleService.selectArticle(articleId);
-		
-		return response;
 	}
 	
 	@RequestMapping("/mypage")

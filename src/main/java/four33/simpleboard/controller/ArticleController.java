@@ -50,21 +50,6 @@ public class ArticleController {
 		
 		return response;
 	}
-
-	@RequestMapping(method=RequestMethod.GET)
-	@ResponseBody
-	public AppResponse ArticleSelectArticle(HttpServletRequest request, @RequestParam("articleId") int articleId){
-		
-		
-		System.out.println("[ARTICLE] 게시글 조회  request");
-		AppResponse response = null;
-		
-		response = articleService.selectArticle(articleId);
-		
-		return response;
-	}
-	
-	
 	
 	@RequestMapping(method=RequestMethod.PUT)
 	@ResponseBody

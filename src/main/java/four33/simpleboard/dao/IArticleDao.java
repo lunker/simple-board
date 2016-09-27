@@ -29,7 +29,7 @@ public interface IArticleDao{
 	
 	public int updateArticle(ModifyArticle modifyArticle);
 	
-	public int updateArticleHits(@Param("articleId") int articleId);
+	public int updateArticleHits(@Param("articleId") int articleId, @Param("articleUserNumId") int articleUserNumId);
 	
 	public int deleteArticle(@Param("articleId") int articleId);
 	

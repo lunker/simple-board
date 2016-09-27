@@ -113,8 +113,8 @@ public class MembershipController {
 	
 		response = membershipService.login(new LoginForm(userId, userPwd));
 		
+		// 사용자 정보 조회
 		if(response.getStatus().equals(Constants.STR_STATUS_CODE_SUCCESS)){
-
 			
 			User userInfo = membershipService.searchUserInfo(userId);
 
@@ -174,7 +174,6 @@ public class MembershipController {
 		return response;
 	}
 	
-	
 	@RequestMapping(method=RequestMethod.GET, value="/logout")
 	@ResponseBody
 	public AppResponse ActionLogout(HttpServletRequest request){
@@ -183,10 +182,15 @@ public class MembershipController {
 		HttpSession session = getSession(request);
 		AppResponse response = null;
 		
+		// 세션 지움 
+		session.invalidate();
+		/*
 		request.getHeader("userId");
 		
 		request.getSession().setAttribute("logined",false);
 		request.getSession().setAttribute("userId","");
+		*/
+		
 		response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "로그아웃 성공");
 		
 		return response;

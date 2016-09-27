@@ -53,11 +53,12 @@ public class ArticleService implements IArticleService{
 		// TODO Auto-generated method stub
 		AppResponse response = null;
 		int result=0;
+		
 		return null;
 	}
 
 	@Override
-	public AppResponse selectArticle(int articleId) {
+	public AppResponse selectArticle(int articleId, int articleUserNumId) {
 		
 		AppResponse response = null;
 		
@@ -68,7 +69,7 @@ public class ArticleService implements IArticleService{
 		}
 		else{
 			int result = 0;
-			result = articleDao.updateArticleHits(articleId);
+			result = articleDao.updateArticleHits(articleId, articleUserNumId);
 			
 			if(result > 0){
 				response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 조회 성공", article);	
