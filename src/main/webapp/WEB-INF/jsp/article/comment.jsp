@@ -11,7 +11,6 @@
 		
 		
 			
-		});
 	});
 </script>
 
@@ -27,7 +26,7 @@
 						<span class="comment-header-date"><fmt:formatDate value="${row.commentRegDt}" pattern="yyyy-MM-dd H:m"/></span>
 						
 						<c:if test="${row.commentUserNumId == userNumId}">
-							<span class="comment-header-tool"> <a >수정</a> | <a id="deleteComment">삭제</a> </span>
+							<span class="comment-header-tool"> <a >수정</a> | <a onclick="deleteComment(${row.articleId}, ${row.commentId})">삭제</a> </span>
 						</c:if>
 					</div>
 					

@@ -31,6 +31,36 @@
 			}
 		});		
 	}
+	
+	function deleteComment(articleId, commentId){
+		
+		var resource = "?articleId="+articleId + "&commentId="+commentId;
+		
+		$.ajax({
+			type: "DELETE",
+			url: "${pageContext.request.contextPath}/comment" + resource,
+			headers: { 
+		        'Accept': 'application/json'
+		    },
+			success: function(res){
+				//$("#load_comments").html(data);
+				
+				if(res.status=="200"){
+					console.log("댓글 삭제 성공");
+					
+					// 댓글 목록 업데이트 
+					loadCommentComponent();
+					
+					// input clear
+					$("#commentContent").val("");
+				}
+			},
+			error: function(err){
+				alert("error");
+			}
+		});
+	}// end func
+	
 	$(function() {
 		
 		loadCommentComponent(); // 초기 댓글 로드
@@ -77,39 +107,6 @@
 				});
 		});
 		
-		$("#deleteComment").click(function(){
-			
-			var deleteInfo = {
-				"articleId": ${response.data.articleId},
-				"commentId": ${response.data.commentId}
-			}; 
-			
-			$.ajax({
-				type: "DELETE",
-				url: "${pageContext.request.contextPath}/comment",
-				headers: { 
-			        'Accept': 'application/json'
-			         
-			    },
-				data: deleteInfo,
-				success: function(res){
-					//$("#load_comments").html(data);
-					
-					if(res.status=="200"){
-						console.log("댓글 삭제 성공");
-						
-						// 댓글 목록 업데이트 
-						loadCommentComponent();
-						
-						// input clear
-						$("#commentContent").val("");
-					}
-				},
-				error: function(err){
-					alert("error");
-				}
-			});			
-			
 			
 		
 		$("#btnArticleList").click(function(){

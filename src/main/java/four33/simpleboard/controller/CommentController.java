@@ -70,8 +70,12 @@ public class CommentController {
 	
 	@RequestMapping(method=RequestMethod.DELETE)
 	@ResponseBody
-	public AppResponse ActionDeleteComment(HttpServletRequest request, @RequestParam("articleId") int articleId ,@RequestParam("commentId") int commentId){
+	public AppResponse ActionDeleteComment(
+			HttpServletRequest request, 
+			@RequestParam("articleId") int articleId , 
+			@RequestParam("commentId") int commentId){
 		System.out.println("[COMMENT] 댓글 삭제");
+		
 		AppResponse response = null;
 		
 		response = commentService.deleteComment(articleId, commentId);
