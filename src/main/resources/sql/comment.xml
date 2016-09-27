@@ -10,6 +10,7 @@
 		<result property="commentUserNumId" column="comment_user_num_id"/>
 		<result property="commentContent" column="comment_content"/>
 		<result property="commentRegDt" column="comment_reg_dt"/>
+		<result property="commentModifyDt" column="comment_modify_dt"/>
 	</resultMap>
 	
 	<select id="selectComments" resultMap="commentResultMap">
@@ -20,8 +21,8 @@
 
 	<insert id="insertComment" parameterType="four33.simpleboard.types.CommentWrite">
 	
-		INSERT INTO COMMENT(article_id, comment_user_num_id, comment_content, comment_reg_dt )
-		VALUES(#{articleId},#{commentUserNumId},#{commentContent}, now())
+		INSERT INTO COMMENT(article_id, comment_user_num_id, comment_content, comment_reg_dt, comment_modify_dt)
+		VALUES(#{articleId},#{commentUserNumId},#{commentContent}, now(), now())
 	
 	</insert>	
 	
@@ -31,4 +32,12 @@
 		 WHERE comment_id=#{commentId}
 	
 	</delete>
+	
+	<update id="updateComment" parameterType="four33.simpleboard.types.CommentModify">
+	
+	UPDATE COMMENT
+	   SET comment_modify_dt = now(), comment_content = #{commentContent}
+	 WHERE comment_id = #{commentId}
+		
+	</update>
 </mapper>

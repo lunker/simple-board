@@ -12,11 +12,12 @@ public class Comment {
 	
 	private String commentContent;
 	private Timestamp commentRegDt;
+	private Timestamp commentModifyDt;
 	
 	public Comment(){}
 	
 	public Comment(int commentId, int articleId, int commentUserNumId, String commentUserId, String commentUserNickname,
-			String commentContent, Timestamp commentRegDt) {
+			String commentContent, Timestamp commentRegDt, Timestamp commentModifyDt) {
 		
 		this.commentId = commentId;
 		this.articleId = articleId;
@@ -25,6 +26,7 @@ public class Comment {
 		this.commentUserNickname = commentUserNickname;
 		this.commentContent = commentContent;
 		this.commentRegDt = commentRegDt;
+		this.commentModifyDt = commentModifyDt;
 	}
 	public int getCommentId() {
 		return commentId;
@@ -68,6 +70,15 @@ public class Comment {
 	public void setCommentRegDt(Timestamp commentRegDt) {
 		this.commentRegDt = commentRegDt;
 	}
+
+	public Timestamp getCommentModifyDt() {
+		return commentModifyDt;
+	}
+
+	public void setCommentModifyDt(Timestamp commentModifyDt) {
+		this.commentModifyDt = commentModifyDt;
+	}
+	
 	
 	
 	

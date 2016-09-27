@@ -32,12 +32,42 @@
 		});		
 	}
 	
-	function modifyComment(commentId){
-		alert('adf');
-		console.log('<c:out value="${test}"/>');
+	function toggleComment(commentId){
+		//alert('adf');
+		//console.log('<c:out value="${test}"/>');
+		//$('#comment-modify-content'+commentId).val();
+		$('.comment-content'+commentId).toggle();
+		
+		//${response.data[commentId].commentContent}
+//		$('#comment-modify-content'+commentId).val(${response.data[commentId].commentContent});
+	}
+	
+	function modifyComment(commentId, index){
+		var commentContent = $('#comment-modify-content'+index).val();
+		
+		var resource = "?commentId="+commentId+"&commentContent="+commentContent;
+		
+		$.ajax({
+			type: "PUT",
+			url: "${pageContext.request.contextPath}/comment"+resource,
+			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		    },
+			success: function(data){
+				loadCommentComponent();
+			},
+			error: function(err){
+				alert("에러");
+			}
+		});		
 	}
 	
 	function deleteComment(articleId, commentId){
+		
+		if(confirm("삭제하시겠습니까?") == false){
+			return ;
+		}
 		
 		var resource = "?articleId="+articleId + "&commentId="+commentId;
 		
@@ -69,7 +99,7 @@
 	$(function() {
 		
 		loadCommentComponent(); // 초기 댓글 로드
-		
+		/*
 		$("#btnCommentWrite").click(function(){
 			
 				var commentContent = $("#commentContent").val();
@@ -111,6 +141,36 @@
 					}
 				});
 		});
+		*/
+		
+		$("#btnArticleModify").click(function(){
+			location.href="${pageContext.request.contextPath}/page/article/modify/"+${response.data.articleId};
+		});
+		
+		$("#btnArticleDelete").click(function(){
+			
+			$.ajax({
+				type: "DELETE",
+				url: "${pageContext.request.contextPath}/article/"+${response.data.articleId},
+				headers: { 
+			        'Accept': 'application/json',
+			        'Content-Type': 'application/json' 
+			    },
+				success: function(res){
+					//$("#load_comments").html(data);
+					
+					if(res.status=="200"){
+						alert(res.message);
+						location.href="${pageContext.request.contextPath}/page/board";
+					}
+				},
+				error: function(err){
+					alert("error");
+				}
+			});
+			
+		});
+		
 		
 		$("#btnArticleList").click(function(){
 			location.href="${pageContext.request.contextPath}/page/board";
@@ -130,7 +190,7 @@
 		</div>
 
 		<div class="content-body col-lg-12">
-			<textarea rows="20" cols="100">
+			<textarea rows="20" cols="100" disabled="disabled">
 				${response.data.articleContent}
 			</textarea>
 		</div>
@@ -147,7 +207,8 @@
 		
 		<div class="content-footer col-lg-12">
 			<c:if test="${response.data.articleUserNumId == userNumId}">
-				<button type="button" class="btn btn-default" id="btnCommentWrite">수정</button>
+				<button type="button" class="btn btn-default" id="btnArticleModify">수정</button>
+				<button type="button" class="btn btn-default" id="btnArticleDelete">삭제</button>
 			</c:if>
 			<button type="button" class="btn btn-default" id="btnArticleList">목록</button>
 		</div>

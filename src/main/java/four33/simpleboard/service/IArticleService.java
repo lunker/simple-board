@@ -1,6 +1,7 @@
 package four33.simpleboard.service;
 
 import four33.simpleboard.types.LoginForm;
+import four33.simpleboard.types.ModifyArticle;
 import four33.simpleboard.types.ModifyUser;
 
 import org.apache.ibatis.annotations.Param;
@@ -27,7 +28,7 @@ public interface IArticleService {
 	 * 게시글 수정
 	 * @return
 	 */
-	public AppResponse modifyArticle(WriteArticle writeArticle);
+	public AppResponse modifyArticle(ModifyArticle writeArticle);
 	
 	/**
 	 * 게시글 삭제
@@ -40,6 +41,8 @@ public interface IArticleService {
 	 * @return
 	 */
 	public AppResponse selectArticle(int articleId, int userNumId);
+	
+	public Object selectRawArticle(int articleId);
 	
 	/**
 	 * 게시글 리스트 조회

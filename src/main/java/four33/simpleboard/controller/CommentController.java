@@ -21,6 +21,7 @@ import four33.simpleboard.service.IMembershipService;
 import four33.simpleboard.types.LoginForm;
 import four33.simpleboard.types.AppResponse;
 import four33.simpleboard.types.Article;
+import four33.simpleboard.types.CommentModify;
 import four33.simpleboard.types.CommentWrite;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
@@ -61,9 +62,11 @@ public class CommentController {
 	
 	@RequestMapping(method=RequestMethod.PUT)
 	@ResponseBody
-	public AppResponse ActionModifyComment(HttpServletRequest request){
-		
+	public AppResponse ActionModifyComment(HttpServletRequest request, @RequestParam("commentId") int commentId, @RequestParam("commentContent") String commentContent){
+		System.out.println("[COMMENT]댓글 수정 request");
 		AppResponse response = null;
+		
+		response = commentService.modifyComment(new CommentModify(commentId, commentContent));
 
 		return response;
 	}

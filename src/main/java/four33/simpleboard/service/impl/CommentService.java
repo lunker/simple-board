@@ -15,6 +15,7 @@ import four33.simpleboard.types.LoginForm;
 import four33.simpleboard.types.AppResponse;
 import four33.simpleboard.types.Board;
 import four33.simpleboard.types.Comment;
+import four33.simpleboard.types.CommentModify;
 import four33.simpleboard.types.CommentWrite;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
@@ -62,9 +63,21 @@ public class CommentService implements ICommentService{
 	}
 
 	@Override
-	public AppResponse modifyComment() {
-		// TODO Auto-generated method stub
-		return null;
+	public AppResponse modifyComment(CommentModify commentModify) {
+		
+		AppResponse response = null;
+		
+		int result = 0;
+		
+		result = commentDao.updateComment(commentModify);
+		
+		if(result>0){
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "수정 성공");
+		}
+		else{
+			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "수정 실패");
+		}
+		return response;
 	}
 
 	@Override

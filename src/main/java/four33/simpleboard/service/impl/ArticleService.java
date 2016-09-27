@@ -14,6 +14,7 @@ import four33.simpleboard.service.IArticleService;
 import four33.simpleboard.types.AppResponse;
 import four33.simpleboard.types.Article;
 import four33.simpleboard.types.ArticleView;
+import four33.simpleboard.types.ModifyArticle;
 import four33.simpleboard.types.WriteArticle;
 import four33.simpleboard.utils.Constants;
 
@@ -41,20 +42,35 @@ public class ArticleService implements IArticleService{
 	}
 
 	@Override
-	public AppResponse modifyArticle(WriteArticle writeArticle) {
-		// TODO Auto-generated method stub
+	public AppResponse modifyArticle(ModifyArticle modifyArticle) {
 		AppResponse response = null;
 		int result=0;
-		return null;
+
+		result = articleDao.updateArticle(modifyArticle);
+
+		if(result > 0){
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 수정 성공");
+		}
+		else{
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 수정 실패");
+		}
+		return response;
 	}
 
 	@Override
 	public AppResponse deleteArticle(int articleId) {
-		// TODO Auto-generated method stub
 		AppResponse response = null;
 		int result=0;
-		
-		return null;
+
+		result = articleDao.deleteArticle(articleId);
+
+		if(result > 0){
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 삭제 성공");
+		}
+		else{
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 삭제 실패");
+		}
+		return response;
 	}
 
 	@Override
@@ -132,6 +148,15 @@ public class ArticleService implements IArticleService{
 		}
 		
 		return response;
+	}
+
+	@Override
+	public Object selectRawArticle(int articleId) {
+		Object result = null;
+		
+		result = articleDao.selectArticle(articleId);
+		
+		return result;
 	}
 
 

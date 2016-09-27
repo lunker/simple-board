@@ -58,9 +58,23 @@ public class PageController {
 	}
 	
 	@RequestMapping("/article/write")
-	public String writearticlePage(){
+	public String writeArticlePage(){
 		return "article/write";
 	}
+	
+	@RequestMapping(value="/article/modify/{articleId}", method=RequestMethod.GET)
+	public ModelAndView modifyArticlePage(@PathVariable("articleId") int articleId){
+		
+		ModelAndView mv = new ModelAndView();
+		
+		Article article = (Article) articleService.selectRawArticle(articleId);
+		
+		mv.setViewName("article/modify");
+		mv.addObject("article", article);
+		
+		return mv;
+	}
+	
 
 	@RequestMapping("/common/header")
 	public String commonHeader(Model model, HttpServletRequest request){

@@ -89,6 +89,13 @@
 		
 	</insert>	
 	
+	<update id="updateArticle" parameterType="four33.simpleboard.types.ModifyArticle">
+	
+		UPDATE ARTICLE
+		   SET article_title = #{articleTitle}, article_content = #{articleContent}, article_modify_dt = now()
+		 WHERE article_id = #{articleId} AND article_user_num_id = #{articleUserNumId}
+	</update>
+	
 	<update id="updateArticleHits" parameterType="hashmap">
 		UPDATE ARTICLE
 		SET article_hits = article_hits + 1
