@@ -13,6 +13,7 @@ import org.springframework.core.io.Resource;
 
 import four33.simpleboard.dao.IArticleDao;
 import four33.simpleboard.dao.IBoardDao;
+import four33.simpleboard.dao.ICommentDao;
 import four33.simpleboard.dao.IMembershipDao;
 
 @Configuration
@@ -106,5 +107,29 @@ public class DaoBeanFactory {
 		return sessionTemplate.getMapper(IBoardDao.class);
 	}
 	
+	// ======== comment dao 
+		@Bean(destroyMethod = "clearCache")
+		public SqlSessionTemplate commmentSessionTemplate() {
+			try {
+				Resource[] resources = new Resource[] { new ClassPathResource("sql/comment.xml"), };
+
+				SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+				sqlSessionFactory.setDataSource(ds);
+				sqlSessionFactory.setMapperLocations(resources);
+
+				return new SqlSessionTemplate(sqlSessionFactory.getObject());
+			} catch (Exception e) {
+				System.out.println("error in board session template");
+				System.out.println(e.getMessage());
+			}
+
+			return null;
+		}
+		
+		@Bean
+		public ICommentDao commmentDao() {
+			SqlSessionTemplate sessionTemplate = commmentSessionTemplate();
+			return sessionTemplate.getMapper(ICommentDao.class);
+		}
 	
 }

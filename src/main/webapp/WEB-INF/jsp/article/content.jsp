@@ -13,6 +13,48 @@
 <script type="text/javascript">
 	$(function() {
 		
+		// load comments on load 
+		$.ajax({
+			type: "GET",
+			url: "${pageContext.request.contextPath}/comment/"+${response.data.articleId},
+			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		    },
+			success: function(data){
+				console.log(data);
+				$("#load_comments").html(data);
+			},
+			error: function(err){
+				alert("에러");
+			}
+		});		
+		
+		$("#btnCommentWrite").click(function(){
+				var commentInfo = {
+					"articleId":asdf,
+					"commentContent" :asdf ,
+				};
+				
+				$.ajax({
+					type: "POST",
+					url: "${pageContext.request.contextPath}/comment",
+					headers: { 
+				        'Accept': 'application/json',
+				        'Content-Type': 'application/json' 
+				    },
+					data: JSON.stringify(commentInfo),
+					success: function(res){
+						alert(res.message);
+						//location.href="${pageContext.request.contextPath}/user/login";
+						location.replace("${pageContext.request.contextPath}/page/login");
+					},
+					error: function(err){
+						alert("error");
+					}
+				});
+		});
+		
 		$("#btnArticleList").click(function(){
 			location.href="${pageContext.request.contextPath}/page/board";
 		});
@@ -41,7 +83,10 @@
 			댓글 ${response.data.articleComments}  조회수 ${response.data.articleHits}   좋아요 ${response.data.articleLikes}
 		</div>
 		<div class="content-footer col-lg-12">
-			<input id="userContactNum" class="form-control" type="text" placeholder="내용을 입력해주세요"/> <button type="button" class="btn btn-default" id="btnCommentWrite">등록</button>
+
+			<div id="load_comments"></div>
+			
+			<input id="articleComment" class="form-control" type="text" placeholder="내용을 입력해주세요"/> <button type="button" class="btn btn-default" id="btnCommentWrite">등록</button>
 		</div>
 		<hr>
 		

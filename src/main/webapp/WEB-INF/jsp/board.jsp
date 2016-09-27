@@ -161,11 +161,16 @@
 						<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowDate"/>
 						
 						<c:forEach items="${response.data.articles}" var="row">
-							<tr class="clickable" onclick="openArticle(${row.articleId})">
+							<tr>
 								<td>${row.articleId}</td>
-								<td>${row.articleTitle}</td>
-								<td>${row.articleUserNickname}</td>
+								<td> 
+									<span>
+										<a onclick="openArticle(${row.articleId})"> ${row.articleTitle}</a>
+										<a> [${row.articleComments}]</a>
+									</span>
+								</td>
 								
+								<td>${row.articleUserNickname}</td>
 								<fmt:formatDate pattern="yyyy-MM-dd" value="${row.articleRegDt}" var="rowDate"/>
 								<c:choose>
 									<c:when test="${rowDate == nowDate}">

@@ -4,30 +4,23 @@
 
 <mapper namespace="four33.simpleboard.dao.ICommentDao">
 
-	<resultMap type="four33.simpleboard.types.Article" id="articleResultMap">
-		<id property="articleId" column="article_id" />
-		<result property="boardId" column="board_id" />
-		<result property="articleUserNumId" column="article_user_num_id" />
-		<result property="articleNo" column="article_no" />
-		<result property="articleTitle" column="article_title" />
-		<result property="articleContent" column="article_content" />
-		<result property="articleComments" column="article_comments" />
-		<result property="articleRegDt" column="article_reg_dt" />
-		<result property="articleModifyDt" column="article_modify_dt"/>
-		<result property="articleHits" column="article_hits" />
-		<result property="articleLikes" column="article_likes" />
+	<resultMap type="four33.simpleboard.types.Comment" id="commentResultMap">
+		<id property="commentId" column="comment_id" />
+		<result property="articleId" column="article_id"/>
+		<result property="commentUserNumId" column="comment_user_num_id"/>
+		<result property="commentContent" column="comment_content"/>
+		<result property="commentRegDt" column="comment_reg_dt"/>
 	</resultMap>
 	
-	<select id="selectComment">
-	
+	<select id="selectComments" resultMap="commentResultMap">
 		SELECT * 
-		  FROM article 
-	
+		  FROM COMMENT 
 	</select>
 
-	<insert id="insertComment">
+	<insert id="insertComment" parameterType="four33.simpleboard.types.CommentWrite">
+	
+		INSERT INTO COMMENT(article_id, comment_user_num_id, comment_content, comment_reg_dt )
+		VALUES(#{articleId},#{commentUserNumId},#{commentContent}, now())
 	
 	</insert>	
-	
-	
 </mapper>

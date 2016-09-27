@@ -4,6 +4,8 @@ import org.apache.ibatis.annotations.Param;
 
 import four33.simpleboard.service.IMembershipService;
 import four33.simpleboard.types.Article;
+import four33.simpleboard.types.Comment;
+import four33.simpleboard.types.CommentWrite;
 import four33.simpleboard.types.ModifyArticle;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
@@ -16,12 +18,12 @@ import four33.simpleboard.types.User;
  */
 public interface ICommentDao{
 	
-	public void selectComment(@Param("articleId") int articleId);
+	public Comment[] selectComments(@Param("articleId") int articleId);
 	
-	public void insertComment(Article article);
+	public int insertComment(CommentWrite comment);
 	
-	public void updateComment(ModifyArticle modifyArticle);
+	public int updateComment(Comment modifyComment);
 	
-	public void deleteComment(@Param("articleId") int articleId);
+	public int deleteComment(@Param("articleId") int articleId, @Param("commentId") int commentId);
 	
 }
