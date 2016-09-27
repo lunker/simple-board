@@ -28,17 +28,31 @@ public class CommentService implements ICommentService{
 	
 	@Autowired
 	private ICommentDao commentDao;
+	
+	@Autowired
+	private IArticleDao articleDao;
+	
 
 	@Override
 	public AppResponse writeComment(CommentWrite commentWrite) {
 		
 		AppResponse response = null;
 		
-		int result = 0;
-		result = commentDao.insertComment(commentWrite);
+		int insertResult = 0;
+		int updateResult = 0;
 		
-		if(result>0){
-			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "댓글 작성 성공");
+		insertResult = commentDao.insertComment(commentWrite);
+		
+		if(insertResult>0){
+			
+			updateResult = articleDao.updateArticleCommentsInc(commentWrite.getArticleId());
+			if(updateResult>0){
+				response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "댓글 작성 성공");	
+			}
+			else{
+				// delete.
+				// rollback?
+			}
 		}
 		else{
 			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "댓글 작성 실패");
@@ -54,9 +68,26 @@ public class CommentService implements ICommentService{
 	}
 
 	@Override
-	public AppResponse deleteComment() {
-		// TODO Auto-generated method stub
-		return null;
+	public AppResponse deleteComment(int articleId, int commentId) {
+		
+		AppResponse response = null;
+		
+		int result = 0;
+		result = commentDao.deleteComment(commentId);
+				
+		
+		if(result > 0){
+			System.out.println("댓글 삭제 성공");
+			
+			articleDao.updateArticleCommentsDec(articleId);
+			
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "댓글 작성 성공");	
+		}
+		else{
+			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "댓글 작성 실패");
+		}
+		
+		return response;
 	}
 
 	@Override
@@ -85,3 +116,4 @@ public class CommentService implements ICommentService{
 	}
 
 }
+

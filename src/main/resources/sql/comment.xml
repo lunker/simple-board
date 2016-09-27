@@ -13,8 +13,9 @@
 	</resultMap>
 	
 	<select id="selectComments" resultMap="commentResultMap">
-		SELECT * 
-		  FROM COMMENT 
+		SELECT * , u.user_nickname as commentUserNickname, u.user_num_id as commentUserNumId
+		  FROM COMMENT c, USER u
+		 WHERE article_id = #{articleId} AND c.comment_user_num_id = u.user_num_id
 	</select>
 
 	<insert id="insertComment" parameterType="four33.simpleboard.types.CommentWrite">
@@ -23,4 +24,11 @@
 		VALUES(#{articleId},#{commentUserNumId},#{commentContent}, now())
 	
 	</insert>	
+	
+	<delete id="deleteComment">
+		
+		DELETE FROM COMMENT
+		 WHERE comment_id=#{commentId}
+	
+	</delete>
 </mapper>

@@ -11,8 +11,9 @@
 <script
 	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript">
-	$(function() {
-		
+
+
+	function loadCommentComponent(){
 		// load comments on load 
 		$.ajax({
 			type: "GET",
@@ -29,11 +30,24 @@
 				alert("에러");
 			}
 		});		
+	}
+	$(function() {
+		
+		loadCommentComponent(); // 초기 댓글 로드
 		
 		$("#btnCommentWrite").click(function(){
+			
+				var commentContent = $("#commentContent").val();
+				
+				if(commentContent == ""){
+					alert("내용을 입력하세요.");
+					return ;
+				}
+			
 				var commentInfo = {
-					"articleId":asdf,
-					"commentContent" :asdf ,
+					"articleId": ${response.data.articleId},
+					"commentUserNumId": ${userNumId},
+					"commentContent": commentContent 
 				};
 				
 				$.ajax({
@@ -45,15 +59,58 @@
 				    },
 					data: JSON.stringify(commentInfo),
 					success: function(res){
-						alert(res.message);
-						//location.href="${pageContext.request.contextPath}/user/login";
-						location.replace("${pageContext.request.contextPath}/page/login");
+						//$("#load_comments").html(data);
+						
+						if(res.status=="200"){
+							console.log("댓글 작성 성공");
+							
+							// 댓글 목록 업데이트 
+							loadCommentComponent();
+							
+							// input clear
+							$("#commentContent").val("");
+						}
 					},
 					error: function(err){
 						alert("error");
 					}
 				});
 		});
+		
+		$("#deleteComment").click(function(){
+			
+			var deleteInfo = {
+				"articleId": ${response.data.articleId},
+				"commentId": ${response.data.commentId}
+			}; 
+			
+			$.ajax({
+				type: "DELETE",
+				url: "${pageContext.request.contextPath}/comment",
+				headers: { 
+			        'Accept': 'application/json'
+			         
+			    },
+				data: deleteInfo,
+				success: function(res){
+					//$("#load_comments").html(data);
+					
+					if(res.status=="200"){
+						console.log("댓글 삭제 성공");
+						
+						// 댓글 목록 업데이트 
+						loadCommentComponent();
+						
+						// input clear
+						$("#commentContent").val("");
+					}
+				},
+				error: function(err){
+					alert("error");
+				}
+			});			
+			
+			
 		
 		$("#btnArticleList").click(function(){
 			location.href="${pageContext.request.contextPath}/page/board";
@@ -86,7 +143,7 @@
 
 			<div id="load_comments"></div>
 			
-			<input id="articleComment" class="form-control" type="text" placeholder="내용을 입력해주세요"/> <button type="button" class="btn btn-default" id="btnCommentWrite">등록</button>
+			<input id="commentContent" class="form-control" type="text" placeholder="내용을 입력해주세요"/> <button type="button" class="btn btn-default" id="btnCommentWrite">등록</button>
 		</div>
 		<hr>
 		

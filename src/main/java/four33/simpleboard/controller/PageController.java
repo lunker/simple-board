@@ -79,6 +79,7 @@ public class PageController {
 	public ModelAndView ArticleSelectArticle(Model model, HttpServletRequest request, @PathVariable("articleId") int articleId){
 		
 		System.out.println("[ARTICLE] 게시글 조회  request");
+		System.out.println("[ARTICLE] 게시글 번호 : " + articleId);
 		ModelAndView mv = new ModelAndView();
 		HttpSession session=null;
 		AppResponse response = null;

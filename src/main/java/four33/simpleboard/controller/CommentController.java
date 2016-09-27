@@ -44,25 +44,10 @@ public class CommentController {
 		
 		return response;
 	}
-	
-	/*
-	@RequestMapping(method=RequestMethod.GET, value="/{articleId}")
-	@ResponseBody
-	public AppResponse ArticleSelectComment(HttpServletRequest request, @PathVariable("articleId") int articleId){
-		System.out.println("[COMMENT] 댓글 조회 request");
-		AppResponse response = null;
-		
-		response = commentService.selectComments(articleId);
-		
-		return response;
-	}
-	*/
-	
-	
 
 	@RequestMapping(method=RequestMethod.GET, value="/{articleId}")
 	public ModelAndView ArticleSelectComment(HttpServletRequest request, @PathVariable("articleId") int articleId){
-		System.out.println("[COMMENT] 댓글 조회 request");
+		System.out.println("[COMMENT][게시글] "+ articleId +" 댓글 조회 request");
 		ModelAndView mv = new ModelAndView();
 		
 		AppResponse response = null;
@@ -73,9 +58,6 @@ public class CommentController {
 		mv.setViewName("article/comment");
 		return mv;
 	}
-	
-	
-	
 	
 	@RequestMapping(method=RequestMethod.PUT)
 	@ResponseBody
@@ -88,9 +70,11 @@ public class CommentController {
 	
 	@RequestMapping(method=RequestMethod.DELETE)
 	@ResponseBody
-	public AppResponse ActionDeleteComment(HttpServletRequest request){
-		
+	public AppResponse ActionDeleteComment(HttpServletRequest request, @RequestParam("articleId") int articleId ,@RequestParam("commentId") int commentId){
+		System.out.println("[COMMENT] 댓글 삭제");
 		AppResponse response = null;
+		
+		response = commentService.deleteComment(articleId, commentId);
 
 		return response;
 	}

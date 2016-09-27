@@ -24,6 +24,6 @@ public interface ICommentDao{
 	
 	public int updateComment(Comment modifyComment);
 	
-	public int deleteComment(@Param("articleId") int articleId, @Param("commentId") int commentId);
+	public int deleteComment(@Param("commentId") int commentId);
 	
 }

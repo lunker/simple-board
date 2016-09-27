@@ -9,21 +9,36 @@
 <script type="text/javascript">
 	$(function() {
 		
+		
+			
+		});
 	});
 </script>
 
 <div>
-	comment.  . . ㅠㅠ 
-	<c:if test="${response.data != null}">
-		${response.data.articleId}
-	</c:if>
-	
+	<ul class="comment-list">
+		<c:if test="${response.data != null}">
+			<c:forEach items="${response.data}" var="row">
+			<li>
+				<div class="comment-item"> 
+					<div class="comment-header">
+						<span class="comment-header-user">${row.commentUserNickname}</span>  
+
+						<span class="comment-header-date"><fmt:formatDate value="${row.commentRegDt}" pattern="yyyy-MM-dd H:m"/></span>
+						
+						<c:if test="${row.commentUserNumId == userNumId}">
+							<span class="comment-header-tool"> <a >수정</a> | <a id="deleteComment">삭제</a> </span>
+						</c:if>
+					</div>
+					
+					<div class="comment-content"> 
+						${row.commentContent}
+					</div>
+								
+				</div>
+				<hr>
+			</li>
+			</c:forEach>
+		</c:if>
+	</ul>
 </div>
-
-
-
-
-
-
-
-

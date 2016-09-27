@@ -29,7 +29,7 @@ public interface ICommentService {
 	 * 댓글 삭제 
 	 * @return
 	 */
-	public AppResponse deleteComment();
+	public AppResponse deleteComment(int articleId, int commentId);
 	
 	// 댓글 리스트 조회 
 	public AppResponse selectComments(@Param("articleId") int articleId);

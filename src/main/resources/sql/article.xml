@@ -89,10 +89,24 @@
 		
 	</insert>	
 	
-	<update id="updateArticleHits" parameterType="hashmap">
+	<update id="updateArticleHit" parameterType="hashmap">
 		UPDATE ARTICLE
 		SET article_hits = article_hits + 1
 		WHERE article_id = #{articleId} AND article_user_num_id != #{articleUserNumId}
 	</update>
+	
+	<update id="updateArticleCommentsInc">
+		UPDATE ARTICLE
+		SET article_comments = article_comments + 1
+		WHERE article_id = #{articleId}
+	</update>
+	
+	<update id="updateArticleCommentsDec">
+		UPDATE ARTICLE
+		SET article_comments = article_comments -1
+		WHERE article_id = #{articleId}
+	</update>
+	
+	
 	
 </mapper>

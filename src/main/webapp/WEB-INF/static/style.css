@@ -61,3 +61,15 @@ a:HOVER{
 a:ACTIVE{
 	color: black;
 }
+
+
+.comment-list{
+	list-style: none;
+}
+
+.comment-header-user{
+	font-weight: bold;
+}
+.comment-header-date{
+	color:gray;
+}
