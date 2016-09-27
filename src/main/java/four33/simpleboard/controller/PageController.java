@@ -62,6 +62,13 @@ public class PageController {
 		return "article/write";
 	}
 
+	@RequestMapping("/common/header")
+	public String commonHeader(Model model, HttpServletRequest request){
+		System.out.println("haewsarf");
+		
+		return "common/header";
+	}
+	
 	/**
 	 * 게시글 뷰 페이지
 	 * @param model
@@ -111,12 +118,6 @@ public class PageController {
 		return mv;
 	}
 	
-	@RequestMapping("/common/header")
-	public String commonHeader(Model model, HttpServletRequest request){
-		System.out.println("haewsarf");
-		
-		return "common/header";
-	}
 	
 	@RequestMapping("/board")
 	public ModelAndView boardPage(Model model, HttpServletRequest request,
@@ -136,8 +137,8 @@ public class PageController {
 		if(condition == Constants.NUM_PAGING_CONDITION_REG_DT){
 			strCondition = Constants.STR_PAGING_CONDITION_REG_DT;
 		}
-		else if(condition == Constants.NUM_PAGING_CONDITION_LIKES){
-			strCondition = Constants.STR_PAGING_CONDITION_LIKES;
+		else if(condition == Constants.NUM_PAGING_CONDITION_HITS){
+			strCondition = Constants.STR_PAGING_CONDITION_HITS;
 		}
 		else{
 			strCondition = Constants.STR_PAGING_CONDITION_LIKES;

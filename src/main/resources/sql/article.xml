@@ -20,9 +20,9 @@
 		
 		
 	<select id="selectArticle" resultMap="articleResultMap">
-		select * 
-		  from article  
-		  where article_id = #{articleId} 
+		select * , u.user_nickname as article_user_nickname
+		  from article a, user u 
+		  where a.article_id = #{articleId} AND a.article_user_num_id = u.user_num_id 
 	</select>
 	
 	<select id="selectArticleCount" resultType="integer">

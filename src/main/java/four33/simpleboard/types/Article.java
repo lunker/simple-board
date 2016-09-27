@@ -106,5 +106,14 @@ public class Article {
 	}
 	
 	
+	@Override
+	public String toString() {
+		StringBuilder sb = new StringBuilder();
+		
+		sb.append("articleUserNickname : " + articleUserNickname);
+		sb.append("articleTitle :" + articleTitle);
+		
+		return sb.toString();
+	}
 	
 }

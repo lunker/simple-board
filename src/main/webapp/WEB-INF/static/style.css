@@ -29,3 +29,16 @@
 	width:100px;
 	margin: 0 auto;
 }
+
+.content-body{
+	margin-top: 30px;
+}
+
+.content-footer{
+	margin-top: 30px;
+}
+
+.content-title{
+	font-weight: bold;
+	color: #53585f;
+}

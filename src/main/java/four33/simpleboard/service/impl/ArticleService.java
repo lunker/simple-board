@@ -59,24 +59,28 @@ public class ArticleService implements IArticleService{
 
 	@Override
 	public AppResponse selectArticle(int articleId, int articleUserNumId) {
-		
+
 		AppResponse response = null;
 		
+		/*
 		Article article = articleDao.selectArticle(articleId);
 		
 		if(article == null){
 			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "게시글 조회 실패");
 		}
 		else{
+			System.out.println(article.toString());
 			int result = 0;
 			result = articleDao.updateArticleHits(articleId, articleUserNumId);
 			
-			if(result > 0){
-				response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 조회 성공", article);	
-			}
-			else
-				response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "게시글 조회 실패");
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 조회 성공", article);	
 		}
+		*/
+		int result = 0;
+		result = articleDao.updateArticleHits(articleId, articleUserNumId);
+		
+		Article article = articleDao.selectArticle(articleId);
+		response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 조회 성공", article);
 		
 		return response;
 	}
@@ -85,8 +89,6 @@ public class ArticleService implements IArticleService{
 	public AppResponse selectArticles(String condition, String order, int printNum, int pageNum) {
 		
 		/*
-		 * 
-		 * 
 		 * {
 		 * 	response:
 		 * 		data : {

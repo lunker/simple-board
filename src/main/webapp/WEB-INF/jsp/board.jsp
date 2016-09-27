@@ -2,6 +2,8 @@
 
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 <%@ taglib prefix="ftt" tagdir="/WEB-INF/tags/"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
+<jsp:useBean id="now" class="java.util.Date"/> 
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
@@ -155,22 +157,29 @@
 			<tbody>
 			<c:choose>
 					<c:when test="${ response.data.articles != null}">
-						<script>
-							console.log(${response.data.count});
-						</script>
+					
+						<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowDate"/>
+						
 						<c:forEach items="${response.data.articles}" var="row">
-						<tr class="clickable" onclick="openArticle(${row.articleId})">
-							<td>${row.articleId}</td>
-							<td>${row.articleTitle}</td>
-							<td>${row.articleUserNickname}</td>
-							
-							<script>
-							
-							</script>
-							<td>${row.articleRegDt}</td>
-							<td>${row.articleHits}</td>
-							<td>${row.articleLikes}</td>
-						</tr>
+							<tr class="clickable" onclick="openArticle(${row.articleId})">
+								<td>${row.articleId}</td>
+								<td>${row.articleTitle}</td>
+								<td>${row.articleUserNickname}</td>
+								
+								<fmt:formatDate pattern="yyyy-MM-dd" value="${row.articleRegDt}" var="rowDate"/>
+								<c:choose>
+									<c:when test="${rowDate == nowDate}">
+										<td><fmt:formatDate pattern="H:m" value="${row.articleRegDt}"/></td>
+									</c:when>
+									
+									<c:otherwise>
+										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${row.articleRegDt}"/></td>
+									</c:otherwise>
+								</c:choose>
+								
+								<td>${row.articleHits}</td>
+								<td>${row.articleLikes}</td>
+							</tr>
 						</c:forEach>
 					</c:when>
 						
