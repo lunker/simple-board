@@ -15,29 +15,23 @@
 	
 	<select id="selectComments" resultMap="commentResultMap">
 		SELECT * , u.user_nickname as commentUserNickname, u.user_num_id as commentUserNumId
-		  FROM COMMENT c, USER u
+		  FROM COMMENT c LEFT JOIN USER u ON c.comment_user_num_id = u.user_num_id
 		 WHERE article_id = #{articleId} AND c.comment_user_num_id = u.user_num_id
 	</select>
 
 	<insert id="insertComment" parameterType="four33.simpleboard.types.CommentWrite">
-	
 		INSERT INTO COMMENT(article_id, comment_user_num_id, comment_content, comment_reg_dt, comment_modify_dt)
 		VALUES(#{articleId},#{commentUserNumId},#{commentContent}, now(), now())
-	
 	</insert>	
 	
 	<delete id="deleteComment">
-		
 		DELETE FROM COMMENT
 		 WHERE comment_id=#{commentId}
-	
 	</delete>
 	
 	<update id="updateComment" parameterType="four33.simpleboard.types.CommentModify">
-	
-	UPDATE COMMENT
-	   SET comment_modify_dt = now(), comment_content = #{commentContent}
-	 WHERE comment_id = #{commentId}
-		
+		UPDATE COMMENT
+		   SET comment_modify_dt = now(), comment_content = #{commentContent}
+		 WHERE comment_id = #{commentId}
 	</update>
 </mapper>

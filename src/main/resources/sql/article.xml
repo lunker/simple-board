@@ -20,7 +20,7 @@
 		
 	<select id="selectArticle" resultMap="articleResultMap">
 		select * , u.user_nickname as article_user_nickname
-		  from article a LEFT JOIN user u ON a.article_user_num_id = u.user_num_id 
+		  from ARTICLE a LEFT JOIN USER u ON a.article_user_num_id = u.user_num_id 
 		 where a.article_id = #{articleId}
 	</select>
 	

@@ -117,7 +117,7 @@
 		$("#selectPrintNum").change(function(){
 			var selectedVal = $("#selectPrintNum").val();
 			
-			paging({printNum: selectedVal});
+			paging({printNum: selectedVal, pageNum:1});
 		});
 		
 		$("#btnWriteArticle").click(function(){
@@ -236,13 +236,14 @@
 			    			<c:if test="${limit>3}">
 			    				<c:set value="3" var="limit"></c:set>
 			    			</c:if>
+			    			
 			    		</c:if>
 			    		
 			    		<c:choose>
-			    			
+
 			    			<c:when test="${pagingInfo.pageNum ==1 || limit==0}">
 						    	<c:forEach begin="${pagingInfo.pageNum}" end="${pagingInfo.pageNum+limit-1}" varStatus="loop">
-							    		<li><a id="${loop.current}" onclick="paging({pageNum:this.id})">${loop.current}</a></li>
+							    		<li class=''><a id="${loop.current}" onclick="paging({pageNum:this.id})">${loop.current}</a></li>
 						    	</c:forEach>
 			    			</c:when>
 			    			
