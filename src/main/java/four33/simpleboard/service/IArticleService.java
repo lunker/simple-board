@@ -48,6 +48,6 @@ public interface IArticleService {
 	 * 게시글 리스트 조회
 	 * @return
 	 */
-	public AppResponse selectArticles(String condition, String order, int printNum, int pageNum); 
+	public AppResponse selectArticles(int boardId, String condition, String order, int printNum, int pageNum); 
 	
 }

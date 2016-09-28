@@ -1,5 +1,8 @@
 package four33.simpleboard.service.impl;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -106,6 +109,7 @@ public class CommentService implements ICommentService{
 	@Override
 	public AppResponse selectComments(int articleId) {
 		AppResponse response = null;
+		Map<String, Object> result = new HashMap<>();
 		
 		Object comments = null;
 		comments = commentDao.selectComments(articleId);
@@ -115,7 +119,10 @@ public class CommentService implements ICommentService{
 			System.out.println("댓글 조회 결과 : " + count);
 
 			if(count !=0){
-				response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "댓글 작성 성공", comments);	
+				result.put("comments", comments);
+				result.put("count", count);
+				
+				response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "댓글 작성 성공", result);	
 			}
 			else{
 				response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "댓글 작성 성공", null);

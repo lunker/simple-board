@@ -14,10 +14,11 @@
 </script>
 
 <div>
+
+	댓글 ${response.data.count}
 	<ul class="comment-list">
-		<c:if test="${response.data != null}">
-			<c:set value="${response.data}" var="test" scope="application"></c:set>
-			<c:forEach items="${response.data}" var="row" varStatus="status">
+		<c:if test="${response.data.comments != null}">
+			<c:forEach items="${response.data.comments}" var="row" varStatus="status">
 			<li>
 				<div class="comment-item"> 
 					<div class="comment-header">

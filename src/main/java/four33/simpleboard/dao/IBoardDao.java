@@ -18,6 +18,7 @@ import four33.simpleboard.types.WriteArticle;
  */
 public interface IBoardDao{
 	
-	public Board[] selectBoard();
+	public Board[] selectBoards();
+	public Board selectBoard(@Param("boardId") int boardId);
 	
 }

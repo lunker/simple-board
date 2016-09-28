@@ -4,8 +4,30 @@
 <%@ taglib prefix="ftt" tagdir="/WEB-INF/tags/"%>
 
 
-<script type="text/javascript">
+	<script type="text/javascript">
+	
+	function loadMenu(){
+		// load comments on load 
+		$.ajax({
+			type: "GET",
+			url: "${pageContext.request.contextPath}/page/header/menu",
+			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		    },
+			success: function(data){
+				$("#header-menu-list").html(data);
+			},
+			error: function(err){
+				alert("에러");
+			}
+		});		
+	}
+
 	$(function(){
+		
+		loadMenu();
+		
 		$("#userField").click(function(){
 			location.href="${pageContext.request.contextPath}/page/mypage";
 		});
@@ -43,6 +65,10 @@
 			<div class="clickable" id="title">
 				<h4>Home</h4>
 			</div>
+		<div id="header-menu-list">
+		
+		</div>
+		
 		</div>
 		<div class="navbar-right">
 			<c:choose>

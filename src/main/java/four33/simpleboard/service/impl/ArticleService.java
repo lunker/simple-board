@@ -102,7 +102,7 @@ public class ArticleService implements IArticleService{
 	}
 
 	@Override
-	public AppResponse selectArticles(String condition, String order, int printNum, int pageNum) {
+	public AppResponse selectArticles(int boardId, String condition, String order, int printNum, int pageNum) {
 		
 		/*
 		 * {
@@ -126,7 +126,7 @@ public class ArticleService implements IArticleService{
 		
 		// 2 : 10 ~ 19 row 
 	
-		Object articles = articleDao.selectArticles(condition, order, printNum, pageNum*printNum);
+		Object articles = articleDao.selectArticles(boardId, condition, order, printNum, pageNum*printNum);
 		int count = articleDao.selectArticleCount();
 		
 		Map<String, Object> data = new HashMap<String, Object>();

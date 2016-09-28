@@ -62,6 +62,19 @@ public class PageController {
 		return "article/write";
 	}
 	
+	@RequestMapping("/header/menu")
+	public ModelAndView headerMenu(){
+		ModelAndView mv = new ModelAndView();
+		AppResponse response = null;
+		
+		response = boardService.selectBoards();
+		mv.setViewName("common/menuList");
+		mv.addObject("response", response);
+		
+		return mv;
+	}
+	
+	
 	@RequestMapping(value="/article/modify/{articleId}", method=RequestMethod.GET)
 	public ModelAndView modifyArticlePage(@PathVariable("articleId") int articleId){
 		
@@ -134,6 +147,16 @@ public class PageController {
 		return mv;
 	}
 
+	/**
+	 * 게시글 검색 -- 추후에 
+	 * @param model
+	 * @param request
+	 * @param condition
+	 * @param order
+	 * @param pageNum
+	 * @param printNum
+	 * @return
+	 */
 	@RequestMapping("/searchboard")
 	public ModelAndView searchboardPage(Model model, HttpServletRequest request,
 			
@@ -166,7 +189,7 @@ public class PageController {
 			strOrder = Constants.STR_PAGING_ORDER_ASC;
 		}
 		
-		response = articleService.selectArticles(strCondition, strOrder, printNum, pageNum);
+//		response = articleService.selectArticles(strCondition, strOrder, printNum, pageNum);
 		
 		// send response
  		ModelAndView mv = new ModelAndView();
@@ -209,9 +232,9 @@ public class PageController {
 	 * @param from : 0; none 1: P, 2: N
 	 * @return
 	 */
-	@RequestMapping("/board")
+	@RequestMapping("/board/{boardId}")
 	public ModelAndView boardPage(Model model, HttpServletRequest request,
-			
+			@PathVariable("boardId") int boardId,
 			@RequestParam(value="condition", required=false, defaultValue="1") int condition,
 			@RequestParam(value="order", required=false, defaultValue="1") int order,
 			@RequestParam(value="pageNum", required=false, defaultValue="0") int pageNum,
@@ -223,6 +246,7 @@ public class PageController {
 		AppResponse response = null;
 		String strCondition="";
 		String strOrder="";
+
 		
 		if(condition == Constants.NUM_PAGING_CONDITION_REG_DT){
 			strCondition = Constants.STR_PAGING_CONDITION_REG_DT;
@@ -241,22 +265,11 @@ public class PageController {
 			strOrder = Constants.STR_PAGING_ORDER_ASC;
 		}
 		
-		response = articleService.selectArticles(strCondition, strOrder, printNum, pageNum);
+		response = articleService.selectArticles(boardId, strCondition, strOrder, printNum, pageNum);
 		
-		// send response
- 		ModelAndView mv = new ModelAndView();
- 		mv.setViewName("board");
- 		
- 		/*
-		Object data = boardService.selectBoard();
+		Object board = boardService.selectBoard(boardId);
+		System.out.println(board.toString());
 		
-		if(data!=null){
-			Board[] tmp = (Board[])data;
-			for(int i=0; i<tmp.length; i++)
-				System.out.println(tmp[i].toString());
-		}
-		*/
- 		
  		System.out.println("게시글 조회 결과 : " + ((Article[])((Map<String, Object>)response.getData()).get("articles")).length + "개");
  		
  		Map<String, Object> pagingInfo = new HashMap<String, Object>();
@@ -264,7 +277,11 @@ public class PageController {
  		pagingInfo.put("condition", condition);
  		pagingInfo.put("pageNum", pageNum);
  		pagingInfo.put("printNum", printNum);
-		
+ 	// send response
+ 		ModelAndView mv = new ModelAndView();
+ 		mv.setViewName("board");
+ 		
+ 		mv.addObject("board", board);
 		mv.addObject("response", response);
 		mv.addObject("pagingInfo",pagingInfo);
 		

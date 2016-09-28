@@ -11,9 +11,15 @@
 	</resultMap>
 
 
-	<select id="selectBoard" resultMap="boardResultMap"> 
+	<select id="selectBoards" resultMap="boardResultMap"> 
 		SELECT * 
 		  FROM BOARD;
 	</select>
 
+	<select id="selectBoard" resultMap="boardResultMap"> 
+		SELECT * 
+		  FROM BOARD
+		 WHERE board_id = #{boardId}
+	</select>
+	
 </mapper>

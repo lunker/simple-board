@@ -44,6 +44,7 @@ public interface IArticleDao{
 	 * @return
 	 */
 	public Article[] selectArticles(
+			@Param("boardId") int boardId,
 			@Param("condition") String condition,
 			@Param("order") String order,
 			@Param("printNum") int printNum,

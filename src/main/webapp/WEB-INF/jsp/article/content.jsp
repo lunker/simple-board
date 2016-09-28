@@ -11,6 +11,14 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript">
 
+	function onKeyDown(){
+		if(event.keyCode == 13)
+	     {
+	          
+			$("#btnCommentWrite").click();
+			
+	     }
+	}
 
 	function loadCommentComponent(){
 		// load comments on load 
@@ -203,12 +211,12 @@
 		</div>
 
 		<div class="content-footer col-lg-12">
-			댓글 ${response.data.articleComments}  조회수 ${response.data.articleHits}   좋아요 ${response.data.articleLikes}
+			조회수 ${response.data.articleHits}   좋아요 ${response.data.articleLikes}
 		</div>
 		
 		<div class="content-footer col-lg-12">
 			<div id="load_comments"></div>
-			<input id="commentContent" class="form-control" type="text" placeholder="내용을 입력해주세요"/> <button type="button" class="btn btn-default" id="btnCommentWrite">등록</button>
+			<input id="commentContent" class="form-control" type="text" placeholder="내용을 입력해주세요" onKeyDown="onKeyDown()"/> <button type="button" class="btn btn-default" id="btnCommentWrite">등록</button>
 		</div>
 		<hr>
 		

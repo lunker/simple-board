@@ -21,6 +21,8 @@ public interface ICommentDao{
 	
 	public Comment[] selectComments(@Param("articleId") int articleId);
 	
+	public int selectCommentsCount(@Param("articleId") int articleId);
+	
 	public int insertComment(CommentWrite comment);
 	
 	public int updateComment(CommentModify modifyComment);

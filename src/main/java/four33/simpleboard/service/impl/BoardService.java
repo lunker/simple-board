@@ -26,11 +26,36 @@ public class BoardService implements IBoardService{
 	private IBoardDao boardDao;
 
 	@Override
-	public Board[] selectBoard() {
+	public AppResponse selectBoards() {
 		
-		Board[] data = boardDao.selectBoard();
+		AppResponse response = null;
 		
-		return data;
+		Board[] data = boardDao.selectBoards();
+		
+		if(data!=null){
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "메뉴 조회 성공", data);
+		}
+		else{
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "메뉴 조회 실패", data);
+		}
+		
+		return response;
 	}
 
+	@Override
+	public AppResponse selectBoard(int boardId) {
+		
+		AppResponse response = null;
+		
+		Board data = boardDao.selectBoard(boardId);
+		
+		if(data!=null){
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "메뉴 조회 성공", data);
+		}
+		else{
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "메뉴 조회 실패", data);
+		}
+		
+		return response;
+	}
 }

@@ -33,11 +33,11 @@
 	
 		SELECT *, user.user_nickname as article_user_nickname
 		  FROM ARTICLE article LEFT JOIN USER user on article.article_user_num_id = user.user_num_id
-		 WHERE 
+		 WHERE article.board_id = #{boardId} AND
 		 
 		 <if test="condition == 'article_reg_dt'">
 		 	<![CDATA[
-		 	article_reg_dt < '9999-12-31'
+		 	article_reg_dt < '9999-12-31' 
 		 	]]>
 		 	
 		 	<if test="order == 'desc'">
@@ -58,7 +58,7 @@
 		 
 		 <if test="condition == 'article_likes'">
 		 	<![CDATA[
-		 	article_likes >= 0
+		 	article_likes >= 0 
 		 	]]>
 		 	
 		 	<if test="order == 'desc'">

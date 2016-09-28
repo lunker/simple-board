@@ -5,6 +5,12 @@
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript">
+	function onKeyDown(){
+		if(event.keyCode == 13)
+	     {
+			$("#btnLogin").click();
+	     }
+	}
 
 	$(function(){
 		$("#btnLogin").click(function(){
@@ -70,7 +76,7 @@
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">비밀번호</label>
 			<div class="col-sm-5">
-			  <input id="userPwd" class="form-control" placeholder="비밀번호" type="password"/>
+			  <input id="userPwd" class="form-control" placeholder="비밀번호" type="password" onkeydown="onKeyDown()"/>
 			</div>
 		  </div>
 		  

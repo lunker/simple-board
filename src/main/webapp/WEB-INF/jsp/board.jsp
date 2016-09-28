@@ -14,6 +14,8 @@
 
 <script type="text/javascript">
 	
+	var boardId = ${board.data.boardId};
+	
 	/*	게시글 뷰 페이지 오픈 */
 	function openArticle(articleId){
 		location.href="${pageContext.request.contextPath}/page/article/" + articleId;
@@ -37,7 +39,7 @@
 		
 		var pagingInfo = Object.assign(defaultPagingInfo,val);
 		
-		var url = "${pageContext.request.contextPath}/page/board";
+		var url = "${pageContext.request.contextPath}/page/board/"+boardId;
 		
 		url+= "?pageNum=" + pagingInfo.pageNum;
 		url+= "&printNum=" + pagingInfo.printNum;
@@ -100,7 +102,7 @@
 			
 			if(endPageNum != currentPageNum)
 				paging({pageNum: nextPageNum});
-
+			
 			return ;			
 		});
 		
@@ -123,11 +125,10 @@
 			paging({pageNum: endPageNum-1});
 		});
 		
-		
 		$("#selectPrintNum").change(function(){
 			var selectedVal = $("#selectPrintNum").val();
 			
-			paging({printNum: selectedVal, pageNum:1});
+			paging({printNum: selectedVal, pageNum:0});
 		});
 		
 		$("#btnWriteArticle").click(function(){
@@ -145,7 +146,7 @@
 
 <ftt:page>
 <div class="container">
-	<h1>자유게시판</h1>
+	<h1>${board.data.boardName}</h1>
 	<hr>
 	<div class="col-lg-1 navbar-right" >
 		<c:if test="${pagingInfo.printNum}!=null">

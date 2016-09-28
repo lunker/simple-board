@@ -10,11 +10,11 @@
 		<c:when test="${logined == true }">
 			<%-- <jsp:include page="/WEB-INF/jsp/board.jsp"></jsp:include> --%>
 			<%-- <%@include file="/WEB-INF/jsp/board.jsp"%> --%>
-			
-			<script type="text/javascript">
+						
+			<!-- <script type="text/javascript">
 				location.href="${pageContext.request.contextPath}/page/board";
 			</script>
-			
+			 -->
 		</c:when>
 		<c:otherwise>
 			<h1>Simple Board</h1>
