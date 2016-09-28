@@ -129,25 +129,6 @@
 			$("#board-search-date-option").toggle();
 		});
 		
-		$("#btnArticleSearch").click(function(val){
-									
-			var defaultSearchInfo = {
-					"condition" : currentCondition,
-					"order": currentOrder,
-					"printNum" : currentPrintNum,
-					"pageNum" : currentPageNum
-			};
-			
-			var pagingInfo = Object.assign(defaultPagingInfo,val);
-			
-			var url = "${pageContext.request.contextPath}/page/searchboard";
-			
-			url+= "?searchCondition=";
-			url+= "&searchContent=";
-			
-			location.href=url;
-			return ;	
-		});
 	});
 
 </script>

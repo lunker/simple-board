@@ -122,6 +122,10 @@ public class ArticleService implements IArticleService{
 		System.out.println("printnum: " + printNum);
 		System.out.println("pageNum: " + pageNum);
 		
+		// 1: 0 ~ 9 row 
+		
+		// 2 : 10 ~ 19 row 
+	
 		Object articles = articleDao.selectArticles(condition, order, printNum, (pageNum-1)*printNum);
 		int count = articleDao.selectArticleCount();
 		
