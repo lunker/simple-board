@@ -197,12 +197,24 @@ public class PageController {
 		
 		return mv;
 	}
+	
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @param condition
+	 * @param order
+	 * @param pageNum
+	 * @param printNum
+	 * @param from : 0; none 1: P, 2: N
+	 * @return
+	 */
 	@RequestMapping("/board")
 	public ModelAndView boardPage(Model model, HttpServletRequest request,
 			
 			@RequestParam(value="condition", required=false, defaultValue="1") int condition,
 			@RequestParam(value="order", required=false, defaultValue="1") int order,
-			@RequestParam(value="pageNum", required=false, defaultValue="1") int pageNum,
+			@RequestParam(value="pageNum", required=false, defaultValue="0") int pageNum,
 			@RequestParam(value="printNum", required=false, defaultValue="10") int printNum
 			
 			){
@@ -245,7 +257,6 @@ public class PageController {
 		}
 		*/
  		
- 		
  		System.out.println("게시글 조회 결과 : " + ((Article[])((Map<String, Object>)response.getData()).get("articles")).length + "개");
  		
  		Map<String, Object> pagingInfo = new HashMap<String, Object>();
@@ -253,7 +264,6 @@ public class PageController {
  		pagingInfo.put("condition", condition);
  		pagingInfo.put("pageNum", pageNum);
  		pagingInfo.put("printNum", printNum);
- 		
 		
 		mv.addObject("response", response);
 		mv.addObject("pagingInfo",pagingInfo);

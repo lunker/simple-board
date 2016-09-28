@@ -56,7 +56,7 @@
 		/* ================================================================= 게시판 페이징  */
 		$("#pagingS").click(function(){
 			// move to first
-			paging({pageNum:1});
+			paging({pageNum:0});
 		});
 		
 		$("#pagingP").click(function(){
@@ -67,8 +67,14 @@
 			var currentPrintNum = ${pagingInfo.printNum};
 			var count = ${response.data.count};
 			
-			if(currentPageNum>=4)
-				paging({pageNum: currentPageNum-3});
+			var currentPageNumIndex = Math.floor(currentPageNum / 3);
+			
+			if(currentPageNumIndex==0){
+				return;
+			}
+			
+			var nextPageNum = (currentPageNumIndex-1)*3 + 2; 
+			paging({pageNum: nextPageNum});
 			
 			return ;					
 		});
@@ -88,9 +94,13 @@
 				endPageNum = Math.floor(count / currentPrintNum);
 			}
 			maxPageNum = Math.floor(endPageNum / 3) +1;
+						
+			var currentPageNumIndex = Math.floor(currentPageNum / 3);
+			var nextPageNum = (currentPageNumIndex+1)*3;
 			
-			if(endPageNum - currentPageNum >= 3)
-				paging({pageNum: currentPageNum+3});
+			if(endPageNum != currentPageNum)
+				paging({pageNum: nextPageNum});
+
 			return ;			
 		});
 		
@@ -110,7 +120,7 @@
 				endPageNum = Math.floor(count / currentPrintNum);
 			}
 			
-			paging({pageNum: endPageNum});
+			paging({pageNum: endPageNum-1});
 		});
 		
 		
@@ -228,31 +238,29 @@
 			    
 			    <c:choose>
 			    	<c:when test="${pagingInfo!=null}">
-			    	<!-- paging 가능 범위 계산  -->
-			    		<c:if test="${ (response.data.count - pagingInfo.pageNum*pagingInfo.printNum) > 0}">
-			    			<%-- <c:set value="(${response.data.count} - ${pagingInfo.pageNum}*${pagingInfo.printNum})/3" var="limit"/> --%>
-			    			<c:set value="${(response.data.count - pagingInfo.pageNum * pagingInfo.printNum)/ pagingInfo.printNum}" var="limit"/>
-			    			
-			    			<c:if test="${limit>3}">
-			    				<c:set value="3" var="limit"></c:set>
-			    			</c:if>
-			    			
-			    		</c:if>
+				    	<c:set value="${pagingInfo.pageNum/3}" var="pageNumIndex"/>
+				    	<c:set value="${pageNumIndex%1}" var="pageNumRemainder"/>
 			    		
 			    		<c:choose>
-
-			    			<c:when test="${pagingInfo.pageNum ==1 || limit==0}">
-						    	<c:forEach begin="${pagingInfo.pageNum}" end="${pagingInfo.pageNum+limit-1}" varStatus="loop">
-							    		<li class=''><a id="${loop.current}" onclick="paging({pageNum:this.id})">${loop.current}</a></li>
-						    	</c:forEach>
+			    			<c:when test="${pageNumRemainder>0.5}">
+			    				<fmt:formatNumber value="${pageNumIndex-1}" pattern="0" var="pageNumIndex" type="number"/>${pageNumRemainder>0.5}
 			    			</c:when>
-			    			
 			    			<c:otherwise>
-			    				<li><a id="${pagingInfo.pageNum-1}" onclick="paging({pageNum:this.id})">${pagingInfo.pageNum-1}</a></li>
-			    				<li><a id="${pagingInfo.pageNum}" onclick="paging({pageNum:this.id})">${pagingInfo.pageNum}</a></li>
-			    				<li><a id="${pagingInfo.pageNum+1}" onclick="paging({pageNum:this.id})">${pagingInfo.pageNum+1}</a></li>
+			    				<fmt:formatNumber value="${pageNumIndex}" pattern="0" var="pageNumIndex" type="number"/>${pageNumRemainder>0.5}
 			    			</c:otherwise>
 			    		</c:choose>
+				    	
+			    		<c:forEach begin="1" end="3" var="index">
+			    			<c:set value="${pageNumIndex*3 }" var="tmpPageNum"/>
+			    			<c:choose>
+			    				<c:when test="${tmpPageNum + index == pagingInfo.pageNum +1}">
+			    					<li class="active"><a id="${tmpPageNum + index}" onclick="paging({pageNum:this.id-1})">${tmpPageNum + index}</a></li>
+			    				</c:when>
+			    				<c:otherwise>
+			    					<li class="not equal"><a id="${tmpPageNum + index}" onclick="paging({pageNum:this.id-1})">${tmpPageNum + index}</a></li>
+			    				</c:otherwise>
+			    			</c:choose>
+			    		</c:forEach>
 			    	</c:when>
 			    </c:choose>
 

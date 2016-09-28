@@ -126,7 +126,7 @@ public class ArticleService implements IArticleService{
 		
 		// 2 : 10 ~ 19 row 
 	
-		Object articles = articleDao.selectArticles(condition, order, printNum, (pageNum-1)*printNum);
+		Object articles = articleDao.selectArticles(condition, order, printNum, pageNum*printNum);
 		int count = articleDao.selectArticleCount();
 		
 		Map<String, Object> data = new HashMap<String, Object>();
