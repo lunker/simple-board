@@ -107,17 +107,18 @@ public class CommentService implements ICommentService{
 	}
 
 	@Override
-	public AppResponse selectComments(int articleId) {
+	public AppResponse selectComments(int articleId, int commentPageNum, int commentPrintNum) {
 		AppResponse response = null;
 		Map<String, Object> result = new HashMap<>();
 		
 		Object comments = null;
-		comments = commentDao.selectComments(articleId);
+		comments = commentDao.selectComments(articleId, 0, commentPrintNum*commentPageNum);
 		
 		if(comments != null){
 			int count = ((Comment[])comments).length;
 			System.out.println("댓글 조회 결과 : " + count);
-
+			
+			count = commentDao.selectCommentsCount(articleId);
 			if(count !=0){
 				result.put("comments", comments);
 				result.put("count", count);
@@ -130,6 +131,22 @@ public class CommentService implements ICommentService{
 		}
 		else{
 			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "댓글 작성 실패", null);
+		}
+		
+		return response;
+	}
+	
+	public AppResponse selectCommenstCount(int articleId){
+		AppResponse response = null;
+		Map<String, Object> result = new HashMap<>();
+		
+		int count = commentDao.selectCommentsCount(articleId);
+		
+		if(count !=0 ){
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "댓글 작성 성공", count);	
+		}
+		else{
+			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "댓글 작성 실패", count);
 		}
 		
 		return response;

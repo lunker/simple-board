@@ -19,7 +19,7 @@ import four33.simpleboard.types.User;
  */
 public interface ICommentDao{
 	
-	public Comment[] selectComments(@Param("articleId") int articleId);
+	public Comment[] selectComments(@Param("articleId") int articleId, @Param("offset") int offset, @Param("printNum") int printNum);
 	
 	public int selectCommentsCount(@Param("articleId") int articleId);
 	

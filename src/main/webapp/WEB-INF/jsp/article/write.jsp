@@ -59,18 +59,12 @@
 		<h1>글쓰기</h1>
 		<hr>
 		<form class="form-horizontal">
+		  
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">게시판</label>
-			
-		<!-- 	<div class="col-sm-5">
-				<input id="userId" type="text" class="form-control" placeholder="아이디" />
-			</div>
-		  -->
-		  <div class="col-sm-5">
-			자유게시판
-		  </div>
-		  
-		   
+			  <div class="col-sm-5">
+				자유게시판
+			  </div>
 		  </div>
 		  
 		  <div class="form-group">

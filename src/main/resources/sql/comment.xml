@@ -13,18 +13,24 @@
 		<result property="commentModifyDt" column="comment_modify_dt"/>
 	</resultMap>
 	
-	<select id="selectComments" resultMap="commentResultMap">
+	<select id="selectComments" parameterType="hashmap" resultMap="commentResultMap">
 		SELECT * , u.user_nickname as commentUserNickname, u.user_num_id as commentUserNumId
 		  FROM COMMENT c LEFT JOIN USER u ON c.comment_user_num_id = u.user_num_id
-		 WHERE article_id = #{articleId}
+		 WHERE article_id = #{articleId} 
+		 
+		 <![CDATA[
+		 	AND c.comment_reg_dt < '9999-12-31' 
+	 	 ]]>
+		 		 
+		 LIMIT #{printNum} 
+		OFFSET #{offset}
 	</select>
 	
 	<select id="selectCommentsCount" resultType="Integer">
-		SELECT count(*)
-		  FROM COMMENT c LEFT JOIN USER u ON c.comment_user_num_id = u.user_num_id
+		SELECT article_comments
+		  FROM article
 		 WHERE article_id = #{articleId}
 	</select>
-	
 
 	<insert id="insertComment" parameterType="four33.simpleboard.types.CommentWrite">
 		INSERT INTO COMMENT(article_id, comment_user_num_id, comment_content, comment_reg_dt, comment_modify_dt)

@@ -14,13 +14,43 @@
 	function onKeyDown(){
 		if(event.keyCode == 13)
 	     {
-	          
 			$("#btnCommentWrite").click();
-			
 	     }
 	}
 
-	function loadCommentComponent(){
+	function loadCommentComponent(articleId, commentPageNum, commentPrintNum){
+		
+		console.log(articleId);
+		console.log(commentPageNum);
+		console.log(commentPrintNum);
+		var resource="";
+		if(articleId != null && articleId != "" && typeof articleId != "undefined"){
+			
+		}
+		
+		if(commentPageNum != null && commentPageNum != "" && typeof commentPageNum != "undefined"){
+			var resource = "?commentPageNum=" + commentPageNum + "&commentPrintNum="+commentPrintNum;	
+			// load comments on load 
+			$.ajax({
+				type: "GET",
+				url: "${pageContext.request.contextPath}/comment/"+${response.data.articleId}+"/" + resource,
+				headers: { 
+			        'Accept': 'application/json',
+			        'Content-Type': 'application/json' 
+			    },
+				success: function(data){
+					//console.log(data);
+					$("#load_comments").html(data);
+				},
+				error: function(err){
+					alert("에러");
+				}
+			});		
+		}
+
+		if(commentPrintNum != null && commentPrintNum != "" && typeof commentPrintNum != "undefined"){
+			
+		}
 		// load comments on load 
 		$.ajax({
 			type: "GET",
@@ -37,6 +67,8 @@
 				alert("에러");
 			}
 		});		
+	
+		
 	}
 	
 	/*
@@ -52,27 +84,7 @@
 //		$('#comment-modify-content'+commentId).val(${response.data[commentId].commentContent});
 	}
 	
-	function modifyComment(commentId, index){
-		var commentContent = $('#comment-modify-content'+index).val();
-		
-		var resource = "?commentId="+commentId+"&commentContent="+commentContent;
-		
-		$.ajax({
-			type: "PUT",
-			url: "${pageContext.request.contextPath}/comment"+resource,
-			headers: { 
-		        'Accept': 'application/json',
-		        'Content-Type': 'application/json' 
-		    },
-			success: function(data){
-				console.log(data.message);
-				loadCommentComponent();
-			},
-			error: function(err){
-				alert("에러");
-			}
-		});		
-	}
+
 	
 	function deleteComment(articleId, commentId){
 		

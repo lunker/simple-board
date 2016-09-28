@@ -1,5 +1,8 @@
 package four33.simpleboard.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
@@ -46,17 +49,36 @@ public class CommentController {
 		return response;
 	}
 
+	/**
+	 * 댓글 리스트 조회
+	 * @param request
+	 * @param articleId
+	 * @return
+	 */
 	@RequestMapping(method=RequestMethod.GET, value="/{articleId}")
-	public ModelAndView ArticleSelectComment(HttpServletRequest request, @PathVariable("articleId") int articleId){
+	public ModelAndView ArticleSelectComment(HttpServletRequest request, 
+			@PathVariable("articleId") int articleId,
+			@RequestParam(value="commentPageNum", required=false, defaultValue="0") int commentPageNum,
+			@RequestParam(value="commentPrintNum", required=false, defaultValue="10") int commentPrintNum
+			){
+		
 		System.out.println("[COMMENT][게시글] "+ articleId +" 댓글 조회 request");
 		ModelAndView mv = new ModelAndView();
 		
 		AppResponse response = null;
 		
-		response = commentService.selectComments(articleId);
-		
+		response = commentService.selectComments(articleId, commentPageNum, commentPrintNum);
+
+		Map<String, Object> pagingInfo = new HashMap<>();
+		pagingInfo.put("commentPageNum", commentPageNum);
+		pagingInfo.put("commentPrintNum", commentPrintNum);
+
+		mv.addObject("articleId",articleId);
 		mv.addObject("response", response);
+		mv.addObject("pagingInfo", pagingInfo);
+		
 		mv.setViewName("article/comment");
+		
 		return mv;
 	}
 	

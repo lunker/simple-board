@@ -33,6 +33,8 @@ public interface ICommentService {
 	public AppResponse deleteComment(int articleId, int commentId);
 	
 	// 댓글 리스트 조회 
-	public AppResponse selectComments(@Param("articleId") int articleId);
+	public AppResponse selectComments(int articleId, int commentPageNum, int commentPrintNum);
+	
+	public AppResponse selectCommenstCount(int articleId);
 	
 }
