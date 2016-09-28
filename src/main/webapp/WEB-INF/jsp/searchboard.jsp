@@ -129,32 +129,17 @@
 			$("#board-search-date-option").toggle();
 		});
 		
-		$("#btnArticleSearch").click(function(val){
-									
-			var defaultSearchInfo = {
-					"condition" : currentCondition,
-					"order": currentOrder,
-					"printNum" : currentPrintNum,
-					"pageNum" : currentPageNum
-			};
+		$("#btnArticleSearch").click(function(){
 			
-			var pagingInfo = Object.assign(defaultPagingInfo,val);
-			
-			var url = "${pageContext.request.contextPath}/page/searchboard";
-			
-			url+= "?searchCondition=";
-			url+= "&searchContent=";
-			
-			location.href=url;
-			return ;	
 		});
+		
 	});
 
 </script>
 
 <ftt:page>
 <div class="container">
-	<h1>자유게시판</h1>
+	<h1>검색결과</h1>
 	<hr>
 	<div class="col-lg-1 navbar-right" >
 		<c:if test="${pagingInfo.printNum}!=null">

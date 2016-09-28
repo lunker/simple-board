@@ -27,6 +27,8 @@ public interface IArticleDao{
 	
 	public int insertArticle(WriteArticle article);
 	
+	public int insertPastArticle(WriteArticle article);
+	
 	public int updateArticle(ModifyArticle modifyArticle);
 	
 	public int updateArticleHits(@Param("articleId") int articleId, @Param("articleUserNumId") int articleUserNumId);
@@ -49,5 +51,13 @@ public interface IArticleDao{
 			);
 	
 	public int selectArticleCount();
+	
+	public Article[] searchArticlesByCondition(
+			@Param("printNum") int printNum,
+			@Param("offset") int offset,
+			@Param("condition") String condition,
+			@Param("content") String content
+			);
+	
 	
 }

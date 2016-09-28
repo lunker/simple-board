@@ -34,7 +34,7 @@ public class BoardController {
 	public HttpSession getSession(HttpServletRequest request){
 		
 		HttpSession session = request.getSession(false);
-		
+
 		if(session == null){
 			session = request.getSession(true);
 		}

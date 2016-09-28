@@ -45,19 +45,85 @@ public class TestController {
 		return session;
 	}
 	
-	
-	@RequestMapping(method=RequestMethod.GET, value="/dummy")
+	/**
+	 * 게시글 더미 데이터 생성
+	 * @param request
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/dummy/article")
 	public void ActionWriteArticle(HttpServletRequest request){
 		
-		String title = "test";
-		String content = "test";
+		String title = "테스트용 게시글";
+		String content = "테스트 중입니다";
 		
 		WriteArticle article = null;
 		
-		for(int i=0;i<10000;i++){
-			article = new WriteArticle(1,12, title+i, content+i);
+		for(int i=10000; i<100000;i++){
+			article = new WriteArticle(1,2, title+i, content+i);
 			articleDao.insertArticle(article);
 		}
+		System.out.println("더미 데이터 생성완료");
+		return;
+	}
+	
+	/**
+	 * 게시글 더미 데이터 생성
+	 * @param request
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/dummy/dayarticle")
+	public void dayarticle(HttpServletRequest request){
+		
+		String title = "테스트용 이전 날짜 게시글";
+		String content = "테스트 중입니다";
+		
+		WriteArticle article = null;
+		
+		for(int i=0; i<300;i++){
+			article = new WriteArticle(1,2, title+i, content);
+			articleDao.insertPastArticle(article);
+		}
+		
+		System.out.println("더미 데이터 생성완료");
+		return;
+	}
+	
+	/**
+	 * 게시글 더미 데이터 생성
+	 * @param request
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/dummy/weekarticle")
+	public void weekarticle(HttpServletRequest request){
+		
+		String title = "테스트용 이전 날짜 게시글";
+		String content = "테스트 중입니다";
+		
+		WriteArticle article = null;
+		
+		for(int i=0; i<300;i++){
+			article = new WriteArticle(1,2, title+i, content);
+			articleDao.insertPastArticle(article);
+		}
+		
+		System.out.println("더미 데이터 생성완료");
+		return;
+	}
+	
+	/**
+	 * 게시글 더미 데이터 생성
+	 * @param request
+	 */
+	@RequestMapping(method=RequestMethod.GET, value="/dummy/montharticle")
+	public void montharticle(HttpServletRequest request){
+		
+		String title = "테스트용 이전 날짜 게시글";
+		String content = "테스트 중입니다";
+		
+		WriteArticle article = null;
+		
+		for(int i=0; i<300;i++){
+			article = new WriteArticle(1,2, title+i, content);
+			articleDao.insertPastArticle(article);
+		}
+		
 		System.out.println("더미 데이터 생성완료");
 		return;
 	}

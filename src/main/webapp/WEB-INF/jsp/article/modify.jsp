@@ -51,6 +51,9 @@
 		});
 		
 		$("#btnModifyCancel").click(function(){
+			if(confirm("정말 나가시겠습니까?")== false){
+				return ;
+			}
 			location.href="${pageContext.request.contextPath}/page/board";
 		});
 		

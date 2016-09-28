@@ -158,7 +158,4 @@ public class ArticleService implements IArticleService{
 		
 		return result;
 	}
-
-
-
 }

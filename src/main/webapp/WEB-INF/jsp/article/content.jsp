@@ -8,8 +8,7 @@
 <!-- <script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 <script>tinymce.init({ selector:'textarea' });</script> -->
 
-<script
-	src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript">
 
 
@@ -23,7 +22,7 @@
 		        'Content-Type': 'application/json' 
 		    },
 			success: function(data){
-				console.log(data);
+				//console.log(data);
 				$("#load_comments").html(data);
 			},
 			error: function(err){
@@ -32,6 +31,9 @@
 		});		
 	}
 	
+	/*
+		댓글 수정 toggle
+	*/
 	function toggleComment(commentId){
 		//alert('adf');
 		//console.log('<c:out value="${test}"/>');
@@ -55,6 +57,7 @@
 		        'Content-Type': 'application/json' 
 		    },
 			success: function(data){
+				console.log(data.message);
 				loadCommentComponent();
 			},
 			error: function(err){
@@ -99,7 +102,7 @@
 	$(function() {
 		
 		loadCommentComponent(); // 초기 댓글 로드
-		/*
+		
 		$("#btnCommentWrite").click(function(){
 			
 				var commentContent = $("#commentContent").val();
@@ -141,13 +144,18 @@
 					}
 				});
 		});
-		*/
+		
 		
 		$("#btnArticleModify").click(function(){
 			location.href="${pageContext.request.contextPath}/page/article/modify/"+${response.data.articleId};
 		});
 		
 		$("#btnArticleDelete").click(function(){
+			
+			if(confirm("삭제하시겠습니까?") == false){
+				
+				return ;
+			}
 			
 			$.ajax({
 				type: "DELETE",
@@ -171,7 +179,6 @@
 			
 		});
 		
-		
 		$("#btnArticleList").click(function(){
 			location.href="${pageContext.request.contextPath}/page/board";
 		});
@@ -180,7 +187,9 @@
 
 <ftt:page>
 	<div class="container">
+		<hr>
 		<div class="col-lg-12">
+		
 			<div class="content-title col-lg-3 ">${response.data.articleTitle} | 자유게시판</div>
 			<div class="col-lg-3 col-lg-offset-5">
 				<fmt:formatDate pattern="yyyy-MM-dd H:m"
@@ -190,9 +199,7 @@
 		</div>
 
 		<div class="content-body col-lg-12">
-			<textarea rows="20" cols="100" disabled="disabled">
-				${response.data.articleContent}
-			</textarea>
+			<textarea rows="20" cols="100" disabled="disabled">${response.data.articleContent}</textarea>
 		</div>
 
 		<div class="content-footer col-lg-12">

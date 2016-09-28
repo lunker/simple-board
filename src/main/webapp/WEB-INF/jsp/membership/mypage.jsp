@@ -120,7 +120,7 @@
 
 			if(confirm("수정하시겠습니까?") == true){
 				
-				var userId = ${userId};
+				var userId = "${userId}";
 				var userPwd = $("#userPwd").val();
 				var userContactNum = $("#userContactNum").val();
 				if(userContactNum.includes("-")){

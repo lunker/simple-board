@@ -20,7 +20,7 @@ import four33.simpleboard.dao.IMembershipDao;
 public class DaoBeanFactory {
 
 	@Autowired
-	@Qualifier("localDataSource")
+	@Qualifier("pubdbDataSource")
 	private DataSource ds;
 
 	@Bean(destroyMethod = "clearCache")

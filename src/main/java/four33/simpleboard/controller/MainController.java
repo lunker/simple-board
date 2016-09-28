@@ -32,7 +32,7 @@ public class MainController {
 			// 게시판 조회
 			
 		}
-		*/
+		
 		
 		HttpSession session = request.getSession(false);
 		Cookie[] cookies = request.getCookies();
@@ -45,16 +45,17 @@ public class MainController {
 			System.out.println("쿠키가 없네.");
 		}
 		
-		/*
 		if(session == null){
 			session = request.getSession(true);
 			
-			System.out.println("생성된 session id: " + session.getId());
+//			System.out.println("생성된 session id: " + session.getId());
 			
+			System.out.println(session.getMaxInactiveInterval());
 		}
 		else{
-			System.out.println("기존에 있던 session id: " + session.getId());
+//			System.out.println("기존에 있던 session id: " + session.getId());
 		}
+		
 		*/
 		
 		return "mainPage";

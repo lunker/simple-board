@@ -22,7 +22,7 @@
 	<select id="selectArticle" resultMap="articleResultMap">
 		select * , u.user_nickname as article_user_nickname
 		  from article a, user u 
-		  where a.article_id = #{articleId} AND a.article_user_num_id = u.user_num_id 
+		 where a.article_id = #{articleId} AND a.article_user_num_id = u.user_num_id 
 	</select>
 	
 	<select id="selectArticleCount" resultType="integer">
@@ -89,6 +89,16 @@
 		
 	</insert>	
 	
+	<insert id="insertPastArticle" parameterType="four33.simpleboard.types.WriteArticle">
+		INSERT INTO ARTICLE(
+			board_id, article_user_num_id, article_title, article_content, 
+			article_comments, article_reg_dt, article_modify_dt, article_hits, article_likes)
+		VALUES(
+			#{boardId},#{articleUserNumId},#{articleTitle},#{articleContent}, 
+			0, "2016-08-01 12:12:12", now(), 0, 0);
+	</insert>	
+	
+	
 	<update id="updateArticle" parameterType="four33.simpleboard.types.ModifyArticle">
 	
 		UPDATE ARTICLE
@@ -119,5 +129,51 @@
 		 WHERE article_id = #{articleId}
 	</delete>
 	
+	<select id="searchArticlesByCondition" resultMap="articleResultMap">
+	   SELECT *, user.user_nickname as article_user_nickname
+		  FROM ARTICLE article, USER user
+		 WHERE 
+		 
+		 <if test="condition == 'article_reg_dt'">
+		 	<![CDATA[
+		 	article_reg_dt < '9999-12-31'
+		 	]]>
+		 	
+		 	AND article.article_user_num_id = user.user_num_id
+		 	
+		 	<if test="order == 'desc'">
+			 ORDER BY article_reg_dt desc
+			 </if>
+		 </if>
+		 
+		 <if test="condition == 'article_hits'">
+		 	<![CDATA[
+		 	article_comments >= 0 
+		 	]]>
+		 	
+		 	AND article.article_user_num_id = user.user_num_id
+		 	
+		 	<if test="order == 'desc'">
+			 ORDER BY article_hits desc
+		  </if>
+			 
+		 </if>
+		 
+		 <if test="condition == 'article_likes'">
+		 	<![CDATA[
+		 	article_likes >= 0
+		 	]]>
+		 	
+		 	AND article.article_user_num_id = user.user_num_id
+		 	
+		 	<if test="order == 'desc'">
+			 ORDER BY article_likes desc
+			 </if>
+		 </if>
+		 
+		 LIMIT #{printNum}
+		 OFFSET #{offset}
+		
+	</select>
 	
 </mapper>

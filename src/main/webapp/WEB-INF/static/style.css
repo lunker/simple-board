@@ -73,3 +73,19 @@ a:ACTIVE{
 .comment-header-date{
 	color:gray;
 }
+
+
+.board-search{
+	display: inline-block;
+}
+
+
+
+
+.ul-board-search-date-option{
+	list-style: none;
+}
+.ul-board-search-date-option li:HOVER{
+	font-weight: bold;
+	background-color: #EAEAEA;
+}
