@@ -88,14 +88,7 @@ public class PageController {
 		return mv;
 	}
 	
-/*
-	@RequestMapping("/common/header")
-	public String commonHeader(Model model, HttpServletRequest request){
-		System.out.println("haewsarf");
-		
-		return "common/header";
-	}*/
-	
+
 	/**
 	 * 게시글 뷰 페이지
 	 * @param model

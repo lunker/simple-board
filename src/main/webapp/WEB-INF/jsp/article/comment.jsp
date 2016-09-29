@@ -10,9 +10,8 @@
 
 	function expandList(articleId, commentPageNum, commentPrintNum){
 		loadCommentComponent(articleId, commentPageNum, commentPrintNum);
-		
-		
 	}
+	
 	function modifyComment(commentId, index){
 		
 		var commentContent = $('#comment-modify-content'+index).val();
@@ -44,12 +43,21 @@
 <div>
 
 	댓글 ${response.data.count}
+	테스트 ${response.data.count}
+	
 	<ul class="comment-list">
 		<c:if test="${response.data.comments != null}">
+
+			<c:choose>
+				<c:when test="${(pagingInfo.commentPageNum+1) * pagingInfo.commentPrintNum > response.data.count}">
+					<c:set value="${response.data.count}" var="printLimit"/>
+				</c:when>
+				<c:otherwise>
+					<c:set value="${(pagingInfo.commentPageNum+1) * pagingInfo.commentPrintNum}" var="printLimit"/>
+				</c:otherwise>
+			</c:choose>
 			
-		<c:choose>
-			<c:when test="${response.data.count > 10 }">
-				<c:forEach items="${response.data.comments}" var="row" varStatus="status" begin="0" end="9">
+			<c:forEach items="${response.data.comments}" var="row" varStatus="status" begin="0" end="${printLimit}">
 					<li>
 						<div class="comment-item"> 
 							<div class="comment-header">
@@ -71,7 +79,6 @@
 											</span>
 										</c:otherwise>
 									</c:choose>
-									
 								</c:if>
 							</div>
 							
@@ -88,60 +95,15 @@
 						<hr>
 					</li>
 				</c:forEach>	
-				<li>
-					<div class="comment-item" style="text-align: center;"> 
-						<a onclick="expandList(${articleId}, ${pagingInfo.commentPageNum+1}, ${pagingInfo.commentPrintNum})">더보기</a>										
-					</div>
-					<hr>
-				</li>
-								
-			</c:when>
-				
-			<c:otherwise>
-				<c:forEach items="${response.data.comments}" var="row" varStatus="status">
+	
+				<c:if test="${response.data.count > printLimit }">
 					<li>
-						<div class="comment-item"> 
-							<div class="comment-header">
-								<span class="comment-header-user">${row.commentUserNickname}</span>  
-		
-								<span class="comment-header-date"><fmt:formatDate value="${row.commentRegDt}" pattern="yyyy-MM-dd H:m"/></span>
-								
-								<c:if test="${row.commentUserNumId == userNumId}">
-									<c:set var="isModify" value="false"/>
-									
-									<c:choose>
-										<c:when test="${isModify == true}">
-												수정!
-										</c:when>
-										
-										<c:otherwise>
-											<span class="comment-header-tool"> 
-												<a id='comment-modify-name<c:out value="comment-content${status.index}"/>'onClick="toggleComment(${status.index})"> 수정</a> | <a onclick="deleteComment(${row.articleId}, ${row.commentId})">삭제</a> 
-											</span>
-										</c:otherwise>
-									</c:choose>
-									
-								</c:if>
-							</div>
-							
-							<div class='comment-content <c:out value="comment-content${status.index}"/>'> 
-								${row.commentContent}
-							</div>
-							
-							<div class='comment-content <c:out value="comment-content${status.index}"/>' style="display: none;">
-								<input type="text" id='<c:out value="comment-modify-content${status.index}"/>' value='${row.commentContent}'/>
-								<a onClick="modifyComment(${row.commentId}, ${status.index})">수정</a>
-							</div>
-										
+						<div class="comment-item" style="text-align: center;"> 
+							<a onclick="expandList(${articleId}, ${pagingInfo.commentPageNum+1}, ${pagingInfo.commentPrintNum})">더보기</a>										
 						</div>
 						<hr>
 					</li>
-				</c:forEach>			
-			</c:otherwise>
-		</c:choose>
-			
-			
-			
+				</c:if>
 		</c:if>
 	</ul>
 </div>

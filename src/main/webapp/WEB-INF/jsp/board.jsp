@@ -146,6 +146,16 @@
 
 <ftt:page>
 <div class="container">
+
+	<c:choose>
+		<c:when test="${logined != true }">
+			<script type="text/javascript">
+				alert("로그인하세요.");
+				location.href="${pageContext.request.contextPath}";
+			</script>
+		</c:when>
+	</c:choose>
+	
 	<h1>${board.data.boardName}</h1>
 	<hr>
 	<div class="col-lg-1 navbar-right" >

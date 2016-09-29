@@ -112,7 +112,7 @@ public class CommentService implements ICommentService{
 		Map<String, Object> result = new HashMap<>();
 		
 		Object comments = null;
-		comments = commentDao.selectComments(articleId, 0, commentPrintNum*commentPageNum);
+		comments = commentDao.selectComments(articleId, 0, commentPrintNum*(commentPageNum+1));
 		
 		if(comments != null){
 			int count = ((Comment[])comments).length;

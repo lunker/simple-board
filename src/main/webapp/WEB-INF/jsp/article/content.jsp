@@ -196,11 +196,10 @@
 					alert("error");
 				}
 			});
-			
 		});
 		
 		$("#btnArticleList").click(function(){
-			location.href="${pageContext.request.contextPath}/page/board";
+			location.href="${pageContext.request.contextPath}/page/board/" + ${response.data.boardId};
 		});
 	});
 </script>
