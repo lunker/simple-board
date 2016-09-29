@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="four33.simpleboard.dao.IBoardDao">
+
+	<resultMap type="four33.simpleboard.types.Board" id="boardResultMap">
+		<id property="boardId" column="board_id" />
+		<result property="boardName" column="board_name" />
+		<result property="boardType" column="board_type" />
+	</resultMap>
+
+
+	<select id="selectBoards" resultMap="boardResultMap"> 
+		SELECT * 
+		  FROM BOARD;
+	</select>
+
+	<select id="selectBoard" resultMap="boardResultMap"> 
+		SELECT * 
+		  FROM BOARD
+		 WHERE board_id = #{boardId}
+	</select>
+	
+	
+	
+</mapper>

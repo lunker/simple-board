@@ -37,6 +37,10 @@ public interface IArticleDao{
 	
 	public int updateArticleCommentsDec(@Param("articleId") int articleId);
 	
+	public int updateArticleLikesInc(@Param("articleId") int articleId);
+	
+	public int updateArticleLikesDec(@Param("articleId") int articleId);
+
 	public int deleteArticle(@Param("articleId") int articleId);
 	
 	/**
@@ -62,3 +66,4 @@ public interface IArticleDao{
 	
 	
 }
+

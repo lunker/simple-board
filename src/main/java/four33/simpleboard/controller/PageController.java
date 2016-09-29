@@ -19,6 +19,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import four33.simpleboard.service.IArticleService;
 import four33.simpleboard.service.IBoardService;
+import four33.simpleboard.service.ILikeService;
 import four33.simpleboard.service.IMembershipService;
 import four33.simpleboard.types.AppResponse;
 import four33.simpleboard.types.Article;
@@ -26,7 +27,6 @@ import four33.simpleboard.types.Board;
 import four33.simpleboard.types.User;
 import four33.simpleboard.utils.Constants;
 import four33.simpleboard.utils.Utils;
-
 
 /**
  * http://----/simple-board/page/----
@@ -46,6 +46,9 @@ public class PageController {
 	
 	@Autowired
 	private IArticleService articleService;
+	
+	@Autowired
+	private ILikeService likeService;
 	
 	@RequestMapping("/login")
 	public String loginPage(){
@@ -74,6 +77,30 @@ public class PageController {
 		return mv;
 	}
 	
+	@RequestMapping(value="/article/likes", method=RequestMethod.GET)
+	public ModelAndView likesComponent(@RequestParam("articleId") int articleId, @RequestParam("userNumId") int userNumId){
+		System.out.println("[LIKE] component request");
+		
+		ModelAndView mv = new ModelAndView();
+		AppResponse response = null;
+		
+		response = likeService.selectLike(articleId, userNumId);
+		
+		boolean isLiked = (boolean) response.getData();
+		
+		response = likeService.selectLikesCount(articleId);
+		int likeCount = (int) response.getData();
+		
+		Map<String, Object> result = new HashMap<>();
+		result.put("isLiked", isLiked);
+		result.put("likeCount", likeCount);
+		result.put("articleId", articleId);
+		
+		mv.setViewName("article/likes");
+		mv.addObject("result",result);
+		
+		return mv;
+	}
 	
 	@RequestMapping(value="/article/modify/{articleId}", method=RequestMethod.GET)
 	public ModelAndView modifyArticlePage(@PathVariable("articleId") int articleId){
@@ -87,7 +114,6 @@ public class PageController {
 		
 		return mv;
 	}
-	
 
 	/**
 	 * 게시글 뷰 페이지

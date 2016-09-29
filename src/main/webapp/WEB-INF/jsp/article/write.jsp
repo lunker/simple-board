@@ -37,7 +37,7 @@
 					alert(res.message);
 					if(res.status=="200"){
 						// 게시판 메인 페이지로 이동 
-						location.replace("${pageContext.request.contextPath}/");	
+						location.replace("${pageContext.request.contextPath}/page/board/"+${boardId});	
 					}
 				},
 				error: function(data){

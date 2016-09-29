@@ -41,10 +41,7 @@
 </script>
 
 <div>
-
 	댓글 ${response.data.count}
-	테스트 ${response.data.count}
-	
 	<ul class="comment-list">
 		<c:if test="${response.data.comments != null}">
 

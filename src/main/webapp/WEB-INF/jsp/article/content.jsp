@@ -17,6 +17,27 @@
 			$("#btnCommentWrite").click();
 	     }
 	}
+	
+	function loadLikesComponent(){
+
+		var resource = "?articleId=" + ${response.data.articleId} + "&userNumId="+ ${userNumId};
+		
+		$.ajax({
+			type: "GET",
+			url: "${pageContext.request.contextPath}/page/article/likes"+resource,
+			headers: { 
+		        'Accept': 'application/json',
+		        'Content-Type': 'application/json' 
+		    },
+			success: function(data){
+				//console.log(data);
+				$("#load_likes").html(data);
+			},
+			error: function(err){
+				alert("에러");
+			}
+		});		
+	}
 
 	function loadCommentComponent(articleId, commentPageNum, commentPrintNum){
 		
@@ -120,7 +141,7 @@
 	}// end func
 	
 	$(function() {
-		
+		loadLikesComponent(); // 초기 좋아요 로드
 		loadCommentComponent(); // 초기 댓글 로드
 		
 		$("#btnCommentWrite").click(function(){
@@ -222,7 +243,9 @@
 		</div>
 
 		<div class="content-footer col-lg-12">
-			조회수 ${response.data.articleHits}   좋아요 ${response.data.articleLikes}
+			조회수 ${response.data.articleHits}   
+			
+			<div id="load_likes"></div>
 		</div>
 		
 		<div class="content-footer col-lg-12">

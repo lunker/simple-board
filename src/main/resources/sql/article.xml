@@ -114,6 +114,19 @@
 		WHERE article_id = #{articleId}
 	</update>
 	
+	<update id="updateArticleLikesInc">
+		UPDATE ARTICLE
+		SET article_likes = article_likes + 1
+		WHERE article_id = #{articleId}
+	</update>
+	
+	<update id="updateArticleLikesDec">
+		UPDATE ARTICLE
+		SET article_likes = article_likes -1
+		WHERE article_id = #{articleId}
+	</update>
+	
+	
 	<delete id="deleteArticle">
 		DELETE FROM ARTICLE
 		 WHERE article_id = #{articleId}
