@@ -18,7 +18,7 @@
 	
 	/*	게시글 뷰 페이지 오픈 */
 	function openArticle(articleId){
-		location.href="${pageContext.request.contextPath}/page/article/" + articleId;
+		location.href="${pageContext.request.contextPath}/page/article?boardId="+boardId +"&articleId=" + articleId;
 		return ;
 	}
 	
@@ -67,7 +67,7 @@
 			var maxPageNum;
 			var currentPageNum = ${pagingInfo.pageNum};
 			var currentPrintNum = ${pagingInfo.printNum};
-			var count = ${response.data.count};
+			var count = ${count};
 			
 			var currentPageNumIndex = Math.floor(currentPageNum / 3);
 			
@@ -87,7 +87,7 @@
 			var maxPageNum;
 			var currentPageNum = ${pagingInfo.pageNum};
 			var currentPrintNum = ${pagingInfo.printNum};
-			var count = ${response.data.count};
+			var count = ${count};
 			
 			if(count % currentPrintNum != 0){
 				endPageNum = Math.floor(count / currentPrintNum) + 1;
@@ -113,7 +113,7 @@
 			var endPageNum;
 			var currentPageNum = ${pagingInfo.pageNum};
 			var currentPrintNum = ${pagingInfo.printNum};
-			var count = ${response.data.count};
+			var count = ${count};
 			
 			if(count % currentPrintNum != 0){
 				endPageNum = Math.floor(count / currentPrintNum) + 1;
@@ -170,7 +170,6 @@
 		  <option value="25">25</option>
 		</select>
 	</div>
-			
 	<!-- TABLE -->
 	<div class="col-lg-12">
 		<table class="table table-bordered" id="articleTable">
@@ -184,14 +183,47 @@
 					<th class="col-lg-1">좋아요<i class="fa fa-arrow-down" aria-hidden="true" onclick="paging({condition:3})"/></th>
 				</tr>
 			</thead>
-			
 			<tbody>
+			
 			<c:choose>
-					<c:when test="${ response.data.articles != null}">
+				<c:when test="${notices!=null}">
+						<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowDate"/>
+						
+						<c:forEach items="${notices}" var="row">
+							<tr class="row-notice">
+								<td>공지</td>
+								<td> 
+									<span>
+										<a onclick="openArticle(${row.articleId})"> ${row.articleTitle}</a>
+										<a> [${row.articleComments}]</a>
+									</span>
+								</td>
+								
+								<td>${row.articleUserNickname}</td>
+								<fmt:formatDate pattern="yyyy-MM-dd" value="${row.articleRegDt}" var="rowDate"/>
+								<c:choose>
+									<c:when test="${rowDate == nowDate}">
+										<td><fmt:formatDate pattern="H:m" value="${row.articleRegDt}"/></td>
+									</c:when>
+									
+									<c:otherwise>
+										<td><fmt:formatDate pattern="yyyy-MM-dd" value="${row.articleRegDt}"/></td>
+									</c:otherwise>
+								</c:choose>
+								
+								<td>${row.articleHits}</td>
+								<td>${row.articleLikes}</td>
+							</tr>
+						</c:forEach>
+					</c:when>
+			</c:choose>
+			
+			<c:choose>
+					<c:when test="${articles!= null}">
 					
 						<fmt:formatDate value="${now}" pattern="yyyy-MM-dd" var="nowDate"/>
 						
-						<c:forEach items="${response.data.articles}" var="row">
+						<c:forEach items="${articles}" var="row">
 							<tr>
 								<td>${row.articleId}</td>
 								<td> 

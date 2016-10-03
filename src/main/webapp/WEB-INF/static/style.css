@@ -79,13 +79,14 @@ a:ACTIVE{
 	display: inline-block;
 }
 
-
-
-
 .ul-board-search-date-option{
 	list-style: none;
 }
 .ul-board-search-date-option li:HOVER{
 	font-weight: bold;
 	background-color: #EAEAEA;
+}
+
+.row-notice{
+	background-color: #B2EBF4;
 }

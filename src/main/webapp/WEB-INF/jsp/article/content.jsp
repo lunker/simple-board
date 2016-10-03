@@ -221,7 +221,10 @@
 		});
 		
 		$("#btnArticleList").click(function(){
-			location.href="${pageContext.request.contextPath}/page/board?boardId=" + ${response.data.boardId};
+			
+			//response.data.boardId 는 해당 게시글의 게시판 id이다. 
+			// from이 아님! 
+			location.href="${pageContext.request.contextPath}/page/board?boardId=" + ${fromBoardId};
 		});
 	});
 </script>

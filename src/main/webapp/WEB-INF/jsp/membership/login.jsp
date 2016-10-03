@@ -13,6 +13,8 @@
 	}
 
 	$(function(){
+		$("#userId").focus();
+		
 		$("#btnLogin").click(function(){
 			console.log("로그인");
 			

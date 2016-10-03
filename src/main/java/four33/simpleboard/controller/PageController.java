@@ -21,6 +21,7 @@ import four33.simpleboard.service.IArticleService;
 import four33.simpleboard.service.IBoardService;
 import four33.simpleboard.service.ILikeService;
 import four33.simpleboard.service.IMembershipService;
+import four33.simpleboard.service.INoticeService;
 import four33.simpleboard.types.AppResponse;
 import four33.simpleboard.types.Article;
 import four33.simpleboard.types.Board;
@@ -50,6 +51,10 @@ public class PageController {
 	@Autowired
 	private ILikeService likeService;
 	
+	@Autowired
+	private INoticeService noticeService;
+	
+	
 	@RequestMapping("/login")
 	public String loginPage(){
 		return "membership/login";
@@ -74,7 +79,6 @@ public class PageController {
 		// 일반 게시판
 		if(boardId == 2){
 			mv.setViewName("article/noticeWrite");
-			
 		}
 		else{
 			mv.setViewName("article/write");	
@@ -144,8 +148,12 @@ public class PageController {
 	 * @param articleId
 	 * @return
 	 */
-	@RequestMapping(method=RequestMethod.GET, value="/article/{articleId}")
-	public ModelAndView ArticleSelectArticle(Model model, HttpServletRequest request, @PathVariable("articleId") int articleId){
+	@RequestMapping(method=RequestMethod.GET, value="/article")
+	public ModelAndView ArticleSelectArticle(
+			HttpServletRequest request,
+			@RequestParam("boardId") int boardId,
+			@RequestParam("articleId") int articleId
+			){
 		
 		System.out.println("[ARTICLE] 게시글 조회  request");
 		System.out.println("[ARTICLE] 게시글 번호 : " + articleId);
@@ -161,6 +169,7 @@ public class PageController {
 		
 		System.out.println("조회된 게시글 내용 : " + ((Article)response.getData()).getArticleContent());
 		mv.addObject("response",response);
+		mv.addObject("fromBoardId", boardId);
 
 		return mv;
 	}
@@ -282,12 +291,12 @@ public class PageController {
 			@RequestParam(value="printNum", required=false, defaultValue="10") int printNum
 			
 			){
-		System.out.println("[PAGE] 게시판 페이지 request");
+		System.out.println("[PAGE] 게시판 리스트 페이지 request");
 
 		AppResponse response = null;
+		
 		String strCondition="";
 		String strOrder="";
-
 		
 		if(condition == Constants.NUM_PAGING_CONDITION_REG_DT){
 			strCondition = Constants.STR_PAGING_CONDITION_REG_DT;
@@ -307,11 +316,19 @@ public class PageController {
 		}
 		
 		response = articleService.selectArticles(boardId, strCondition, strOrder, printNum, pageNum);
+		Object notices = null;
+		// 첫 페이지 일때만 공지사항 조회 
+		if(pageNum==0){
+			
+			notices = noticeService.selectPublicNotices();
+			notices = ((AppResponse) notices).getData();
+		}
 		
 		Object board = boardService.selectBoard(boardId);
+		
 		System.out.println(board.toString());
 		
- 		System.out.println("게시글 조회 결과 : " + ((Article[])((Map<String, Object>)response.getData()).get("articles")).length + "개");
+// 		System.out.println("게시글 조회 결과 : " + ((Article[])((Map<String, Object>)response.getData()).get("articles")).length + "개");
  		
  		Map<String, Object> pagingInfo = new HashMap<String, Object>();
  		pagingInfo.put("order", order);
@@ -326,7 +343,12 @@ public class PageController {
  		// 현재 게시판에 대한 정보 
  		mv.addObject("board", board);
  		// 게시글 object list 
-		mv.addObject("response", response);
+		mv.addObject("articles",  ((Map<String, Object>)response.getData()).get("items"));
+		mv.addObject("count", ((Map<String, Object>)response.getData()).get("count"));
+		
+		// 공지사항 object list
+		mv.addObject("notices", notices);
+		
 		// paging 조회정보
 		mv.addObject("pagingInfo",pagingInfo);
 		

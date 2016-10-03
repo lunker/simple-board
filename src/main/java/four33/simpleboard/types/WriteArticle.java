@@ -9,6 +9,8 @@ import java.sql.Date;
  */
 public class WriteArticle {
 	
+	private int articleId;
+	
 	private int boardId;
 	private int articleUserNumId;
 	
@@ -18,12 +20,29 @@ public class WriteArticle {
 	public WriteArticle(){}
 	
 	public WriteArticle(int boardId, int articleUserNumId, String articleTitle, String articleContent) {
+		this(0,boardId,articleUserNumId, articleTitle, articleContent);
+		
+//		this.boardId = boardId;
+//		this.articleUserNumId = articleUserNumId;
+//		this.articleTitle = articleTitle;
+//		this.articleContent = articleContent;
+	}
+	
+	public WriteArticle(int articleId, int boardId, int articleUserNumId, String articleTitle, String articleContent) {
+		this.articleId = articleId;
 		this.boardId = boardId;
 		this.articleUserNumId = articleUserNumId;
 		this.articleTitle = articleTitle;
 		this.articleContent = articleContent;
 	}
 
+	public int getArticleId() {
+		return articleId;
+	}
+
+	public void setArticleId(int articleId) {
+		this.articleId = articleId;
+	}
 
 	public int getBoardId() {
 		return boardId;

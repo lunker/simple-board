@@ -25,13 +25,13 @@
 	</resultMap>
 
 	<select id="selectNotices" resultMap="articleResultMap">
-		SELECT *
+		SELECT *, u.user_nickname as article_user_nickname
 		  FROM (
 		  	SELECT notice_article_id  
 		  	  FROM NOTICE
 		  	 WHERE NOTICE_RANGE IS NULL
-		  ) t, ARTICLE a
-		 WHERE t.notice_article_id = a.articleId 
+		  ) t, ARTICLE a left join User u on a.article_user_num_id = u.user_num_id 
+		 WHERE t.notice_article_id = a.article_id 
 	</select>
 
 	<insert id="insertNotice" parameterType="four33.simpleboard.types.NoticeWrite">

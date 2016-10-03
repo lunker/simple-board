@@ -32,11 +32,13 @@ public class ArticleService implements IArticleService{
 		
 		result = articleDao.insertArticle(writeArticle);
 		
+		System.out.println("key 가져왔니? ! : + " + writeArticle.getArticleId());
+		
 		if(result > 0){
-			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 쓰기 성공", result);
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 쓰기 성공", writeArticle.getArticleId());
 		}
 		else{
-			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 쓰기 실패", result);
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 쓰기 실패", 0);
 		}
 		
 		return response;
@@ -132,7 +134,7 @@ public class ArticleService implements IArticleService{
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		
-		data.put("articles",articles);
+		data.put("items", articles);
 		data.put("count", count);
 		
 		if(articles==null){

@@ -60,6 +60,7 @@ public class NoticeController {
 		AppResponse response = null;
 		
 		int noticeArticleId = (int) articleService.writeArticle(writeArticle).getData();
+		System.out.println("작성된 공지사항의 id : " + noticeArticleId);
 		int numNoticeRange = 0;
 		
 		// c : 공지게시판만 노출  => boardId
