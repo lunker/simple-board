@@ -26,16 +26,17 @@ public class ArticleService implements IArticleService{
 	
 	@Override
 	public AppResponse writeArticle(WriteArticle writeArticle) {
+		
 		AppResponse response = null;
 		int result=0;
 		
 		result = articleDao.insertArticle(writeArticle);
 		
 		if(result > 0){
-			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 쓰기 성공");
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 쓰기 성공", result);
 		}
 		else{
-			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 쓰기 실패");
+			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 쓰기 실패", result);
 		}
 		
 		return response;

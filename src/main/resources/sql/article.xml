@@ -70,8 +70,8 @@
 		 OFFSET #{offset}
 		
 	</select>
-
-	<insert id="insertArticle" parameterType="four33.simpleboard.types.WriteArticle">
+	
+	<insert id="insertArticle" parameterType="four33.simpleboard.types.WriteArticle" keyProperty="article_id">
 		INSERT INTO ARTICLE(
 			board_id, article_user_num_id, article_title, article_content, 
 			article_comments, article_reg_dt, article_modify_dt, article_hits, article_likes)
@@ -79,6 +79,8 @@
 			#{boardId},#{articleUserNumId},#{articleTitle},#{articleContent}, 
 			0, now(), now(), 0, 0);
 	</insert>	
+	
+	
 	
 	<insert id="insertPastArticle" parameterType="four33.simpleboard.types.WriteArticle">
 		INSERT INTO ARTICLE(
@@ -125,7 +127,6 @@
 		SET article_likes = article_likes -1
 		WHERE article_id = #{articleId}
 	</update>
-	
 	
 	<delete id="deleteArticle">
 		DELETE FROM ARTICLE

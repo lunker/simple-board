@@ -61,8 +61,31 @@ public class PageController {
 	}
 	
 	@RequestMapping("/article/write")
-	public String writeArticlePage(){
-		return "article/write";
+	public ModelAndView writeArticlePage(
+			@RequestParam("boardId") int boardId
+			){
+		System.out.println("[PAGE] 게시글 작성 request");
+		ModelAndView mv = new ModelAndView();
+		AppResponse response = null;
+		
+		response = boardService.selectBoards();
+		
+		
+		// 일반 게시판
+		if(boardId == 2){
+			mv.setViewName("article/noticeWrite");
+			
+		}
+		else{
+			mv.setViewName("article/write");	
+		}
+		
+		Object board = boardService.selectBoard(boardId);
+		
+		mv.addObject("board", board);
+//		mv.addObject("response", response);
+		
+		return mv;
 	}
 	
 	@RequestMapping("/header/menu")
@@ -132,7 +155,6 @@ public class PageController {
 		
 		mv.setViewName("article/content");
 		session = Utils.getSession(request);
-//		String userNumId = (String) session.getAttribute("userNumId");
 		int userNumId = (Integer) session.getAttribute("userNumId");
 		
 		response = articleService.selectArticle(articleId, userNumId);
@@ -251,9 +273,9 @@ public class PageController {
 	 * @param from : 0; none 1: P, 2: N
 	 * @return
 	 */
-	@RequestMapping("/board/{boardId}")
+	@RequestMapping("/board")
 	public ModelAndView boardPage(Model model, HttpServletRequest request,
-			@PathVariable("boardId") int boardId,
+			@RequestParam("boardId") int boardId,
 			@RequestParam(value="condition", required=false, defaultValue="1") int condition,
 			@RequestParam(value="order", required=false, defaultValue="1") int order,
 			@RequestParam(value="pageNum", required=false, defaultValue="0") int pageNum,
@@ -297,11 +319,15 @@ public class PageController {
  		pagingInfo.put("pageNum", pageNum);
  		pagingInfo.put("printNum", printNum);
  	// send response
+ 		
  		ModelAndView mv = new ModelAndView();
  		mv.setViewName("board");
  		
+ 		// 현재 게시판에 대한 정보 
  		mv.addObject("board", board);
+ 		// 게시글 object list 
 		mv.addObject("response", response);
+		// paging 조회정보
 		mv.addObject("pagingInfo",pagingInfo);
 		
 		return mv;

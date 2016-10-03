@@ -11,6 +11,7 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 <script type="text/javascript">
 
+	var boardId = ${response.data.boardId};
 	function onKeyDown(){
 		if(event.keyCode == 13)
 	     {
@@ -210,7 +211,7 @@
 					
 					if(res.status=="200"){
 						alert(res.message);
-						location.href="${pageContext.request.contextPath}/page/board";
+						location.href="${pageContext.request.contextPath}/page/board?boardId=" + boardId;
 					}
 				},
 				error: function(err){
@@ -220,7 +221,7 @@
 		});
 		
 		$("#btnArticleList").click(function(){
-			location.href="${pageContext.request.contextPath}/page/board/" + ${response.data.boardId};
+			location.href="${pageContext.request.contextPath}/page/board?boardId=" + ${response.data.boardId};
 		});
 	});
 </script>

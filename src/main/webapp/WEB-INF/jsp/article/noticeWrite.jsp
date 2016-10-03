@@ -16,7 +16,16 @@
 			var articleContent = tinyMCE.activeEditor.getContent({format: 'text'})
 			var articleTitle = $("#articleTitle").val();
 			
-			var boardId = ${board.data.boardId}
+			var boardId = ${board.data.boardId};
+			var noticeRange;
+			
+			if($(':input:radio[name="noticeRange"]:checked').length != 0){
+				noticeRange = $(':radio[name="noticeRange"]:checked').val();
+			}
+			else{
+				alert("범위를 선택하세요");
+				return;
+			}
 			
 			var articleData = {
 				"boardId" :		boardId,
@@ -27,7 +36,7 @@
 			
 			$.ajax({
 				type: "POST",
-				url: "${pageContext.request.contextPath}/article",
+				url: "${pageContext.request.contextPath}/notice?noticeRange="+noticeRange,
 				headers: { 
 			        'Accept': 'application/json',
 			        'Content-Type': 'application/json' 
@@ -65,6 +74,14 @@
 			  <div class="col-sm-5">
 				${board.data.boardName}
 			  </div>
+	  	
+	  		<label class="radio-inline">
+			  <input type="radio" name="noticeRange" id="noticeRange1" value="c"> 현재 게시판 공지
+			</label>
+			<label class="radio-inline">
+			  <input type="radio" name="noticeRange" id="noticeRange2" value="a"> 전체 공지 
+			</label>
+	
 		  </div>
 		  
 		  <div class="form-group">

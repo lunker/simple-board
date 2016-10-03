@@ -70,7 +70,7 @@
 </script>
 
 <div>
-	좋아요 수 : ${result.likeCount } 
+	좋아요 ${result.likeCount } 
 	
 	<c:choose>
 		<c:when test="${result.isLiked == true}">

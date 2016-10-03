@@ -10,7 +10,7 @@
 
 	// 게시판 오픈
 	function openBoard(boardId){
-		location.href="${pageContext.request.contextPath}/page/board/"+boardId;
+		location.href="${pageContext.request.contextPath}/page/board?boardId="+boardId;
 		return;
 	}
 

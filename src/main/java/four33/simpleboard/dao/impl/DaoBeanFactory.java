@@ -16,6 +16,7 @@ import four33.simpleboard.dao.IBoardDao;
 import four33.simpleboard.dao.ICommentDao;
 import four33.simpleboard.dao.ILikeDao;
 import four33.simpleboard.dao.IMembershipDao;
+import four33.simpleboard.dao.INoticeDao;
 
 @Configuration
 public class DaoBeanFactory {
@@ -134,7 +135,7 @@ public class DaoBeanFactory {
 	}
 	
 
-	// ======== comment dao 
+	// ======== like dao 
 	@Bean(destroyMethod = "clearCache")
 	public SqlSessionTemplate likeSessionTemplate() {
 		try {
@@ -158,4 +159,31 @@ public class DaoBeanFactory {
 		SqlSessionTemplate sessionTemplate = likeSessionTemplate();
 		return sessionTemplate.getMapper(ILikeDao.class);
 	}
+	
+	// ======== notice dao 
+		@Bean(destroyMethod = "clearCache")
+		public SqlSessionTemplate noticeSessionTemplate() {
+			try {
+				Resource[] resources = new Resource[] { new ClassPathResource("sql/notice.xml"), };
+
+				SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+				sqlSessionFactory.setDataSource(ds);
+				sqlSessionFactory.setMapperLocations(resources);
+
+				return new SqlSessionTemplate(sqlSessionFactory.getObject());
+			} catch (Exception e) {
+				System.out.println("error in board session template");
+				System.out.println(e.getMessage());
+			}
+
+			return null;
+		}
+		
+		@Bean
+		public INoticeDao noticeDao() {
+			SqlSessionTemplate sessionTemplate = noticeSessionTemplate();
+			return sessionTemplate.getMapper(INoticeDao.class);
+		}
+		
+		
 }

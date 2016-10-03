@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import four33.simpleboard.service.IArticleService;
 import four33.simpleboard.service.IMembershipService;
+import four33.simpleboard.service.INoticeService;
 import four33.simpleboard.types.LoginForm;
 import four33.simpleboard.types.ModifyArticle;
 import four33.simpleboard.types.AppResponse;
@@ -31,6 +32,9 @@ public class ArticleController {
 	
 	@Autowired
 	private IArticleService articleService;
+//	
+//	@Autowired
+//	private INoticeService noticeService;
 
 	public HttpSession getSession(HttpServletRequest request){
 		
@@ -44,7 +48,9 @@ public class ArticleController {
 	
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
-	public AppResponse ActionWriteArticle(HttpServletRequest request, @RequestBody WriteArticle writeArticle){
+	public AppResponse ActionWriteArticle(HttpServletRequest request, 
+			@RequestBody WriteArticle writeArticle
+			){
 		System.out.println("[ARTICLE] 게시글 작성 request");
 		AppResponse response = null;
 		
@@ -59,7 +65,6 @@ public class ArticleController {
 			@RequestBody ModifyArticle modifyArticle
 			
 			){
-		
 		/*
 		 * 
 		 * @RequestParam("articleId") int articleId,

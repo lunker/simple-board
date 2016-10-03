@@ -39,9 +39,9 @@
 		
 		var pagingInfo = Object.assign(defaultPagingInfo,val);
 		
-		var url = "${pageContext.request.contextPath}/page/board/"+boardId;
+		var url = "${pageContext.request.contextPath}/page/board?boardId="+boardId;
 		
-		url+= "?pageNum=" + pagingInfo.pageNum;
+		url+= "&pageNum=" + pagingInfo.pageNum;
 		url+= "&printNum=" + pagingInfo.printNum;
 		url+= "&condition=" + pagingInfo.condition;
 		url+= "&order=" + pagingInfo.order;
@@ -132,7 +132,7 @@
 		});
 		
 		$("#btnWriteArticle").click(function(){
-			location.href="${pageContext.request.contextPath}/page/article/write";
+			location.href="${pageContext.request.contextPath}/page/article/write?boardId="+${board.data.boardId};
 		});
 		
 		/* ============================= 검색 */
