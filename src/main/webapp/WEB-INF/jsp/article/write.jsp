@@ -16,7 +16,7 @@
 			var articleContent = tinyMCE.activeEditor.getContent({format: 'text'})
 			var articleTitle = $("#articleTitle").val();
 			
-			var boardId = ${board.data.boardId}
+			var boardId = ${board.boardId}
 			
 			var articleData = {
 				"boardId" :		boardId,
@@ -63,7 +63,7 @@
 		  <div class="form-group">
 			<label for="inputEmail3" class="col-sm-2 control-label">게시판</label>
 			  <div class="col-sm-5">
-				${board.data.boardName}
+				${board.boardName}
 			  </div>
 		  </div>
 		  

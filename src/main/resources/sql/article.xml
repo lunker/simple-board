@@ -27,6 +27,7 @@
 	<select id="selectArticleCount" resultType="integer">
 		SELECT count(*)
 		  FROM ARTICLE
+		 WHERE board_id = #{boardId}
 	</select>
 	
 	<select id="selectArticles" parameterType="hashmap" resultMap="articleResultMap">

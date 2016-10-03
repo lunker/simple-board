@@ -54,12 +54,19 @@ public class PageController {
 	@Autowired
 	private INoticeService noticeService;
 	
-	
+	/**
+	 * 로그인 페이지
+	 * @return
+	 */
 	@RequestMapping("/login")
 	public String loginPage(){
 		return "membership/login";
 	}
 	
+	/**
+	 * 회원가입 페이지
+	 * @return
+	 */
 	@RequestMapping("/signup")
 	public String signupPage(){
 		return "membership/signup";
@@ -71,10 +78,6 @@ public class PageController {
 			){
 		System.out.println("[PAGE] 게시글 작성 request");
 		ModelAndView mv = new ModelAndView();
-		AppResponse response = null;
-		
-		response = boardService.selectBoards();
-		
 		
 		// 일반 게시판
 		if(boardId == 2){
@@ -84,10 +87,11 @@ public class PageController {
 			mv.setViewName("article/write");	
 		}
 		
-		Object board = boardService.selectBoard(boardId);
-		
-		mv.addObject("board", board);
-//		mv.addObject("response", response);
+		AppResponse response = boardService.selectBoard(boardId);
+		if(response!=null){
+			
+		}
+		mv.addObject("board", response.getData());
 		
 		return mv;
 	}
@@ -325,18 +329,30 @@ public class PageController {
 		}
 		
 		Object board = boardService.selectBoard(boardId);
-		
-		System.out.println(board.toString());
-		
-// 		System.out.println("게시글 조회 결과 : " + ((Article[])((Map<String, Object>)response.getData()).get("articles")).length + "개");
  		
  		Map<String, Object> pagingInfo = new HashMap<String, Object>();
  		pagingInfo.put("order", order);
  		pagingInfo.put("condition", condition);
  		pagingInfo.put("pageNum", pageNum);
  		pagingInfo.put("printNum", printNum);
- 	// send response
  		
+ 		int count= (int) ((Map<String, Object>)response.getData()).get("count");
+ 		int limit = 1;
+ 		
+ 		if(count - printNum * (pageNum+1) <0){
+ 			limit = 1;
+ 		}
+ 		else{
+ 			if(( count - printNum*(pageNum+1)) / printNum > 3  ){
+ 				limit = 3;
+ 			}
+ 			else{
+ 				limit = ( count - printNum*(pageNum+1)) / printNum ;
+ 			}
+ 		}
+ 		
+ 		pagingInfo.put("limit", limit);
+ 		System.out.println("limit : " + limit);
  		ModelAndView mv = new ModelAndView();
  		mv.setViewName("board");
  		

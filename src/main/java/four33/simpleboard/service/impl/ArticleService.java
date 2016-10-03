@@ -130,7 +130,7 @@ public class ArticleService implements IArticleService{
 		// 2 : 10 ~ 19 row 
 	
 		Object articles = articleDao.selectArticles(boardId, condition, order, printNum, pageNum*printNum);
-		int count = articleDao.selectArticleCount();
+		int count = articleDao.selectArticleCount(boardId);
 		
 		Map<String, Object> data = new HashMap<String, Object>();
 		

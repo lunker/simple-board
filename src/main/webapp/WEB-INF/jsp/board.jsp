@@ -293,7 +293,7 @@
 			    			</c:otherwise>
 			    		</c:choose>
 				    	
-			    		<c:forEach begin="1" end="3" var="index">
+			    		<c:forEach begin="1" end="${pagingInfo.limit}" var="index" >
 			    			<c:set value="${pageNumIndex*3 }" var="tmpPageNum"/>
 			    			<c:choose>
 			    				<c:when test="${tmpPageNum + index == pagingInfo.pageNum +1}">

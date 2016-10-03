@@ -55,7 +55,7 @@ public interface IArticleDao{
 			@Param("offset") int offset 
 			);
 	
-	public int selectArticleCount();
+	public int selectArticleCount(@Param("boardId") int boardId);
 	
 	public Article[] searchArticlesByCondition(
 			@Param("printNum") int printNum,
