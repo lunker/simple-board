@@ -58,10 +58,15 @@ public interface IArticleDao{
 	public int selectArticleCount(@Param("boardId") int boardId);
 	
 	public Article[] searchArticlesByCondition(
-			@Param("printNum") int printNum,
-			@Param("offset") int offset,
+			
+			@Param("boardId") int boardId,
 			@Param("condition") String condition,
-			@Param("content") String content
+			@Param("order") String order,
+			@Param("printNum") int printNum,
+			@Param("offset") int offset ,
+			@Param("searchQuery") String searchQuery, 
+			@Param("searchCondition") int searchCondition, 
+			@Param("searchRange") int searchRange
 			);
 	
 	

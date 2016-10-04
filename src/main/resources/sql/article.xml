@@ -135,39 +135,49 @@
 	<select id="searchArticlesByCondition" resultMap="articleResultMap">
 	   SELECT *, user.user_nickname as article_user_nickname
 		  FROM ARTICLE article LEFT JOIN USER user ON article.article_user_num_id = user.user_num_id
-		 WHERE 
+		 WHERE  article.board_id = #{boardId} AND
 		 
-		 <if test="condition == 'article_reg_dt'">
-		 	<![CDATA[
-		 	article_reg_dt < '9999-12-31'
-		 	]]>
+		 <choose>
+		 	<when test="searchRange == 0">
+			 	<![CDATA[
+			 	article_reg_dt < '9999-12-31' 
+			 	]]>
+		 	</when>
+
+		 	<when test="searchRange == 1">
+			 	<![CDATA[
+			 	article_reg_dt >= date_format(date_sub(now(), interval 1 day), "%Y-%c-%e")
+			 	]]>
+		 	</when>
 		 	
-		 	<if test="order == 'desc'">
-			 ORDER BY article_reg_dt desc
-			 </if>
-		 </if>
+		 	<when test="searchRange == 2">
+		 		<![CDATA[
+			 	article_reg_dt >= date_format(date_sub(now(), interval 1 week), "%Y-%c-%e")
+			 	]]>
+		 	</when>
+		 	<when test="searchRange == 3">
+		 		<![CDATA[
+			 	article_reg_dt >= date_sub(now(), interval 1 MONTH)
+			 	]]>
+		 	</when>
+		 </choose>
+		
+		 <choose>
 		 
-		 <if test="condition == 'article_hits'">
-		 	<![CDATA[
-		 	article_comments >= 0 
-		 	]]>
+		 	<when test="searchCondition == 0">
+		 		AND user.user_id like CONCAT('%',#{searchQuery},'%')
+		 	</when>
 		 	
-		 	<if test="order == 'desc'">
-			 ORDER BY article_hits desc
-		  </if>
-			 
-		 </if>
-		 
-		 <if test="condition == 'article_likes'">
-		 	<![CDATA[
-		 	article_likes >= 0
-		 	]]>
+		 	<when test="searchCondition == 1">
+		 		AND article_title like CONCAT('%',#{searchQuery},'%')
+		 	</when>
 		 	
-		 	<if test="order == 'desc'">
-			 ORDER BY article_likes desc
-			 </if>
-		 </if>
-		 
+		 	<when test="searchCondition == 2">
+				AND article_content like CONCAT('%',#{searchQuery},'%')	 		
+		 	</when>
+		 	
+		 </choose>
+		 ORDER BY article.article_reg_dt DESC
 		 LIMIT #{printNum}
 		 OFFSET #{offset}
 		

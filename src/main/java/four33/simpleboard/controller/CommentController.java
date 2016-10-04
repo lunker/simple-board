@@ -56,7 +56,7 @@ public class CommentController {
 	 * @return
 	 */
 	@RequestMapping(method=RequestMethod.GET, value="/{articleId}")
-	public ModelAndView ArticleSelectComment(HttpServletRequest request, 
+	public ModelAndView ArticleSelectComment(
 			@PathVariable("articleId") int articleId,
 			@RequestParam(value="commentPageNum", required=false, defaultValue="0") int commentPageNum,
 			@RequestParam(value="commentPrintNum", required=false, defaultValue="10") int commentPrintNum
@@ -84,7 +84,9 @@ public class CommentController {
 	
 	@RequestMapping(method=RequestMethod.PUT)
 	@ResponseBody
-	public AppResponse ActionModifyComment(HttpServletRequest request, @RequestParam("commentId") int commentId, @RequestParam("commentContent") String commentContent){
+	public AppResponse ActionModifyComment(
+			@RequestParam("commentId") int commentId, 
+			@RequestParam("commentContent") String commentContent){
 		System.out.println("[COMMENT]댓글 수정 request");
 		AppResponse response = null;
 		

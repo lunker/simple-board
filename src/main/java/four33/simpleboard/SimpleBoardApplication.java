@@ -25,9 +25,6 @@ public class SimpleBoardApplication extends SpringBootServletInitializer{
 	}
 
 	public static void main(String[] args) throws Exception {
-		
-
-		
 		new SimpleBoardApplication().run(args);
 	}
 }

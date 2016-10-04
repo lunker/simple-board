@@ -30,16 +30,6 @@ public class BoardController {
 	
 	@Autowired
 	private IBoardService boardService;
-
-	public HttpSession getSession(HttpServletRequest request){
-		
-		HttpSession session = request.getSession(false);
-
-		if(session == null){
-			session = request.getSession(true);
-		}
-		return session;
-	}
 	
 	/**
 	 * 게시판 종류들을 조회
@@ -67,6 +57,4 @@ public class BoardController {
 		*/
 		return null;
 	}
-	
-	
 }

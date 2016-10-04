@@ -133,15 +133,21 @@ public class PageController {
 		return mv;
 	}
 	
-	@RequestMapping(value="/article/modify/{articleId}", method=RequestMethod.GET)
-	public ModelAndView modifyArticlePage(@PathVariable("articleId") int articleId){
+	@RequestMapping(value="/article/modify", method=RequestMethod.GET)
+	public ModelAndView modifyArticlePage(
+			@RequestParam("boardId") int boardId,
+			@RequestParam("articleId") int articleId
+			
+			){
 		
 		ModelAndView mv = new ModelAndView();
 		
 		Article article = (Article) articleService.selectRawArticle(articleId);
 		
 		mv.setViewName("article/modify");
+		
 		mv.addObject("article", article);
+		mv.addObject("boardId",boardId);
 		
 		return mv;
 	}
@@ -197,80 +203,6 @@ public class PageController {
 				mv.addObject("userInfo",userInfo);
 			}
 		}
-		
-		return mv;
-	}
-
-	/**
-	 * 게시글 검색 -- 추후에 
-	 * @param model
-	 * @param request
-	 * @param condition
-	 * @param order
-	 * @param pageNum
-	 * @param printNum
-	 * @return
-	 */
-	@RequestMapping("/searchboard")
-	public ModelAndView searchboardPage(Model model, HttpServletRequest request,
-			
-			@RequestParam(value="condition", required=false, defaultValue="1") int condition,
-			@RequestParam(value="order", required=false, defaultValue="1") int order,
-			@RequestParam(value="pageNum", required=false, defaultValue="1") int pageNum,
-			@RequestParam(value="printNum", required=false, defaultValue="10") int printNum
-			
-			){
-		System.out.println("[PAGE] 게시판 페이지 request");
-
-		AppResponse response = null;
-		String strCondition="";
-		String strOrder="";
-		
-		if(condition == Constants.NUM_PAGING_CONDITION_REG_DT){
-			strCondition = Constants.STR_PAGING_CONDITION_REG_DT;
-		}
-		else if(condition == Constants.NUM_PAGING_CONDITION_HITS){
-			strCondition = Constants.STR_PAGING_CONDITION_HITS;
-		}
-		else{
-			strCondition = Constants.STR_PAGING_CONDITION_LIKES;
-		}
-		
-		if(order == Constants.NUM_PAGING_ORDER_DESC){
-			strOrder = Constants.STR_PAGING_ORDER_DESC;
-		}
-		else{
-			strOrder = Constants.STR_PAGING_ORDER_ASC;
-		}
-		
-//		response = articleService.selectArticles(strCondition, strOrder, printNum, pageNum);
-		
-		// send response
- 		ModelAndView mv = new ModelAndView();
- 		mv.setViewName("board");
- 		
- 		/*
-		Object data = boardService.selectBoard();
-		
-		if(data!=null){
-			Board[] tmp = (Board[])data;
-			for(int i=0; i<tmp.length; i++)
-				System.out.println(tmp[i].toString());
-		}
-		*/
- 		
- 		
- 		System.out.println("게시글 조회 결과 : " + ((Article[])((Map<String, Object>)response.getData()).get("articles")).length + "개");
- 		
- 		Map<String, Object> pagingInfo = new HashMap<String, Object>();
- 		pagingInfo.put("order", order);
- 		pagingInfo.put("condition", condition);
- 		pagingInfo.put("pageNum", pageNum);
- 		pagingInfo.put("printNum", printNum);
- 		
-		
-		mv.addObject("response", response);
-		mv.addObject("pagingInfo",pagingInfo);
 		
 		return mv;
 	}
@@ -370,4 +302,100 @@ public class PageController {
 		
 		return mv;
 	}
+	
+	/**
+	 * 
+	 * @param model
+	 * @param request
+	 * @param condition
+	 * @param order
+	 * @param pageNum
+	 * @param printNum
+	 * @param from : 0; none 1: P, 2: N
+	 * @return
+	 */
+	@RequestMapping("/search")
+	public ModelAndView boardSearchPage(
+			@RequestParam("boardId") int boardId,
+			@RequestParam(value="condition", required=false, defaultValue="1") int condition,
+			@RequestParam(value="order", required=false, defaultValue="1") int order,
+			@RequestParam(value="pageNum", required=false, defaultValue="0") int pageNum,
+			@RequestParam(value="printNum", required=false, defaultValue="10") int printNum,
+			@RequestParam(value="searchQuery", required=false, defaultValue="") String searchQuery,
+			@RequestParam(value="searchCondition", required=false, defaultValue="0") int searchCondition,
+			@RequestParam(value="searchRange", required=false, defaultValue="0") int searchRange
+			){
+		System.out.println("[PAGE] 게시글 검색 request");
+
+		AppResponse response = null;
+		
+		String strCondition="";
+		String strOrder="";
+		
+		if(condition == Constants.NUM_PAGING_CONDITION_REG_DT){
+			strCondition = Constants.STR_PAGING_CONDITION_REG_DT;
+		}
+		else if(condition == Constants.NUM_PAGING_CONDITION_HITS){
+			strCondition = Constants.STR_PAGING_CONDITION_HITS;
+		}
+		else{
+			strCondition = Constants.STR_PAGING_CONDITION_LIKES;
+		}
+		
+		if(order == Constants.NUM_PAGING_ORDER_DESC){
+			strOrder = Constants.STR_PAGING_ORDER_DESC;
+		}
+		else{
+			strOrder = Constants.STR_PAGING_ORDER_ASC;
+		}
+		
+		response = articleService.searchArticles(boardId, strCondition, strOrder, printNum, pageNum, searchQuery, searchCondition, searchRange);
+		
+		Object board = boardService.selectBoard(boardId);
+ 		
+ 		Map<String, Object> pagingInfo = new HashMap<String, Object>();
+ 		pagingInfo.put("order", order);
+ 		pagingInfo.put("condition", condition);
+ 		pagingInfo.put("pageNum", pageNum);
+ 		pagingInfo.put("printNum", printNum);
+ 		
+ 		Map<String, Object> searchingInfo = new HashMap<String, Object>();
+ 		searchingInfo.put("searchQuery", searchQuery);
+ 		searchingInfo.put("searchCondition", searchCondition);
+ 		searchingInfo.put("searchRange", searchRange);
+ 		
+ 		int count= (int) ((Map<String, Object>)response.getData()).get("count");
+ 		
+ 		int limit = 1;
+ 		
+ 		if(count - printNum * (pageNum+1) <0){
+ 			limit = 1;
+ 		}
+ 		else{
+ 			if(( count - printNum*(pageNum+1)) / printNum > 3  ){
+ 				limit = 3;
+ 			}
+ 			else{
+ 				limit = ( count - printNum*(pageNum+1)) / printNum ;
+ 			}
+ 		}
+ 		
+ 		pagingInfo.put("limit", limit);
+ 		System.out.println("limit : " + limit);
+ 		ModelAndView mv = new ModelAndView();
+ 		mv.setViewName("searchboard");
+ 		
+ 		// 현재 게시판에 대한 정보 
+ 		mv.addObject("board", board);
+ 		// 게시글 object list 
+		mv.addObject("articles", ((Map<String, Object>)response.getData()).get("items"));
+		mv.addObject("count", ((Map<String, Object>)response.getData()).get("count"));
+		
+		mv.addObject("searchingInfo", searchingInfo);
+		// paging 조회정보
+		mv.addObject("pagingInfo",pagingInfo);
+		
+		return mv;
+	}
+	
 }

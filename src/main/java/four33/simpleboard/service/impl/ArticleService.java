@@ -32,8 +32,6 @@ public class ArticleService implements IArticleService{
 		
 		result = articleDao.insertArticle(writeArticle);
 		
-		System.out.println("key 가져왔니? ! : + " + writeArticle.getArticleId());
-		
 		if(result > 0){
 			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 쓰기 성공", writeArticle.getArticleId());
 		}
@@ -81,20 +79,6 @@ public class ArticleService implements IArticleService{
 
 		AppResponse response = null;
 		
-		/*
-		Article article = articleDao.selectArticle(articleId);
-		
-		if(article == null){
-			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "게시글 조회 실패");
-		}
-		else{
-			System.out.println(article.toString());
-			int result = 0;
-			result = articleDao.updateArticleHits(articleId, articleUserNumId);
-			
-			response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 조회 성공", article);	
-		}
-		*/
 		int result = 0;
 		result = articleDao.updateArticleHits(articleId, articleUserNumId);
 		
@@ -164,5 +148,27 @@ public class ArticleService implements IArticleService{
 		result = articleDao.selectArticle(articleId);
 		
 		return result;
+	}
+
+	
+	@Override
+	public AppResponse searchArticles(int boardId, String condition, String order, int printNum, int pageNum,
+			String searchQuery, int searchCondition, int searchRange) {
+		
+		AppResponse response = null;
+		
+		//int result = 0;
+		
+		Object articles = articleDao.searchArticlesByCondition(boardId, condition, order, printNum, pageNum*printNum, searchQuery, searchCondition, searchRange);
+		int count = articleDao.selectArticleCount(boardId);
+
+		Map<String, Object> data = new HashMap<String, Object>();
+		
+		data.put("items", articles);
+		data.put("count", count);
+		
+		response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "게시글 조회 성공", data);
+		
+		return response;
 	}
 }

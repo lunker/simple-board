@@ -18,26 +18,15 @@ import four33.simpleboard.types.AppResponse;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
 import four33.simpleboard.utils.Constants;
+import four33.simpleboard.utils.Utils;
 
 
 @Controller
 @RequestMapping("/user")
 public class MembershipController {
-	
-	
-	
+
 	@Autowired
 	private IMembershipService membershipService;
-
-	public HttpSession getSession(HttpServletRequest request){
-		
-		HttpSession session = request.getSession(false);
-		
-		if(session == null){
-			session = request.getSession(true);
-		}
-		return session;
-	}
 	
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
@@ -102,14 +91,11 @@ public class MembershipController {
 	@ResponseBody
 	public AppResponse ActionLogin(Model model, HttpServletRequest request){
 		
-		HttpSession session = getSession(request);
+		HttpSession session = Utils.getSession(request);
 		AppResponse response = null;
 		
 		String userId = request.getHeader("userId");
 		String userPwd = request.getHeader("userPwd");
-		
-		System.out.println("id : " + userId);
-		System.out.println("pwd : " + userPwd);
 	
 		response = membershipService.login(new LoginForm(userId, userPwd));
 		
@@ -132,7 +118,7 @@ public class MembershipController {
 	@ResponseBody
 	public AppResponse ActionUpdateUser(@RequestBody SignupUser userInfo, HttpServletRequest request){
 		System.out.println("회원정보수정 request");
-		HttpSession session = getSession(request);
+		HttpSession session = Utils.getSession(request);
 		AppResponse response = null;
 		
 		if(membershipService.updateUserInfo(userInfo)){
@@ -154,7 +140,8 @@ public class MembershipController {
 	@ResponseBody
 	public AppResponse ActionWithdrawUser(HttpServletRequest request){
 		System.out.println("회원탈퇴 request");
-		HttpSession session = getSession(request);
+		
+		HttpSession session = Utils.getSession(request);
 		AppResponse response = null;
 		
 		String userId = request.getHeader("userId");
@@ -179,18 +166,12 @@ public class MembershipController {
 	public AppResponse ActionLogout(HttpServletRequest request){
 		System.out.println("로그아웃 request");
 		
-		HttpSession session = getSession(request);
+		HttpSession session = Utils.getSession(request);
 		AppResponse response = null;
 		
 		// 세션 지움 
 		session.invalidate();
-		/*
-		request.getHeader("userId");
-		
-		request.getSession().setAttribute("logined",false);
-		request.getSession().setAttribute("userId","");
-		*/
-		
+	
 		response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "로그아웃 성공");
 		
 		return response;

@@ -32,20 +32,7 @@ public class ArticleController {
 	
 	@Autowired
 	private IArticleService articleService;
-//	
-//	@Autowired
-//	private INoticeService noticeService;
 
-	public HttpSession getSession(HttpServletRequest request){
-		
-		HttpSession session = request.getSession(false);
-		
-		if(session == null){
-			session = request.getSession(true);
-		}
-		return session;
-	}
-	
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
 	public AppResponse ActionWriteArticle(HttpServletRequest request, 
@@ -59,25 +46,23 @@ public class ArticleController {
 		return response;
 	}
 	
+	/**
+	 * 게시글 수정 
+	 * @param request
+	 * @param modifyArticle
+	 * @return
+	 */
 	@RequestMapping(method=RequestMethod.PUT)
 	@ResponseBody
 	public AppResponse ActionModifyArticle(HttpServletRequest request,
 			@RequestBody ModifyArticle modifyArticle
 			
 			){
-		/*
-		 * 
-		 * @RequestParam("articleId") int articleId,
-			@RequestParam("articleUserNumId") int articleUserNumId,
-			@RequestParam("articleTitle") String articleTitle,
-			@RequestParam("articleContent") String articleContent
-			
-			*/
+		
 		System.out.println("[ARTICLE] 게시글 수정 request");
 		System.out.println(modifyArticle.getArticleContent());
 		AppResponse response = null;
 
-//		response = articleService.modifyArticle(new ModifyArticle(articleId, articleUserNumId, articleTitle, articleContent));
 		response = articleService.modifyArticle(modifyArticle);
 		
 		return response;
@@ -89,6 +74,7 @@ public class ArticleController {
 			@PathVariable("articleId") int articleId
 			){
 		System.out.println("[ARTICLE] 게시글 삭제 request");
+		
 		AppResponse response = null;
 
 		response = articleService.deleteArticle(articleId);

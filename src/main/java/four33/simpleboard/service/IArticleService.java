@@ -48,6 +48,14 @@ public interface IArticleService {
 	 * 게시글 리스트 조회
 	 * @return
 	 */
-	public AppResponse selectArticles(int boardId, String condition, String order, int printNum, int pageNum); 
+	public AppResponse selectArticles(int boardId, String condition, String order, int printNum, int pageNum);
+	
+	/**
+	 * 게시글 리스트 검색
+	 * 	 * @return
+	 */
+	public AppResponse searchArticles(
+			int boardId, String condition, String order, int printNum, int pageNum, 
+			String searchQuery, int searchCondition, int searchRange); 
 	
 }

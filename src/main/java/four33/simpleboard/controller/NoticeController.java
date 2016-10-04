@@ -38,7 +38,6 @@ public class NoticeController {
 	@Autowired
 	private INoticeService noticeService;
 	
-	
 	/**
 	 * 
 	 * 1. article write 
@@ -51,16 +50,13 @@ public class NoticeController {
 	@RequestMapping(method=RequestMethod.POST)
 	@ResponseBody
 	public AppResponse ActionWriteNotice(
-			HttpServletRequest request, 
 			@RequestBody WriteArticle writeArticle, 
 			@RequestParam(value="noticeRange", required=false) char noticeRange){
 		
 		System.out.println("[NOTICE] 공지사항 작성 request");
-		System.out.println("[NOTICE] 공지사항 작성 request : 공지 범위 : " + noticeRange);
 		AppResponse response = null;
 		
 		int noticeArticleId = (int) articleService.writeArticle(writeArticle).getData();
-		System.out.println("작성된 공지사항의 id : " + noticeArticleId);
 		int numNoticeRange = 0;
 		
 		// c : 공지게시판만 노출  => boardId
@@ -69,8 +65,6 @@ public class NoticeController {
 			// noticeRange <= boardid
 			numNoticeRange = writeArticle.getBoardId();
 		}
-		
-		System.out.println("[NOTICE] 공지사항 작성 request : 공지 범위 : " + noticeRange);
 		response = noticeService.writeNotice(new NoticeWrite(noticeArticleId, numNoticeRange));
 
 		return response;

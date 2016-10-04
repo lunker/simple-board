@@ -15,6 +15,28 @@
 <script type="text/javascript">
 	
 	var boardId = ${board.data.boardId};
+	var searchCondition=0;
+	var searchRange=0;
+	
+	function onSearchInputKeyDown(){
+		if(event.keyCode == 13)
+	     {
+			$("#btnArticleSearch").click();
+	     }
+	}
+	function setSearchCondition(id){
+		
+		console.log(val);
+		
+		var val = $("#"+id).val();
+		searchCondition = val;
+		$("#btnSearchCondition").text($("#"+id).text());
+	}
+
+	function setSearchRange(val, text){
+		searchRange = val;
+		$("#searchRange").text(text);
+	}
 	
 	/*	게시글 뷰 페이지 오픈 */
 	function openArticle(articleId){
@@ -136,11 +158,36 @@
 		});
 		
 		/* ============================= 검색 */
-		$("#btn-board-search-date").click(function(){
-			$("#board-search-date-option").toggle();
+		
+		
+		
+		
+		$(".ul-board-search-date-option li").click(function(){
+			alert($(".ul-board-search-date-option li").text());
+		});
+		
+		$("#btnArticleSearch").click(function(){
+			
+			var range = searchRange;
+			var condition = searchCondition;
+			var searchQuery = $("#searchQuery").val();
+			
+			var url = "${pageContext.request.contextPath}/page/search?boardId="+boardId;
+			
+			url+= "&pageNum=" + ${pagingInfo.pageNum};
+			url+= "&printNum=" + ${pagingInfo.printNum};
+			url+= "&condition=" + ${pagingInfo.condition};
+			url+= "&order=" + ${pagingInfo.order};
+			url+= "&searchQuery=" + searchQuery;
+			url+= "&searchCondition=" + condition;
+			url+= "&searchRange=" + range;
+			
+			location.href=url;
+			
 		});
 		
 	});
+	
 
 </script>
 
@@ -237,7 +284,7 @@
 								<fmt:formatDate pattern="yyyy-MM-dd" value="${row.articleRegDt}" var="rowDate"/>
 								<c:choose>
 									<c:when test="${rowDate == nowDate}">
-										<td><fmt:formatDate pattern="H:m" value="${row.articleRegDt}"/></td>
+										<td><fmt:formatDate pattern="H:0m" value="${row.articleRegDt}"/></td>
 									</c:when>
 									
 									<c:otherwise>
@@ -265,7 +312,7 @@
 		
 		<!-- TABLE FOOTER -->
 		<div class="horizontal">
-				<!-- PAGING -->
+			<!-- PAGING -->
 			<nav aria-label="Page navigation" class="center">
 			  <ul class="pagination">
 			    <li>
@@ -323,20 +370,15 @@
 			<!-- 검색 -->
 			<div class="board-search" style="margin-top: 20px;">
 				<div class="board-search board-search-date dropdown">
-				  <button class="btn btn-default dropdown-toggle" type="button" id="btn-board-search-date" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
-				    검색기간
-				    <span class="caret"></span>
-				  </button>
+				  <button type="button" class="btn btn-default dropdown-toggle" id="btnSearchRange" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">전체기간<span class="caret"></span></button>
 				</div>
 				
-			  <button class="btn btn-default dropdown-toggle" type="button" id="dropdownMenu1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">제목+내용
-			    <span class="caret"></span>
-			  </button>
+			  <button type="button" class="btn btn-default dropdown-toggle" id="btnSearchCondition" value="0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">작성자<span class="caret"></span></button>
 			  
 			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
-			    <li><a>제목+내용</a></li>
-			    <li><a>제목만</a></li>
-			    <li><a>글작성자</a></li>
+			    <li id="searchCondition0" value="0" onclick="setSearchCondition(this.id)"><a>작성자</a></li>
+			    <li id="searchCondition1" value="1" onclick="setSearchCondition(this.id)"><a>제목</a></li>
+			    <li id="searchCondition2" value="2" onclick="setSearchCondition(this.id)"><a>내용</a></li>
 			    <li><a>댓글내용</a></li>
 			    <li><a >댓글작성자</a></li>
 			    <li role="separator" class="divider"></li>
@@ -344,7 +386,7 @@
 			  </ul>
 			 	
 		    	<div class="board-search board-search-input">
-				 	<input id="userId" size="5" class="form-control" placeholder="" type="text"/>
+				 	<input id="searchQuery" size="50" class="form-control" placeholder="" type="text" onkeydown="onSearchInputKeyDown()"/>
 				</div>
 				<div class="board-search board-search-input">
 					<button id="btnArticleSearch" class="btn btn-default dropdown-toggle" type="button">검색</button>
@@ -353,12 +395,12 @@
 			
 			<div id="board-search-date-option" style="display: none; width: 300px;">
 				<ul class="ul-board-search-date-option">
-					<li class="">전체기간</li>
-					<li class="">1일</li>
-					<li class="">1주</li>
-					<li class="seljs_mover">1개월</li>
-					<li class="">6개월</li>
-					<li class="">1년</li>
+					<li class="" value="0" onclick="setSearchRange(this.value, this.text)">전체기간</li>
+					<li class="" value="1" onclick="setSearchRange(this.value, this.text)">1일</li>
+					<li class="" value="2" onclick="setSearchRange(this.value, this.text)">1주</li>
+					<li class="seljs_mover" value="3" onclick="setSearchRange(this.value, this.text)">1개월</li>
+					<li class="" value="4">6개월</li>
+					<li class="" value="5">1년</li>
 					<li role="separator" class="divider"></li>
 					<li class="">
 						<fieldset class="" style="display: inline;"><label for="period">기간 입력</label><input type="text" id="input_1" maxlength="10" class="seljs_text" style="border-color: rgb(211, 211, 211) !important; background-color: rgb(255, 255, 255) !important; width: 62px;"> ~ <input type="text" id="input_2" maxlength="10" class="seljs_text" style="border-color: rgb(211, 211, 211) !important; background-color: rgb(255, 255, 255) !important; width: 62px;"><input type="image" src="http://cafeimgs.naver.net/cafe4/btn_setting.gif" alt="설정" style="margin-left: 5px; border: 0pt none !important;">

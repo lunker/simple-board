@@ -189,7 +189,7 @@
 		
 		
 		$("#btnArticleModify").click(function(){
-			location.href="${pageContext.request.contextPath}/page/article/modify/"+${response.data.articleId};
+			location.href="${pageContext.request.contextPath}/page/article/modify?boardId="+${fromBoardId}+"&articleId="+${response.data.articleId};
 		});
 		
 		$("#btnArticleDelete").click(function(){

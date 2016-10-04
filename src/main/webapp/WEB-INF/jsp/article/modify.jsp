@@ -13,13 +13,11 @@
 		
 		$("#btnModify").click(function(){
 			
-		
-			
 			var articleTitle = $("#articleTitle").val();
 			var articleContent = tinyMCE.activeEditor.getContent({format: 'text'})
 			
 			var articleInfo = {
-					"articleId": ${articleId},
+					"articleId": ${article.articleId},
 					"articleUserNumId":${userNumId},
 					"articleTitle": articleTitle,
 					"articleContent":articleContent
@@ -37,7 +35,7 @@
 					
 					if(res.status == "200" ){
 						alert(res.message);
-						location.href="${pageContext.request.contextPath}/page/article/"+${article.articleId};
+						location.href="${pageContext.request.contextPath}/page/article?boardId="+${boardId}+"&articleId="+${article.articleId};
 					}
 					else{
 						alert(res.message);
@@ -54,7 +52,7 @@
 			if(confirm("정말 나가시겠습니까?")== false){
 				return ;
 			}
-			location.href="${pageContext.request.contextPath}/page/board";
+			location.href="${pageContext.request.contextPath}/page/board?boardId="+${boardId};
 		});
 		
 	});
