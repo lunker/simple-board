@@ -143,8 +143,8 @@
 			else{
 				endPageNum = Math.floor(count / currentPrintNum);
 			}
-			
-			paging({pageNum: endPageNum-1});
+			endPageNum = Math.floor(count / currentPrintNum)-1;
+			paging({pageNum: endPageNum});
 		});
 		
 		$("#selectPrintNum").change(function(){
@@ -314,15 +314,15 @@
 		<div class="horizontal">
 			<!-- PAGING -->
 			<nav aria-label="Page navigation" class="center">
-			  <ul class="pagination">
-			    <li>
+			  <ul class="pagination clickable">
+			    <li id="pagingS">
 			      <a aria-label="Previous">
-			        <span aria-hidden="true" id="pagingS">S</span>
+			        <span aria-hidden="true">S</span>
 			      </a>
 			    </li>
-			    <li>
+			    <li id="pagingP">
 			      <a aria-label="Previous">
-			        <span aria-hidden="true" id="pagingP">P</span>
+			        <span aria-hidden="true" >P</span>
 			      </a>
 			    </li>
 			    
@@ -344,24 +344,24 @@
 			    			<c:set value="${pageNumIndex*3 }" var="tmpPageNum"/>
 			    			<c:choose>
 			    				<c:when test="${tmpPageNum + index == pagingInfo.pageNum +1}">
-			    					<li class="active"><a id="${tmpPageNum + index}" onclick="paging({pageNum:this.id-1})">${tmpPageNum + index}</a></li>
+			    					<li class="active" ><a id="${tmpPageNum + index}" onclick="paging({pageNum:this.id-1})">${tmpPageNum + index}</a></li>
 			    				</c:when>
 			    				<c:otherwise>
-			    					<li class="not equal"><a id="${tmpPageNum + index}" onclick="paging({pageNum:this.id-1})">${tmpPageNum + index}</a></li>
+			    					<li class="not equal"><a  id="${tmpPageNum + index}" onclick="paging({pageNum:this.id-1})">${tmpPageNum + index}</a></li>
 			    				</c:otherwise>
 			    			</c:choose>
 			    		</c:forEach>
 			    	</c:when>
 			    </c:choose>
 
-			    <li>
+			    <li id="pagingN">
 			      <a aria-label="Next">
-			        <span aria-hidden="true" id="pagingN">N</span>
+			        <span aria-hidden="true">N</span>
 			      </a>
 			    </li>
-			    <li>
+			    <li id="pagingE">
 			      <a aria-label="Next">
-			        <span aria-hidden="true" id="pagingE">E</span>
+			        <span aria-hidden="true" >E</span>
 			      </a>
 			    </li>
 			  </ul>

@@ -153,7 +153,7 @@
 				endPageNum = Math.floor(count / currentPrintNum);
 			}
 			
-			paging({pageNum: endPageNum-1});
+			paging({pageNum: endPageNum});
 		});
 		
 		$("#selectPrintNum").change(function(){
@@ -394,16 +394,6 @@
 					<button id="btnArticleSearch" class="btn btn-default dropdown-toggle" type="button">검색</button>
 				</div>
 			</div><!--검색 조건 -->
-			
-			<!-- <div id="board-search-date-option">
-				<ul class="dropdown-menu ul-board-search-date-option" aria-labelledby="dropdownMenu1">
-					<li id="searchRange0" class="" value="0" onclick="setSearchRange(this.id)">전체기간</li>
-					<li id="searchRange1" class="" value="1" onclick="setSearchRange(this.id)">1일</li>
-					<li id="searchRange2" class="" value="2" onclick="setSearchRange(this.id)">1주</li>
-					<li id="searchRange3" class="seljs_mover" value="3" onclick="setSearchRange(this.id)">1개월</li>
-					<li role="separator" class="divider"></li>
-				</ul>
-			</div>	 -->
 		</div>
 			
 		</div><!-- END FOOTER -->
