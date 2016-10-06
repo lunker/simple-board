@@ -101,7 +101,7 @@
 			        'Content-Type': 'application/json' 
 			    },
 				success: function(res){
-					if(res.status == "100" ){
+					if(res.status == "200" ){
 						nicknameChecked = true; // set flag
 						alert(res.message);
 					}
@@ -120,7 +120,7 @@
 
 			if(confirm("수정하시겠습니까?") == true){
 				
-				var userId = ${userId};
+				var userId = "${userId}";
 				var userPwd = $("#userPwd").val();
 				var userContactNum = $("#userContactNum").val();
 				if(userContactNum.includes("-")){
@@ -156,7 +156,7 @@
 				    },
 					data: JSON.stringify(userInfo),
 					success: function(res){
-						if(res.status == "100" ){
+						if(res.status == "200" ){
 							nicknameChecked = true;
 							alert(res.message);
 						}
@@ -192,7 +192,7 @@
 					    xhr.setRequestHeader("userId",  ${userInfo.userId});
 				    },
 					success: function(res){
-						if(res.status== "100"){
+						if(res.status== "200"){
 							alert(res.message);
 							location.replace("${pageContext.request.contextPath}/");							
 						}

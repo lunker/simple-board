@@ -1,12 +1,12 @@
-package four33.simpleboard.service.membership.impl;
+package four33.simpleboard.service.impl;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import four33.simpleboard.dao.IMembershipDao;
-import four33.simpleboard.service.membership.IMembershipService;
+import four33.simpleboard.service.IMembershipService;
 import four33.simpleboard.types.LoginForm;
-import four33.simpleboard.types.Response;
+import four33.simpleboard.types.AppResponse;
 import four33.simpleboard.types.SignupUser;
 import four33.simpleboard.types.User;
 import four33.simpleboard.utils.AES;
@@ -86,60 +86,29 @@ public class MembershipService  implements IMembershipService {
 	}
 
 	@Override
-	public Response login(LoginForm loginForm) {
+	public AppResponse login(LoginForm loginForm) {
 		
 		System.out.println(loginForm.getUserId());
 		
-		Response response;
+		AppResponse response;
 		
 		User selectedUserInfo =  membershipDao.selectUser(loginForm.getUserId());
 		
-//		System.out.println("selected user info : " + selectedUserInfo.toString());		
-		
 		if(selectedUserInfo == null){
 			// 존재하지 않은 아이디.
-			response = new Response("200", "존재하지 않는 아이디 입니다.");
+			response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "존재하지 않는 아이디 입니다.");
 		}
 		else{
 			if( aes.decrypt(selectedUserInfo.getUserPwd()).equals(loginForm.getUserPwd())){
 				// 로그인 성공
-				response = new Response("100", "로그인 성공");
+				response = new AppResponse(Constants.STR_STATUS_CODE_SUCCESS, "로그인 성공");
 			}
 			else{
 				// 비밀번호가 틀린 경우 
-				response = new Response("200", "비밀번호가 틀렸습니다.");
+				response = new AppResponse(Constants.STR_STATUS_CODE_FAIL, "비밀번호가 틀렸습니다.");
 			}
 		}
 		return response;
-		
-		/*
-		result = membershipDao.selectUserByPassword(loginForm.getUserId(), loginForm.getUserPwd());
-		if(result!=null){
-			// nickname 이미 존재.
-			if( (int) result>0){
-				return true;
-			}
-			else
-				return false;
-		}
-		else
-			return false;
-		*/
-		
-		/*
-		User registeredInfo = membershipDao.selectUserByPassword(loginForm.getUserId(), loginForm.getUserPwd());
-		
-		if(registeredInfo!=null &&  registeredInfo.getUserPwd().equals( loginForm.getUserPwd())){
-			
-			result = true;
-		}
-		else{
-			result = false;
-//			return null;
-		}
-		
-		return result;
-		*/
 	}
 
 	@Override

@@ -33,6 +33,16 @@ public class Board {
 	}
 	
 	
+	@Override
+	public String toString() {
+		
+		StringBuilder sb = new StringBuilder();
+		sb.append("\nboard id : " + boardId);
+		sb.append("\nboard name : " + boardName);
+		sb.append("\nboard type : " + boardType);
+		
+		return sb.toString();
+	}
 	
 	
 	

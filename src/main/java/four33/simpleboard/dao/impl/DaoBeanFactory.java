@@ -11,13 +11,18 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.Resource;
 
+import four33.simpleboard.dao.IArticleDao;
+import four33.simpleboard.dao.IBoardDao;
+import four33.simpleboard.dao.ICommentDao;
+import four33.simpleboard.dao.ILikeDao;
 import four33.simpleboard.dao.IMembershipDao;
+import four33.simpleboard.dao.INoticeDao;
 
 @Configuration
 public class DaoBeanFactory {
 
 	@Autowired
-	@Qualifier("localDataSource")
+	@Qualifier("pubdbDataSource")
 	private DataSource ds;
 
 	@Bean(destroyMethod = "clearCache")
@@ -37,7 +42,7 @@ public class DaoBeanFactory {
 
 		return null;
 	}
-
+	
 
 	/**
 	 * Get dao implementation object from mybatis mapping
@@ -49,4 +54,136 @@ public class DaoBeanFactory {
 		return sessionTemplate.getMapper(IMembershipDao.class);
 	}
 	
+	
+	@Bean(destroyMethod = "clearCache")
+	public SqlSessionTemplate articleSessionTemplate() {
+		try {
+			Resource[] resources = new Resource[] { new ClassPathResource("sql/article.xml"), };
+
+			SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+			sqlSessionFactory.setDataSource(ds);
+			sqlSessionFactory.setMapperLocations(resources);
+
+			return new SqlSessionTemplate(sqlSessionFactory.getObject());
+		} catch (Exception e) {
+			System.out.println("error in article session template");
+			System.out.println(e.getMessage());
+		}
+
+		return null;
+	}
+
+	/**
+	 * Get dao implementation object from mybatis mapping
+	 * @return
+	 */
+	@Bean
+	public IArticleDao articleDao() {
+		SqlSessionTemplate sessionTemplate = articleSessionTemplate();
+		return sessionTemplate.getMapper(IArticleDao.class);
+	}
+	
+	
+	// ======== board dao 
+	@Bean(destroyMethod = "clearCache")
+	public SqlSessionTemplate boardSessionTemplate() {
+		try {
+			Resource[] resources = new Resource[] { new ClassPathResource("sql/board.xml"), };
+
+			SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+			sqlSessionFactory.setDataSource(ds);
+			sqlSessionFactory.setMapperLocations(resources);
+
+			return new SqlSessionTemplate(sqlSessionFactory.getObject());
+		} catch (Exception e) {
+			System.out.println("error in board session template");
+			System.out.println(e.getMessage());
+		}
+
+		return null;
+	}
+	
+	@Bean
+	public IBoardDao boardDao() {
+		SqlSessionTemplate sessionTemplate = boardSessionTemplate();
+		return sessionTemplate.getMapper(IBoardDao.class);
+	}
+	
+	// ======== comment dao 
+	@Bean(destroyMethod = "clearCache")
+	public SqlSessionTemplate commmentSessionTemplate() {
+		try {
+			Resource[] resources = new Resource[] { new ClassPathResource("sql/comment.xml"), };
+
+			SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+			sqlSessionFactory.setDataSource(ds);
+			sqlSessionFactory.setMapperLocations(resources);
+
+			return new SqlSessionTemplate(sqlSessionFactory.getObject());
+		} catch (Exception e) {
+			System.out.println("error in board session template");
+			System.out.println(e.getMessage());
+		}
+
+		return null;
+	}
+	
+	@Bean
+	public ICommentDao commmentDao() {
+		SqlSessionTemplate sessionTemplate = commmentSessionTemplate();
+		return sessionTemplate.getMapper(ICommentDao.class);
+	}
+	
+
+	// ======== like dao 
+	@Bean(destroyMethod = "clearCache")
+	public SqlSessionTemplate likeSessionTemplate() {
+		try {
+			Resource[] resources = new Resource[] { new ClassPathResource("sql/like.xml"), };
+
+			SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+			sqlSessionFactory.setDataSource(ds);
+			sqlSessionFactory.setMapperLocations(resources);
+
+			return new SqlSessionTemplate(sqlSessionFactory.getObject());
+		} catch (Exception e) {
+			System.out.println("error in board session template");
+			System.out.println(e.getMessage());
+		}
+
+		return null;
+	}
+	
+	@Bean
+	public ILikeDao likeDao() {
+		SqlSessionTemplate sessionTemplate = likeSessionTemplate();
+		return sessionTemplate.getMapper(ILikeDao.class);
+	}
+	
+	// ======== notice dao 
+		@Bean(destroyMethod = "clearCache")
+		public SqlSessionTemplate noticeSessionTemplate() {
+			try {
+				Resource[] resources = new Resource[] { new ClassPathResource("sql/notice.xml"), };
+
+				SqlSessionFactoryBean sqlSessionFactory = new SqlSessionFactoryBean();
+				sqlSessionFactory.setDataSource(ds);
+				sqlSessionFactory.setMapperLocations(resources);
+
+				return new SqlSessionTemplate(sqlSessionFactory.getObject());
+			} catch (Exception e) {
+				System.out.println("error in board session template");
+				System.out.println(e.getMessage());
+			}
+
+			return null;
+		}
+		
+		@Bean
+		public INoticeDao noticeDao() {
+			SqlSessionTemplate sessionTemplate = noticeSessionTemplate();
+			return sessionTemplate.getMapper(INoticeDao.class);
+		}
+		
+		
 }

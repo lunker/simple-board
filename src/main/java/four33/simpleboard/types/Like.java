@@ -4,15 +4,15 @@ public class Like {
 
 	private int likeId;
 	private int articleId;
-	private String userId;
+	private int likeUserNumId;
 	
 	public Like(){}
 	
-	public Like(int likeId, int articleId, String userId) {
-		super();
+	public Like(int likeId, int articleId, int likeUserNumId) {
+		
 		this.likeId = likeId;
 		this.articleId = articleId;
-		this.userId = userId;
+		this.likeUserNumId = likeUserNumId;
 	}
 	public int getLikeId() {
 		return likeId;
@@ -26,12 +26,13 @@ public class Like {
 	public void setArticleId(int articleId) {
 		this.articleId = articleId;
 	}
-	public String getUserId() {
-		return userId;
+	public int getLikeUserNumId() {
+		return likeUserNumId;
 	}
-	public void setUserId(String userId) {
-		this.userId = userId;
+	public void setLikeUserNumId(int likeUserNumId) {
+		this.likeUserNumId = likeUserNumId;
 	}
+	
 	
 	
 	

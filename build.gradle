@@ -44,6 +44,7 @@ dependencies {
 	compile("org.springframework:spring-context-support")
 }
 
+// 프로젝트의 클래스와 리소스를 포함하는 jar파일을 생성한다. 
 jar {
 	manifest {
 		attributes 'Implementation-Title': "${appName}", 'Implementation-Version': version

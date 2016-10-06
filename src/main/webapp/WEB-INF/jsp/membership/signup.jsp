@@ -143,35 +143,6 @@
 			nicknameChecked = false;
 		});
 		
-		/*
-		$("#userBirthDt").focusout(function(){
-			var birthDt = $("#userBirthDt").val();
-			
-			if(!isValidDate(birthDt)){
-				alert("잘못된 형식입니다.");
-				$("#userBirthDt").val("");
-				
-			}
-		});
-		*/
-		
-		/*
-		$("#userContactNum1").keyup(function(){
-			var userContactNum1 = $("#userContactNum1").val();
-			if(userContactNum1.length == 3){
-				$("#userContactNum2").focus();
-			}
-		});
-		
-		$("#userContactNum2").keyup(function(){
-			var userContactNum2 = $("#userContactNum2").val();
-			if(userContactNum2.length == 4){
-				$("#userContactNum3").focus();
-			}
-		});
-		*/
-		
-		
 		/* 회원가입 */
 		$("#btnSignup").click(function(){
 			
@@ -256,7 +227,7 @@
 					xhr.setRequestHeader("userId", userId);
 				},
 				success: function(res){
-					if(res.status == "100" ){
+					if(res.status == "200" ){
 						idChecked = true;
 						alert(res.message);
 					}
@@ -291,7 +262,7 @@
 			        'Content-Type': 'application/json' 
 			    },
 				success: function(res){
-					if(res.status == "100" ){
+					if(res.status == "200" ){
 						nicknameChecked = true; // set flag
 						alert(res.message);
 					}

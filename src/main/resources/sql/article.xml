@@ -2,17 +2,184 @@
 <!DOCTYPE mapper 
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="four33.simpleboard.dao.IMembershipDao">
+<mapper namespace="four33.simpleboard.dao.IArticleDao">
 
-	<resultMap type="four33.simpleboard.types.User" id="userResultMap">
-		<id property="userNumId" column="user_num_id" />
-		<result property="userId" column="user_id" />
-		<result property="userPwd" column="user_pwd" />
-		<result property="userNickname" column="user_nickname" />
-		<result property="userBirthDt" column="user_birth_dt" />
-		<result property="userContactNum" column="user_contact_num" />
-		<result property="userRegDt" column="user_reg_dt" />
+	<resultMap type="four33.simpleboard.types.Article" id="articleResultMap">
+		<id property="articleId" column="article_id" />
+		<result property="boardId" column="board_id" />
+		<result property="articleUserNumId" column="article_user_num_id" />
+		<result property="articleUserNickname" column="article_user_nickname" />
+		<result property="articleTitle" column="article_title" />
+		<result property="articleContent" column="article_content" />
+		<result property="articleComments" column="article_comments" />
+		<result property="articleRegDt" column="article_reg_dt" />
+		<result property="articleModifyDt" column="article_modify_dt"/>
+		<result property="articleHits" column="article_hits" />
+		<result property="articleLikes" column="article_likes" />
 	</resultMap>
+		
+	<select id="selectArticle" resultMap="articleResultMap">
+		select * , u.user_nickname as article_user_nickname
+		  from ARTICLE a LEFT JOIN USER u ON a.article_user_num_id = u.user_num_id 
+		 where a.article_id = #{articleId}
+	</select>
 	
+	<select id="selectArticleCount" resultType="integer">
+		SELECT count(*)
+		  FROM ARTICLE
+		 WHERE board_id = #{boardId}
+	</select>
+	
+	<select id="selectArticles" parameterType="hashmap" resultMap="articleResultMap">
+	
+		SELECT *, user.user_nickname as article_user_nickname
+		  FROM ARTICLE article LEFT JOIN USER user on article.article_user_num_id = user.user_num_id
+		 WHERE article.board_id = #{boardId} AND
+		 
+		 <if test="condition == 'article_reg_dt'">
+		 	<![CDATA[
+		 	article_reg_dt < '9999-12-31' 
+		 	]]>
+		 	
+		 	<if test="order == 'desc'">
+			 ORDER BY article_reg_dt desc, article_id desc
+			 </if>
+		 </if>
+		 
+		 <if test="condition == 'article_hits'">
+		 	<![CDATA[
+		 	article_hits >= 0 
+		 	]]>
+		 	
+		 	<if test="order == 'desc'">
+			 ORDER BY article_hits desc, article_id desc
+		 	 </if>
+		 </if>
+		 
+		 <if test="condition == 'article_likes'">
+		 	<![CDATA[
+		 	article_likes >= 0 
+		 	]]>
+		 	
+		 	<if test="order == 'desc'">
+			 ORDER BY article_likes desc, article_id desc
+			 </if>
+	 	</if>
+		 
+		 LIMIT #{printNum}
+		 OFFSET #{offset}
+		
+	</select>
+	
+	<insert id="insertArticle" parameterType="four33.simpleboard.types.WriteArticle" useGeneratedKeys="true" keyProperty="articleId" keyColumn="article_id">
+		INSERT INTO ARTICLE(
+			board_id, article_user_num_id, article_title, article_content, 
+			article_comments, article_reg_dt, article_modify_dt, article_hits, article_likes)
+		VALUES(
+			#{boardId},#{articleUserNumId},#{articleTitle},#{articleContent}, 
+			0, now(), now(), 0, 0);
+	</insert>	
+	
+	<insert id="insertPastArticle" parameterType="four33.simpleboard.types.WriteArticle">
+		INSERT INTO ARTICLE(
+			board_id, article_user_num_id, article_title, article_content, 
+			article_comments, article_reg_dt, article_modify_dt, article_hits, article_likes)
+		VALUES(
+			#{boardId},#{articleUserNumId},#{articleTitle},#{articleContent}, 
+			0, "2016-08-01 12:12:12", now(), 0, 0);
+	</insert>	
+	
+	
+	<update id="updateArticle" parameterType="four33.simpleboard.types.ModifyArticle">
+		UPDATE ARTICLE
+		   SET article_title = #{articleTitle}, article_content = #{articleContent}, article_modify_dt = now()
+		 WHERE article_id = #{articleId} AND article_user_num_id = #{articleUserNumId}
+	</update>
+	
+	<update id="updateArticleHits" parameterType="hashmap">
+		UPDATE ARTICLE
+		SET article_hits = article_hits + 1
+		WHERE article_id = #{articleId} AND article_user_num_id != #{articleUserNumId}
+	</update>
+	
+	<update id="updateArticleCommentsInc">
+		UPDATE ARTICLE
+		SET article_comments = article_comments + 1
+		WHERE article_id = #{articleId}
+	</update>
+	
+	<update id="updateArticleCommentsDec">
+		UPDATE ARTICLE
+		SET article_comments = article_comments -1
+		WHERE article_id = #{articleId}
+	</update>
+	
+	<update id="updateArticleLikesInc">
+		UPDATE ARTICLE
+		SET article_likes = article_likes + 1
+		WHERE article_id = #{articleId}
+	</update>
+	
+	<update id="updateArticleLikesDec">
+		UPDATE ARTICLE
+		SET article_likes = article_likes -1
+		WHERE article_id = #{articleId}
+	</update>
+	
+	<delete id="deleteArticle">
+		DELETE FROM ARTICLE
+		 WHERE article_id = #{articleId}
+	</delete>
+	
+	<select id="searchArticlesByCondition" resultMap="articleResultMap">
+	   SELECT *, user.user_nickname as article_user_nickname
+		  FROM ARTICLE article LEFT JOIN USER user ON article.article_user_num_id = user.user_num_id
+		 WHERE  article.board_id = #{boardId} AND
+		 
+		 <choose>
+		 	<when test="searchRange == 0">
+			 	<![CDATA[
+			 	article_reg_dt < '9999-12-31' 
+			 	]]>
+		 	</when>
+
+		 	<when test="searchRange == 1">
+			 	<![CDATA[
+			 	article_reg_dt >= date_format(date_sub(now(), interval 1 day), "%Y-%c-%e")
+			 	]]>
+		 	</when>
+		 	
+		 	<when test="searchRange == 2">
+		 		<![CDATA[
+			 	article_reg_dt >= date_format(date_sub(now(), interval 1 week), "%Y-%c-%e")
+			 	]]>
+		 	</when>
+		 	<when test="searchRange == 3">
+		 		<![CDATA[
+			 	article_reg_dt >= date_sub(now(), interval 1 MONTH)
+			 	]]>
+		 	</when>
+		 </choose>
+		
+		 <choose>
+		 
+		 	<when test="searchCondition == 0">
+		 		AND user.user_id like CONCAT('%',#{searchQuery},'%')
+		 	</when>
+		 	
+		 	<when test="searchCondition == 1">
+		 		AND article_title like CONCAT('%',#{searchQuery},'%')
+		 	</when>
+		 	
+		 	<when test="searchCondition == 2">
+				AND article_content like CONCAT('%',#{searchQuery},'%')	 		
+		 	</when>
+		 	
+		 </choose>
+		 ORDER BY article.article_reg_dt DESC
+		 LIMIT #{printNum}
+		 OFFSET #{offset}
+		
+	</select>
 	
 </mapper>

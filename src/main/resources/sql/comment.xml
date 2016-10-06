@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="four33.simpleboard.dao.ICommentDao">
+
+	<resultMap type="four33.simpleboard.types.Comment" id="commentResultMap">
+		<id property="commentId" column="comment_id" />
+		<result property="articleId" column="article_id"/>
+		<result property="commentUserNumId" column="comment_user_num_id"/>
+		<result property="commentContent" column="comment_content"/>
+		<result property="commentRegDt" column="comment_reg_dt"/>
+		<result property="commentModifyDt" column="comment_modify_dt"/>
+	</resultMap>
+	
+	<select id="selectComments" parameterType="hashmap" resultMap="commentResultMap">
+		SELECT * , u.user_nickname as commentUserNickname, u.user_num_id as commentUserNumId
+		  FROM COMMENT c LEFT JOIN USER u ON c.comment_user_num_id = u.user_num_id
+		 WHERE article_id = #{articleId} 
+		 
+		 <![CDATA[
+		 	AND c.comment_reg_dt < '9999-12-31' 
+	 	 ]]>
+		 		 
+		 LIMIT #{printNum} 
+		OFFSET #{offset}
+	</select>
+	
+	<select id="selectCommentsCount" resultType="Integer">
+		SELECT article_comments
+		  FROM article
+		 WHERE article_id = #{articleId}
+	</select>
+
+	<insert id="insertComment" parameterType="four33.simpleboard.types.CommentWrite">
+		INSERT INTO COMMENT(article_id, comment_user_num_id, comment_content, comment_reg_dt, comment_modify_dt)
+		VALUES(#{articleId},#{commentUserNumId},#{commentContent}, now(), now())
+	</insert>	
+	
+	<delete id="deleteComment">
+		DELETE FROM COMMENT
+		 WHERE comment_id=#{commentId}
+	</delete>
+	
+	<update id="updateComment" parameterType="four33.simpleboard.types.CommentModify">
+		UPDATE COMMENT
+		   SET comment_modify_dt = now(), comment_content = #{commentContent}
+		 WHERE comment_id = #{commentId}
+	</update>
+</mapper>

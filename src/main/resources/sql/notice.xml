@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper 
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="four33.simpleboard.dao.INoticeDao">
+
+	<resultMap type="four33.simpleboard.types.Board" id="noticeResultMap">
+		<id property="noticeId" column="notice_id" />
+		<result property="noticeArticleId" column="notice_article_id" />
+		<result property="noticeRange" column="notice_range" />
+	</resultMap>
+	
+	<resultMap type="four33.simpleboard.types.Article" id="articleResultMap">
+		<id property="articleId" column="article_id" />
+		<result property="boardId" column="board_id" />
+		<result property="articleUserNumId" column="article_user_num_id" />
+		<result property="articleUserNickname" column="article_user_nickname" />
+		<result property="articleTitle" column="article_title" />
+		<result property="articleContent" column="article_content" />
+		<result property="articleComments" column="article_comments" />
+		<result property="articleRegDt" column="article_reg_dt" />
+		<result property="articleModifyDt" column="article_modify_dt"/>
+		<result property="articleHits" column="article_hits" />
+		<result property="articleLikes" column="article_likes" />
+	</resultMap>
+
+	<select id="selectNotices" resultMap="articleResultMap">
+		SELECT *, u.user_nickname as article_user_nickname
+		  FROM (
+		  	SELECT notice_article_id  
+		  	  FROM NOTICE
+		  	 WHERE NOTICE_RANGE IS NULL
+		  ) t, ARTICLE a left join User u on a.article_user_num_id = u.user_num_id 
+		 WHERE t.notice_article_id = a.article_id 
+	</select>
+
+	<insert id="insertNotice" parameterType="four33.simpleboard.types.NoticeWrite">
+		<choose>
+			<when test="noticeRange == 0">
+				INSERT INTO NOTICE(notice_article_id)
+				VALUES(#{noticeArticleId})
+			</when>
+			
+			<otherwise>
+				INSERT INTO NOTICE(notice_article_id, notice_range)
+				VALUES(#{noticeArticleId}, #{noticeRange})
+			</otherwise>
+		</choose>
+	</insert>
+</mapper>
