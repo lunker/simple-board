@@ -56,7 +56,7 @@ fttDeploy {
 			}
 			copy {
 				from = './script/de/simple_board.sh'
-				into = './build/ftt-deploy/bin/'
+				into = './build/ftt-deploy/bin/simple_board.sh'
 				executable = 'yes'
 			}
 		}
