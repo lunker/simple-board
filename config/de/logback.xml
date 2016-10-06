@@ -2,8 +2,8 @@
 <configuration debug="false">
 	<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
 
-	<property name="LOG_PATH" value="/log/unitforum_admin" />
-	<property name="LOG_FILE_NAME" value="unitforum_admin" />
+	<property name="LOG_PATH" value="/log/simple_board" />
+	<property name="LOG_FILE_NAME" value="simple_board-${server.port}" />
 	<property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } [%t] --- %-40.40(%class{39}.%method) : %m%n%wex" />
 	
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
