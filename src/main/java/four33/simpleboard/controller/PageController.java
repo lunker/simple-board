@@ -268,8 +268,14 @@ public class PageController {
  		pagingInfo.put("pageNum", pageNum);
  		pagingInfo.put("printNum", printNum);
  		
+ 		
  		int count= (int) ((Map<String, Object>)response.getData()).get("count");
+ 		int start=0;
+ 		int end=0;
  		int limit = 1;
+ 		
+ 		start = (pageNum /3)*3;
+ 		end = (count/printNum);
  		
  		if(count - printNum * (pageNum+1) <0){
  			limit = 1;
@@ -282,8 +288,11 @@ public class PageController {
  				limit = ( count - printNum*(pageNum+1)) / printNum ;
  			}
  		}
- 		
+ 		pagingInfo.put("start", start);
+ 		pagingInfo.put("end", end);
  		pagingInfo.put("limit", limit);
+ 		
+ 		
  		System.out.println("limit : " + limit);
  		ModelAndView mv = new ModelAndView();
  		mv.setViewName("board");

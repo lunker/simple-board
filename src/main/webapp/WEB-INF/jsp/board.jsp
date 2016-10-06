@@ -15,6 +15,7 @@
 <script type="text/javascript">
 	
 	var boardId = ${board.data.boardId};
+	
 	var searchCondition=0;
 	var searchRange=0;
 	
@@ -24,18 +25,17 @@
 			$("#btnArticleSearch").click();
 	     }
 	}
+	
 	function setSearchCondition(id){
-		
-		console.log(val);
-		
 		var val = $("#"+id).val();
 		searchCondition = val;
-		$("#btnSearchCondition").text($("#"+id).text());
+		$("#searchCondition").text($("#"+id).text());
 	}
 
-	function setSearchRange(val, text){
+	function setSearchRange(id){
+		var val = $("#"+id).val();
 		searchRange = val;
-		$("#searchRange").text(text);
+		$("#searchRange").text($("#"+id).text());
 	}
 	
 	/*	게시글 뷰 페이지 오픈 */
@@ -143,7 +143,7 @@
 			else{
 				endPageNum = Math.floor(count / currentPrintNum);
 			}
-			endPageNum = Math.floor(count / currentPrintNum)-1;
+			endPageNum = Math.floor(count / currentPrintNum);
 			paging({pageNum: endPageNum});
 		});
 		
@@ -174,7 +174,7 @@
 			
 			var url = "${pageContext.request.contextPath}/page/search?boardId="+boardId;
 			
-			url+= "&pageNum=" + ${pagingInfo.pageNum};
+			url+= "&pageNum=0";
 			url+= "&printNum=" + ${pagingInfo.printNum};
 			url+= "&condition=" + ${pagingInfo.condition};
 			url+= "&order=" + ${pagingInfo.order};
@@ -284,7 +284,7 @@
 								<fmt:formatDate pattern="yyyy-MM-dd" value="${row.articleRegDt}" var="rowDate"/>
 								<c:choose>
 									<c:when test="${rowDate == nowDate}">
-										<td><fmt:formatDate pattern="H:0m" value="${row.articleRegDt}"/></td>
+										<td><fmt:formatDate pattern="H:m" value="${row.articleRegDt}"/></td>
 									</c:when>
 									
 									<c:otherwise>
@@ -333,21 +333,24 @@
 			    		
 			    		<c:choose>
 			    			<c:when test="${pageNumRemainder>0.5}">
-			    				<fmt:formatNumber value="${pageNumIndex-1}" pattern="0" var="pageNumIndex" type="number"/>${pageNumRemainder>0.5}
+			    				<fmt:formatNumber value="${pageNumIndex-1}" pattern="0" var="pageNumIndex" type="number"/>
 			    			</c:when>
 			    			<c:otherwise>
-			    				<fmt:formatNumber value="${pageNumIndex}" pattern="0" var="pageNumIndex" type="number"/>${pageNumRemainder>0.5}
+			    				<fmt:formatNumber value="${pageNumIndex}" pattern="0" var="pageNumIndex" type="number"/>
 			    			</c:otherwise>
 			    		</c:choose>
 				    	
 			    		<c:forEach begin="1" end="${pagingInfo.limit}" var="index" >
 			    			<c:set value="${pageNumIndex*3 }" var="tmpPageNum"/>
 			    			<c:choose>
-			    				<c:when test="${tmpPageNum + index == pagingInfo.pageNum +1}">
-			    					<li class="active" ><a id="${tmpPageNum + index}" onclick="paging({pageNum:this.id-1})">${tmpPageNum + index}</a></li>
+			    			
+			    				<c:when test="${pagingInfo.start + index == pagingInfo.pageNum +1}">
+			    				${pagingInfo.start} ${pagingInfo.limit}
+			    					<li class="active" ><a id="${pagingInfo.start + index}" onclick="paging({pageNum:this.id-1})">${pagingInfo.start  + index}</a></li>
 			    				</c:when>
 			    				<c:otherwise>
-			    					<li class="not equal"><a  id="${tmpPageNum + index}" onclick="paging({pageNum:this.id-1})">${tmpPageNum + index}</a></li>
+			    				${pagingInfo.start} ${pagingInfo.limit}
+			    					<li class="not equal"><a id="${pagingInfo.start  + index}" onclick="paging({pageNum:this.id-1})">${pagingInfo.start  + index}</a></li>
 			    				</c:otherwise>
 			    			</c:choose>
 			    		</c:forEach>
@@ -369,45 +372,33 @@
 			
 			<!-- 검색 -->
 			<div class="board-search" style="margin-top: 20px;">
-				<div class="board-search board-search-date dropdown">
-				  <button type="button" class="btn btn-default dropdown-toggle" id="btnSearchRange" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">전체기간<span class="caret"></span></button>
-				</div>
-				
-			  <button type="button" class="btn btn-default dropdown-toggle" id="btnSearchCondition" value="0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">작성자<span class="caret"></span></button>
+			  <button type="button" class="btn btn-default dropdown-toggle" id="searchRange" data-toggle="dropdown" value="1" aria-haspopup="true" aria-expanded="true">전체기간<span class="caret"></span></button>
+			  <ul class="dropdown-menu" aria-labelledby="searchDate">
+					<li id="searchRange0" class="" value="0" onclick="setSearchRange(this.id)">전체기간</li>
+					<li id="searchRange1" class="" value="1" onclick="setSearchRange(this.id)">1일</li>
+					<li id="searchRange2" class="" value="2" onclick="setSearchRange(this.id)">1주</li>
+					<li id="searchRange3" class="seljs_mover" value="3" onclick="setSearchRange(this.id)">1개월</li>
+					<li role="separator" class="divider"></li>
+			 </ul>	
+			</div>
+			<div class="dropdown">
+			  <button type="button" class="btn btn-default dropdown-toggle" id="searchCondition" value="0" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">작성자<span class="caret"></span></button>
 			  
-			  <ul class="dropdown-menu" aria-labelledby="dropdownMenu1">
+			  <ul class="dropdown-menu" aria-labelledby="searchCondition">
 			    <li id="searchCondition0" value="0" onclick="setSearchCondition(this.id)"><a>작성자</a></li>
 			    <li id="searchCondition1" value="1" onclick="setSearchCondition(this.id)"><a>제목</a></li>
 			    <li id="searchCondition2" value="2" onclick="setSearchCondition(this.id)"><a>내용</a></li>
-			    <li><a>댓글내용</a></li>
-			    <li><a >댓글작성자</a></li>
 			    <li role="separator" class="divider"></li>
 			    <li><a href="#">Separated link</a></li>
 			  </ul>
 			 	
 		    	<div class="board-search board-search-input">
-				 	<input id="searchQuery" size="50" class="form-control" placeholder="" type="text" onkeydown="onSearchInputKeyDown()"/>
+				 	<input id="searchQuery" size="50" class="form-control" placeholder="" type="text" onkeydown="onSearchInputKeyDown()" value="${searchingInfo.searchQuery}"/>
 				</div>
 				<div class="board-search board-search-input">
 					<button id="btnArticleSearch" class="btn btn-default dropdown-toggle" type="button">검색</button>
 				</div>
 			</div><!--검색 조건 -->
-			
-			<div id="board-search-date-option" style="display: none; width: 300px;">
-				<ul class="ul-board-search-date-option">
-					<li class="" value="0" onclick="setSearchRange(this.value, this.text)">전체기간</li>
-					<li class="" value="1" onclick="setSearchRange(this.value, this.text)">1일</li>
-					<li class="" value="2" onclick="setSearchRange(this.value, this.text)">1주</li>
-					<li class="seljs_mover" value="3" onclick="setSearchRange(this.value, this.text)">1개월</li>
-					<li class="" value="4">6개월</li>
-					<li class="" value="5">1년</li>
-					<li role="separator" class="divider"></li>
-					<li class="">
-						<fieldset class="" style="display: inline;"><label for="period">기간 입력</label><input type="text" id="input_1" maxlength="10" class="seljs_text" style="border-color: rgb(211, 211, 211) !important; background-color: rgb(255, 255, 255) !important; width: 62px;"> ~ <input type="text" id="input_2" maxlength="10" class="seljs_text" style="border-color: rgb(211, 211, 211) !important; background-color: rgb(255, 255, 255) !important; width: 62px;"><input type="image" src="http://cafeimgs.naver.net/cafe4/btn_setting.gif" alt="설정" style="margin-left: 5px; border: 0pt none !important;">
-						</fieldset>
-					</li>
-				</ul>
-			</div>	
 		</div>
 			
 		</div><!-- END FOOTER -->

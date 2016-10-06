@@ -176,7 +176,7 @@
 			
 			var url = "${pageContext.request.contextPath}/page/search?boardId="+boardId;
 			
-			url+= "&pageNum=" + ${pagingInfo.pageNum};
+			url+= "&pageNum=0";
 			url+= "&printNum=" + ${pagingInfo.printNum};
 			url+= "&condition=" + ${pagingInfo.condition};
 			url+= "&order=" + ${pagingInfo.order};
@@ -331,21 +331,22 @@
 			    		
 			    		<c:choose>
 			    			<c:when test="${pageNumRemainder>0.5}">
-			    				<fmt:formatNumber value="${pageNumIndex-1}" pattern="0" var="pageNumIndex" type="number"/>${pageNumRemainder>0.5}
+			    				<fmt:formatNumber value="${pageNumIndex-1}" pattern="0" var="pageNumIndex" type="number"/>
 			    			</c:when>
 			    			<c:otherwise>
-			    				<fmt:formatNumber value="${pageNumIndex}" pattern="0" var="pageNumIndex" type="number"/>${pageNumRemainder>0.5}
+			    				<fmt:formatNumber value="${pageNumIndex}" pattern="0" var="pageNumIndex" type="number"/>
 			    			</c:otherwise>
 			    		</c:choose>
 				    	
 			    		<c:forEach begin="1" end="${pagingInfo.limit}" var="index" >
 			    			<c:set value="${pageNumIndex*3 }" var="tmpPageNum"/>
 			    			<c:choose>
+			    			${tmpPageNum}
 			    				<c:when test="${tmpPageNum + index == pagingInfo.pageNum +1}">
-			    					<li class="active"><a id="${tmpPageNum + index}" onclick="paging({pageNum:this.id-1})">${tmpPageNum + index}</a></li>
+			    					<li class="active"><a id="${tmpPageNum + index}" onclick="paging({pageNum:this.id-1})">${tmpPageNum  + index}</a></li>
 			    				</c:when>
 			    				<c:otherwise>
-			    					<li class="not equal"><a id="${tmpPageNum + index}" onclick="paging({pageNum:this.id-1})">${tmpPageNum + index}</a></li>
+			    					<li class="not equal"><a id="${tmpPageNum  + index}" onclick="paging({pageNum:this.id-1})">${tmpPageNum  + index}</a></li>
 			    				</c:otherwise>
 			    			</c:choose>
 			    		</c:forEach>

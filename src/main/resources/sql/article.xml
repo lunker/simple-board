@@ -42,7 +42,7 @@
 		 	]]>
 		 	
 		 	<if test="order == 'desc'">
-			 ORDER BY article_reg_dt desc
+			 ORDER BY article_reg_dt desc, article_id desc
 			 </if>
 		 </if>
 		 
@@ -52,9 +52,8 @@
 		 	]]>
 		 	
 		 	<if test="order == 'desc'">
-			 ORDER BY article_hits desc
-		  </if>
-			 
+			 ORDER BY article_hits desc, article_id desc
+		 	 </if>
 		 </if>
 		 
 		 <if test="condition == 'article_likes'">
@@ -63,9 +62,9 @@
 		 	]]>
 		 	
 		 	<if test="order == 'desc'">
-			 ORDER BY article_likes desc
+			 ORDER BY article_likes desc, article_id desc
 			 </if>
-		 </if>
+	 	</if>
 		 
 		 LIMIT #{printNum}
 		 OFFSET #{offset}
