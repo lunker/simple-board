@@ -37,7 +37,7 @@ fttDeploy {
 		key = 'common'
 		build {
 			unzip {
-				from = "./build/distributions/simple-board-${version}.zip"
+				from = "./build/distributions/simple_board-${version}.zip"
 				into = "./build/ftt-deploy"
 			}
 			copy {
