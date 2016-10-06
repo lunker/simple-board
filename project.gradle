@@ -37,17 +37,12 @@ fttDeploy {
 		key = 'common'
 		build {
 			unzip {
-				from = "./build/distributions/sample_app-${version}.zip"
+				from = "./build/distributions/simple_board-${version}.zip"
 				into = "./build/ftt-deploy"
 			}
 			copy {
 				from = 'src/main/webapp/'
 				into = './build/ftt-deploy/public/'
-			}
-			copy {
-				from = './script/sample_app.sh'
-				into = './build/ftt-deploy/bin/'
-				executable = 'yes'
 			}
 		}
 	}
@@ -59,6 +54,11 @@ fttDeploy {
 				from = './config/de'
 				into = "./build/ftt-deploy/config"
 			}
+			copy {
+				from = './script/de/simple_board.sh'
+				into = './build/ftt-deploy/bin/'
+				executable = 'yes'
+			}
 		}
 	}
 	// TS환경의 파일 배포 정보
@@ -68,6 +68,11 @@ fttDeploy {
 			copy {
 				from = './config/ts'
 				into = "./build/ftt-deploy/config"
+			}
+			copy {
+				from = './script/ts/simple_board.sh'
+				into = './build/ftt-deploy/bin/'
+				executable = 'yes'
 			}
 		}
 	}
@@ -82,17 +87,13 @@ remotes {
 		user = 'svcop'
 		identity = file('/home/svcop/.ssh/id_rsa')
 	}
-	de {
-		role('de-nginx')		// nginx swap reload 시 사용
-		host = 'de-pf01'
-		user = 'svcop'
-		identity = file('/home/svcop/.ssh/id_rsa')
-	}
+	
 	ts {
-		role('ts-was')				// 파일 배포시 사용
+		role('ts-nginx')
 		role('ts-check-port')		// 현재 서비스 중인 포트 상태 체크시 사용
+		role('ts-was')				// 파일 배포시 사용
 		host = 'qa-java-api'
 		user = 'svcop'
 		identity = file('/home/svcop/.ssh/id_rsa')
 	}
-}
+}}
