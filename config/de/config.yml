@@ -4,7 +4,3 @@ datasource:
         url: "jdbc:mysql://de-c-my-db.fttinc.kr:19336/pubdb?autoReconnect=true&initialTimeout=3&maxReconnects=5&useUnicode=true&characterEncoding=utf8"
         username: "dev433"
         password: "433eoqkr)(!"
-        
-        
-   
-        

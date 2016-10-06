@@ -3,8 +3,8 @@
 
 	<conversionRule conversionWord="wex" converterClass="org.springframework.boot.logging.logback.WhitespaceThrowableProxyConverter" />
 
-	<property name="LOG_PATH" value="/log/sample_app" />
-	<property name="LOG_FILE_NAME" value="sample_app-${server.port}" />
+	<property name="LOG_PATH" value="/log/simple_board" />
+	<property name="LOG_FILE_NAME" value="simple_board-${server.port}" />
 	<property name="FILE_LOG_PATTERN" value="%d{yyyy-MM-dd HH:mm:ss.SSS} %5p ${PID:- } [%t] --- %-40.40(%class{39}.%method) : %m%n%wex" />
 
 	<appender name="CONSOLE" class="ch.qos.logback.core.ConsoleAppender">
@@ -30,7 +30,7 @@
 		</encoder>
 	</appender>
 
-	<logger name="ftt.sample_app" level="TRACE" />
+	<logger name="ftt.simple_board" level="TRACE" />
 
 	<root level="INFO">
 		<appender-ref ref="ROLLING" />
